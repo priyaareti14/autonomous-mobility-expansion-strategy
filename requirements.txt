@@ -1,0 +1,7 @@
+# Phase 2: Snowflake connectivity and environment loading only.
+# Target interpreter: Python 3.13.16 (official python.org build), in .venv
+# Later phases add their own dependencies here when they are actually needed.
+
+# 4.7.5 rather than 4.8.0: 4.8.0 (2026-09-30) disables OCSP revocation checking by default.
+snowflake-connector-python==4.7.5
+python-dotenv==1.2.3

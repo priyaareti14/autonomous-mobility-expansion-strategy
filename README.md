@@ -50,8 +50,8 @@ This is the *planned* design. Components are listed here only as they get built 
 
 | Phase | Scope | Status |
 |---|---|---|
-| 1 | Scope, market universe, source feasibility, repository foundation | **In review** |
-| 2 | Python environment + Snowflake warehouse foundation | Not started |
+| 1 | Scope, market universe, source feasibility, repository foundation | **Complete** |
+| 2 | Python environment + Snowflake warehouse foundation | **Complete (in review)** |
 | 3 | Python ingestion + validation + Snowflake RAW landing | Not started |
 | 4 | dbt sources, staging, intermediate, core, marts, tests, docs | Not started |
 | 5 | EDA + feature audit | Not started |
@@ -70,3 +70,4 @@ No rankings, scores or findings exist yet.
 - [docs/project_scope.md](docs/project_scope.md): decision contract, market universe, framework, hypotheses
 - [docs/data_sources.md](docs/data_sources.md): source catalog, feature-feasibility matrix, geography mappings, regulatory evidence framework
 - [docs/assumptions_and_limitations.md](docs/assumptions_and_limitations.md): assumptions and limitations register
+- [docs/snowflake_foundation.md](docs/snowflake_foundation.md): warehouse, schemas, roles, authentication and cost controls (infrastructure only; no data loaded)
