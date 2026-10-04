@@ -1,0 +1,80 @@
+# ---------------------------------------------------------------
+# Secrets and credentials (never commit)
+# ---------------------------------------------------------------
+.env
+.env.*
+!.env.example
+*.p8
+*.pem
+*.key
+*.pfx
+rsa_key*
+profiles.yml
+.dbt/
+
+# ---------------------------------------------------------------
+# Python
+# ---------------------------------------------------------------
+.venv/
+venv/
+env/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.ipynb_checkpoints/
+
+# ---------------------------------------------------------------
+# dbt artifacts
+# ---------------------------------------------------------------
+target/
+logs/
+dbt_packages/
+*.log
+
+# ---------------------------------------------------------------
+# Data: raw downloads and large dumps stay out of version control.
+# Provenance is documented in docs/data_sources.md instead.
+# ---------------------------------------------------------------
+data/raw/
+data/interim/
+data/downloads/
+*.zip
+*.gz
+*.7z
+*.parquet
+*.gdb/
+*.shp
+*.shx
+*.dbf
+*.prj
+*.cpg
+*.gpkg
+
+# ---------------------------------------------------------------
+# Power BI temporary / backup files
+# ---------------------------------------------------------------
+*.pbix.bak
+*.pbit.bak
+~$*
+.pbi/localSettings.json
+.pbi/cache.abf
+
+# ---------------------------------------------------------------
+# OS clutter
+# ---------------------------------------------------------------
+.DS_Store
+Thumbs.db
+desktop.ini
+ehthumbs.db
+
+# ---------------------------------------------------------------
+# IDE / editor clutter
+# ---------------------------------------------------------------
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
