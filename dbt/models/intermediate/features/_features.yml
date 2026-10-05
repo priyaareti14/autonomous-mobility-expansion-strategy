@@ -1,0 +1,221 @@
+version: 2
+
+# Phase 6 production feature layer: approved Phase 5 mapping methods, implemented once.
+# Rule constants: dbt_project.yml vars. Method documentation: docs/production_feature_layer.md.
+
+models:
+  - name: int_market__population_center
+    description: "Population-weighted centre of each market (tract internal points weighted by ACS 2020-2024 population). Reference point for W5 and A4. Grain: one row per market."
+    tests:
+      - row_count_equals: {arguments: {expected: 35}}
+    columns:
+      - name: market_id
+        tests: [not_null, unique, {relationships: {arguments: {to: ref('dim_market'), field: market_id}}}]
+      - name: pw_center_latitude
+        tests: [not_null, {values_between: {arguments: {min_value: 24, max_value: 50}}}]
+      - name: pw_center_longitude
+        tests: [not_null, {values_between: {arguments: {min_value: -125, max_value: -66}}}]
+
+  - name: int_market__population_weighted_density
+    description: "D2 population-weighted tract density (persons per sq mi) with coverage counts and the A-029 known-gap flag. Raw MSA density and SLD block-group density are diagnostics only. Grain: one row per market."
+    tests:
+      - row_count_equals: {arguments: {expected: 35}}
+    columns:
+      - name: market_id
+        tests: [not_null, unique, {relationships: {arguments: {to: ref('dim_market'), field: market_id}}}]
+      - name: population_weighted_tract_density
+        description: "sum(p_i * p_i / a_i) / sum(p_i) over tracts with ACS population and land > 0."
+        tests: [not_null, {values_between: {arguments: {min_value: 1, max_value: 100000}}}]
+      - name: population_coverage_pct
+        tests: [not_null, {values_between: {arguments: {min_value: 0.99, max_value: 1.000000001}}}]
+      - name: known_gap_flag
+        description: "True only for New York (35620): 14 Suffolk County tracts without ACS records (A-029)."
+        tests: [not_null]
+
+  - name: int_weather__station_class
+    description: "Authoritative NOAA station class per normals station from HOMR EMSHR (S-41): is_plcd = listed as PLCD (Primary Local Climatological Data) in the history period containing 2020-12-31. is_wban_numbered (the 'USW' prefix) is descriptive only: it encodes the WBAN numbering system, not a network. Grain: one row per station."
+    tests:
+      - equal_row_count:
+          arguments:
+            compare_model: ref('dim_weather_station')
+    columns:
+      - name: station_id
+        tests: [not_null, unique]
+      - name: is_plcd
+        tests: [not_null]
+      - name: has_emshr_record
+        tests: [not_null]
+
+  - name: int_weather__station_qualification
+    description: "W5 definitions applied to every NOAA normals station: core-qualifying (5 core elements, flags S/R), snow-qualifying (flags S/P), PLCD (NOAA HOMR class as of 2020-12-31, from int_weather__station_class; never the 'USW' prefix), hourly wind. Grain: one row per station."
+    columns:
+      - name: station_id
+        tests: [not_null, unique]
+      - name: is_core_qualifying
+        tests: [not_null]
+      - name: is_snow_qualifying
+        tests: [not_null]
+
+  - name: int_weather__market_station_selection
+    description: "W5 deterministic station selection. Grain: one row per market x station_role (GENERAL_CLIMATE, SNOW, WIND); 105 rows. Every market traces to the exact station, distance, rule and completeness flag used."
+    tests:
+      - row_count_equals: {arguments: {expected: 105}}
+      - unique_combination_of_columns: {arguments: {combination_of_columns: [market_id, station_role]}}
+    columns:
+      - name: market_id
+        tests: [not_null, {relationships: {arguments: {to: ref('dim_market'), field: market_id}}}]
+      - name: station_role
+        tests: [{accepted_values: {arguments: {values: [GENERAL_CLIMATE, SNOW, WIND]}}}]
+      - name: station_type
+        description: "PLCD or NON_PLCD (NOAA HOMR class as of 2020-12-31)."
+        tests: [{accepted_values: {arguments: {values: [PLCD, NON_PLCD]}}}]
+      - name: station_id
+        description: "Null only if a SNOW role resolves to SOURCE_NOT_PUBLISHED (does not occur in the 35 markets)."
+        tests: [not_null]
+      - name: selection_rule
+        tests:
+          - accepted_values:
+              arguments:
+                values: [PLCD_WITHIN_25KM, NEAREST_QUALIFYING_ANY_NETWORK, SAME_AS_GENERAL_STATION,
+                         SNOW_FALLBACK_WITHIN_50KM, SOURCE_NOT_PUBLISHED, NEAREST_HOURLY_WIND_STATION]
+      - name: distance_km
+        tests: [not_null, {values_between: {arguments: {min_value: 0, max_value: 150}}}]
+
+  - name: int_weather__station_wind_summary
+    description: "Annual wind statistics per hourly-normals station, in mph. annual_mean_wind_mph is the climatological mean of the 8,760 hourly normals; the p90 column is a percentile of hourly MEANS, not an extreme-wind statistic. Grain: one row per station."
+    columns:
+      - name: station_id
+        tests: [not_null, unique]
+      - name: hours
+        tests: [{accepted_values: {arguments: {values: [8760]}}}]
+      - name: annual_mean_wind_mph
+        tests: [not_null, {values_between: {arguments: {min_value: 0, max_value: 40}}}]
+      - name: wind_speed_unit
+        tests: [{accepted_values: {arguments: {values: [mph]}}}]
+
+  - name: int_market__climate
+    description: "Market climate features under W5 with full station lineage. Grain: one row per market."
+    tests:
+      - row_count_equals: {arguments: {expected: 35}}
+    columns:
+      - name: market_id
+        tests: [not_null, unique, {relationships: {arguments: {to: ref('dim_market'), field: market_id}}}]
+      - name: days_precip_ge_010_in
+        tests: [not_null, {values_between: {arguments: {min_value: 0, max_value: 366}}}]
+      - name: days_tmax_ge_90f
+        tests: [not_null, {values_between: {arguments: {min_value: 0, max_value: 366}}}]
+      - name: annual_snowfall_in
+        description: "Inches. Zero is a published normal of zero, never a filled-in missing value (A-021)."
+        tests: [not_null, {values_between: {arguments: {min_value: 0, max_value: 300}}}]
+      - name: annual_mean_wind_mph
+        tests: [not_null, {values_between: {arguments: {min_value: 0, max_value: 40}}}]
+      - name: wind_station_distance_km
+        description: "Kept visible: Austin (81.8 km) and Miami (34.4 km) exceed 25 km (A-030)."
+        tests: [not_null]
+
+  - name: int_airports__airport_market_assignment
+    description: "A1 airport -> market assignment on the official county FIPS containing each airport's NASR reference point (Census Geocoder, S-40). A4 is a labelled diagnostic. Grain: one row per commercial-service airport (516)."
+    tests:
+      - equal_row_count:
+          arguments:
+            compare_model: ref('int_airports__commercial_service')
+    columns:
+      - name: airport_code
+        tests: [not_null, unique]
+      - name: county_fips
+        description: "Official county GEOID. Gazetteer 2024 covers the states, DC and Puerto Rico only, so the 7 airports in American Samoa (60), Guam (66), the Northern Mariana Islands (69) and the U.S. Virgin Islands (78) are outside the relationship test; none is in any CBSA of the universe."
+        tests:
+          - not_null
+          - relationships:
+              arguments: {to: ref('stg_census__gazetteer_2024_counties'), field: county_fips}
+              config:
+                where: "left(county_fips, 2) not in ('60', '66', '69', '78')"
+      - name: a1_market_id
+        tests: [{relationships: {arguments: {to: ref('dim_market'), field: market_id}}}]
+
+  - name: int_market__airport_activity
+    description: "A1 market-embedded airport activity: enplanements at airports inside the market's official counties, per PEP 2025 resident. Grain: one row per market."
+    tests:
+      - row_count_equals: {arguments: {expected: 35}}
+    columns:
+      - name: market_id
+        tests: [not_null, unique, {relationships: {arguments: {to: ref('dim_market'), field: market_id}}}]
+      - name: enplanements_per_resident
+        tests: [not_null, {values_between: {arguments: {min_value: 0, max_value: 50}}}]
+      - name: commercial_airport_count
+        tests: [not_null, {values_between: {arguments: {min_value: 1, max_value: 20}}}]
+
+  - name: int_market__walkability
+    description: "NW1 population-weighted EPA National Walkability Index on the July 2023 county bridge, with coverage counts and the A-031 transit-missing population share. Grain: one row per market."
+    tests:
+      - row_count_equals: {arguments: {expected: 35}}
+    columns:
+      - name: market_id
+        tests: [not_null, unique, {relationships: {arguments: {to: ref('dim_market'), field: market_id}}}]
+      - name: population_weighted_walkability
+        tests: [not_null, {values_between: {arguments: {min_value: 1, max_value: 20}}}]
+      - name: population_coverage_pct
+        description: "Share of SLD population in block groups with a published index; 1.0 means no silent population loss."
+        tests: [not_null, {values_between: {arguments: {min_value: 0.999999, max_value: 1.000001}}}]
+      - name: block_groups_missing_index_with_population
+        tests: [{accepted_values: {arguments: {values: [0]}}}]
+      - name: transit_missing_population_share
+        tests: [not_null, {values_between: {arguments: {min_value: 0, max_value: 1}}}]
+
+  - name: int_market__labor_cost
+    description: "OEWS May 2025 median annual wages for 53-3053 Shuttle Drivers and Chauffeurs (robotaxi) and 43-5021 Couriers and Messengers (delivery). Taxi wage (53-3054) is not carried. Grain: one row per market."
+    tests:
+      - row_count_equals: {arguments: {expected: 35}}
+    columns:
+      - name: market_id
+        tests: [not_null, unique]
+      - name: shuttle_chauffeur_median_annual_wage_usd
+        tests: [not_null, {values_between: {arguments: {min_value: 15000, max_value: 150000}}}]
+      - name: courier_median_annual_wage_usd
+        tests: [not_null, {values_between: {arguments: {min_value: 15000, max_value: 150000}}}]
+      - name: shuttle_chauffeur_wage_marker
+        description: "BLS marker (* not available, # top-coded); must be null: a published numeric wage in every market."
+        tests: [is_null]
+      - name: courier_wage_marker
+        description: "As above for 43-5021."
+        tests: [is_null]
+
+  - name: int_market__production_features
+    description: "All production feature values (every mode), their untransformed inputs, diagnostics and QA fields. Mode marts select from here. Grain: one row per market."
+    tests:
+      - row_count_equals: {arguments: {expected: 35}}
+    columns:
+      - name: market_id
+        tests: [not_null, unique, {relationships: {arguments: {to: ref('dim_market'), field: market_id}}}]
+      - name: share_taxi_or_ride_hailing
+        tests: [not_null, {values_between: {arguments: {min_value: 0, max_value: 1}}}]
+      - name: share_single_family_detached
+        tests: [not_null, {values_between: {arguments: {min_value: 0, max_value: 1}}}]
+      - name: establishments_per_1k_pop
+        tests: [not_null, {values_between: {arguments: {min_value: 1, max_value: 100}}}]
+      - name: retail_establishments_per_10k_pop
+        tests: [not_null, {values_between: {arguments: {min_value: 1, max_value: 200}}}]
+      - name: restaurants_per_10k_pop
+        tests: [not_null, {values_between: {arguments: {min_value: 1, max_value: 200}}}]
+
+seeds:
+  - name: feature_contract
+    description: "Phase 6 production feature contract (one row per feature x mode), generated from the frozen Phase 5 decision table by scripts/build_feature_contract.py. Exposed as ANALYTICS.DIM_FEATURE."
+    columns:
+      - name: feature_id
+        tests: [not_null]
+      - name: mode
+        tests: [{accepted_values: {arguments: {values: [ROBOTAXI, SIDEWALK_DELIVERY, DRONE_DELIVERY]}}}]
+      - name: component
+        tests:
+          - accepted_values:
+              arguments:
+                values: [C1_DEMAND_AND_MARKET_OPPORTUNITY, C2_OPERATING_ENVIRONMENT, C3_ECONOMIC_ATTRACTIVENESS,
+                         C4_REGULATORY_AND_AUTONOMY_READINESS, C5_INFRASTRUCTURE_AND_MODE_FIT]
+      - name: production_status
+        tests: [{accepted_values: {arguments: {values: [ACTIVE, DIAGNOSTIC, DEFERRED, DROPPED]}}}]
+      - name: direction
+        tests:
+          - accepted_values:
+              arguments:
+                values: [HIGHER_IS_MORE_FAVORABLE, LOWER_IS_MORE_FAVORABLE, CONTEXT_DEPENDENT_OR_DEFER, NOT_APPLICABLE]

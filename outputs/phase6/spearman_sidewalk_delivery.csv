@@ -1,0 +1,11 @@
+,population_2025_log1p,pw_tract_density_log1p,median_household_income_usd,retail_establishments_per_10k_pop,restaurants_per_10k_pop,courier_median_annual_wage_usd,days_precip_ge_010_in,days_tmax_ge_90f,annual_snowfall_in,population_weighted_walkability
+population_2025_log1p,1.0,0.636,0.389,0.069,0.181,0.046,-0.204,0.021,-0.198,0.401
+pw_tract_density_log1p,0.636,1.0,0.542,0.035,0.584,0.359,-0.227,-0.254,-0.123,0.883
+median_household_income_usd,0.389,0.542,1.0,-0.269,0.427,0.632,-0.234,-0.33,0.023,0.481
+retail_establishments_per_10k_pop,0.069,0.035,-0.269,1.0,0.334,-0.215,0.434,-0.276,0.225,0.036
+restaurants_per_10k_pop,0.181,0.584,0.427,0.334,1.0,0.512,0.138,-0.489,0.047,0.603
+courier_median_annual_wage_usd,0.046,0.359,0.632,-0.215,0.512,1.0,-0.249,-0.302,0.131,0.426
+days_precip_ge_010_in,-0.204,-0.227,-0.234,0.434,0.138,-0.249,1.0,-0.425,0.478,-0.223
+days_tmax_ge_90f,0.021,-0.254,-0.33,-0.276,-0.489,-0.302,-0.425,1.0,-0.543,-0.272
+annual_snowfall_in,-0.198,-0.123,0.023,0.225,0.047,0.131,0.478,-0.543,1.0,-0.2
+population_weighted_walkability,0.401,0.883,0.481,0.036,0.603,0.426,-0.223,-0.272,-0.2,1.0

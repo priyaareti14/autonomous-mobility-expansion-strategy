@@ -28,7 +28,7 @@ from src.ingestion.common import (BlockedError, Check, configure_logging,  # noq
                                   finalize_snapshots, git_commit, log, sanitize)
 from src.ingestion.loaders import delete_run_rows, load_dataset  # noqa: E402
 from src.ingestion.source_registry import load_registry, not_ingested  # noqa: E402
-from src.ingestion.sources import bls, census, epa, faa, noaa  # noqa: E402
+from src.ingestion.sources import bls, census, census_geocoder, epa, faa, noaa, noaa_homr  # noqa: E402
 from src.utils.snowflake_connection import get_connection  # noqa: E402
 
 ROLE = "AM_INGESTOR"
@@ -46,6 +46,8 @@ EXTRACTORS = {
     "faa_enplanements_cy2025_commercial_service": faa.enplanements,
     "faa_nasr_apt_base_20260903": faa.nasr_apt_base,
     "epa_sld_v3_block_group": epa.sld,
+    "census_geocoder_airport_county_acs2024": census_geocoder.airport_counties,
+    "noaa_homr_emshr_lite_202609": noaa_homr.emshr_lite,
 }
 
 

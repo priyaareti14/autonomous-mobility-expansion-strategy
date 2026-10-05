@@ -1,0 +1,4 @@
+feature,mode,OLD_DECISION,NEW_DECISION,REASON
+establishments_per_1k_pop,SIDEWALK_DELIVERY,KEEP,DIAGNOSTIC,Retail and restaurants are subsets of all establishments: the nested measures are kept as the delivery-specific signals
+establishments_per_1k_pop,DRONE_DELIVERY,KEEP,DIAGNOSTIC,Retail and restaurants are subsets of all establishments: the nested measures are kept as the delivery-specific signals
+share_pop_tracts_lt_1000,DRONE_DELIVERY,MODIFY,DROPPED,"No operational or literature basis for a drone threshold; the 1,000/sq mi figure is a former Census urban-core criterion, not a drone limit. Continuous share_single_family_detached represents the concept"

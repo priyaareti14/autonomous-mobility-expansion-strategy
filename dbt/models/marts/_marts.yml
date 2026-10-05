@@ -26,3 +26,170 @@ models:
         tests: [not_null]
       - name: oews_annual_median_wage_taxi_drivers
         description: "Null for most markets: OEWS publishes 53-3054 for only 11 metros. oews_taxi_drivers_published says whether a row exists (A-026)."
+
+  - name: mart_robotaxi_features
+    description: >
+      Frozen PRE-REGULATORY ROBOTAXI feature set (Phase 6). Grain: one row per frozen market (35).
+      Columns are exactly the ACTIVE ROBOTAXI features in DIM_FEATURE plus keys and qa_* fields
+      (assert_mode_marts_match_feature_contract). No normalization, weights, scores or ranks.
+      C4 Regulatory & Autonomy Readiness is pending Phase 6.5.
+    tests:
+      - row_count_equals: {arguments: {expected: 35}}
+      - equal_row_count:
+          arguments:
+            compare_model: ref('dim_market')
+    columns:
+      - name: market_id
+        tests:
+          - not_null
+          - unique
+          - relationships: {arguments: {to: ref('dim_market'), field: market_id}}
+      - name: market_name
+        tests: [not_null]
+      - name: population_2025_log1p
+        description: "ACTIVE ROBOTAXI feature; definition, unit, direction and component in DIM_FEATURE. Required complete (no imputation)."
+        tests: [not_null]
+      - name: pw_tract_density_log1p
+        description: "ACTIVE ROBOTAXI feature; definition, unit, direction and component in DIM_FEATURE. Required complete (no imputation)."
+        tests: [not_null]
+      - name: share_taxi_or_ride_hailing
+        description: "ACTIVE ROBOTAXI feature; definition, unit, direction and component in DIM_FEATURE. Required complete (no imputation)."
+        tests: [not_null]
+      - name: enplanements_per_resident_log1p
+        description: "ACTIVE ROBOTAXI feature; definition, unit, direction and component in DIM_FEATURE. Required complete (no imputation)."
+        tests: [not_null]
+      - name: median_household_income_usd
+        description: "ACTIVE ROBOTAXI feature; definition, unit, direction and component in DIM_FEATURE. Required complete (no imputation)."
+        tests: [not_null]
+      - name: days_precip_ge_010_in
+        description: "ACTIVE ROBOTAXI feature; definition, unit, direction and component in DIM_FEATURE. Required complete (no imputation)."
+        tests: [not_null]
+      - name: days_tmax_ge_90f
+        description: "ACTIVE ROBOTAXI feature; definition, unit, direction and component in DIM_FEATURE. Required complete (no imputation)."
+        tests: [not_null]
+      - name: annual_snowfall_in
+        description: "ACTIVE ROBOTAXI feature; definition, unit, direction and component in DIM_FEATURE. Required complete (no imputation)."
+        tests: [not_null]
+      - name: shuttle_chauffeur_median_annual_wage_usd
+        description: "ACTIVE ROBOTAXI feature; definition, unit, direction and component in DIM_FEATURE. Required complete (no imputation)."
+        tests: [not_null]
+      - name: establishments_per_1k_pop
+        description: "ACTIVE ROBOTAXI feature; definition, unit, direction and component in DIM_FEATURE. Required complete (no imputation)."
+        tests: [not_null]
+  - name: mart_sidewalk_delivery_features
+    description: >
+      Frozen PRE-REGULATORY SIDEWALK_DELIVERY feature set (Phase 6). Grain: one row per frozen market (35).
+      Columns are exactly the ACTIVE SIDEWALK_DELIVERY features in DIM_FEATURE plus keys and qa_* fields
+      (assert_mode_marts_match_feature_contract). No normalization, weights, scores or ranks.
+      C4 Regulatory & Autonomy Readiness is pending Phase 6.5.
+    tests:
+      - row_count_equals: {arguments: {expected: 35}}
+      - equal_row_count:
+          arguments:
+            compare_model: ref('dim_market')
+    columns:
+      - name: market_id
+        tests:
+          - not_null
+          - unique
+          - relationships: {arguments: {to: ref('dim_market'), field: market_id}}
+      - name: market_name
+        tests: [not_null]
+      - name: population_2025_log1p
+        description: "ACTIVE SIDEWALK_DELIVERY feature; definition, unit, direction and component in DIM_FEATURE. Required complete (no imputation)."
+        tests: [not_null]
+      - name: pw_tract_density_log1p
+        description: "ACTIVE SIDEWALK_DELIVERY feature; definition, unit, direction and component in DIM_FEATURE. Required complete (no imputation)."
+        tests: [not_null]
+      - name: restaurants_per_10k_pop
+        description: "ACTIVE SIDEWALK_DELIVERY feature; definition, unit, direction and component in DIM_FEATURE. Required complete (no imputation)."
+        tests: [not_null]
+      - name: retail_establishments_per_10k_pop
+        description: "ACTIVE SIDEWALK_DELIVERY feature; definition, unit, direction and component in DIM_FEATURE. Required complete (no imputation)."
+        tests: [not_null]
+      - name: median_household_income_usd
+        description: "ACTIVE SIDEWALK_DELIVERY feature; definition, unit, direction and component in DIM_FEATURE. Required complete (no imputation)."
+        tests: [not_null]
+      - name: days_precip_ge_010_in
+        description: "ACTIVE SIDEWALK_DELIVERY feature; definition, unit, direction and component in DIM_FEATURE. Required complete (no imputation)."
+        tests: [not_null]
+      - name: days_tmax_ge_90f
+        description: "ACTIVE SIDEWALK_DELIVERY feature; definition, unit, direction and component in DIM_FEATURE. Required complete (no imputation)."
+        tests: [not_null]
+      - name: annual_snowfall_in
+        description: "ACTIVE SIDEWALK_DELIVERY feature; definition, unit, direction and component in DIM_FEATURE. Required complete (no imputation)."
+        tests: [not_null]
+      - name: courier_median_annual_wage_usd
+        description: "ACTIVE SIDEWALK_DELIVERY feature; definition, unit, direction and component in DIM_FEATURE. Required complete (no imputation)."
+        tests: [not_null]
+      - name: population_weighted_walkability
+        description: "ACTIVE SIDEWALK_DELIVERY feature; definition, unit, direction and component in DIM_FEATURE. Required complete (no imputation)."
+        tests: [not_null]
+  - name: mart_drone_delivery_features
+    description: >
+      Frozen PRE-REGULATORY DRONE_DELIVERY feature set (Phase 6). Grain: one row per frozen market (35).
+      Columns are exactly the ACTIVE DRONE_DELIVERY features in DIM_FEATURE plus keys and qa_* fields
+      (assert_mode_marts_match_feature_contract). No normalization, weights, scores or ranks.
+      C4 Regulatory & Autonomy Readiness is pending Phase 6.5.
+    tests:
+      - row_count_equals: {arguments: {expected: 35}}
+      - equal_row_count:
+          arguments:
+            compare_model: ref('dim_market')
+    columns:
+      - name: market_id
+        tests:
+          - not_null
+          - unique
+          - relationships: {arguments: {to: ref('dim_market'), field: market_id}}
+      - name: market_name
+        tests: [not_null]
+      - name: population_2025_log1p
+        description: "ACTIVE DRONE_DELIVERY feature; definition, unit, direction and component in DIM_FEATURE. Required complete (no imputation)."
+        tests: [not_null]
+      - name: restaurants_per_10k_pop
+        description: "ACTIVE DRONE_DELIVERY feature; definition, unit, direction and component in DIM_FEATURE. Required complete (no imputation)."
+        tests: [not_null]
+      - name: retail_establishments_per_10k_pop
+        description: "ACTIVE DRONE_DELIVERY feature; definition, unit, direction and component in DIM_FEATURE. Required complete (no imputation)."
+        tests: [not_null]
+      - name: median_household_income_usd
+        description: "ACTIVE DRONE_DELIVERY feature; definition, unit, direction and component in DIM_FEATURE. Required complete (no imputation)."
+        tests: [not_null]
+      - name: days_precip_ge_010_in
+        description: "ACTIVE DRONE_DELIVERY feature; definition, unit, direction and component in DIM_FEATURE. Required complete (no imputation)."
+        tests: [not_null]
+      - name: days_tmax_ge_90f
+        description: "ACTIVE DRONE_DELIVERY feature; definition, unit, direction and component in DIM_FEATURE. Required complete (no imputation)."
+        tests: [not_null]
+      - name: annual_snowfall_in
+        description: "ACTIVE DRONE_DELIVERY feature; definition, unit, direction and component in DIM_FEATURE. Required complete (no imputation)."
+        tests: [not_null]
+      - name: annual_mean_wind_mph
+        description: "ACTIVE DRONE_DELIVERY feature; definition, unit, direction and component in DIM_FEATURE. Required complete (no imputation)."
+        tests: [not_null]
+      - name: courier_median_annual_wage_usd
+        description: "ACTIVE DRONE_DELIVERY feature; definition, unit, direction and component in DIM_FEATURE. Required complete (no imputation)."
+        tests: [not_null]
+      - name: share_single_family_detached
+        description: "ACTIVE DRONE_DELIVERY feature; definition, unit, direction and component in DIM_FEATURE. Required complete (no imputation)."
+        tests: [not_null]
+
+  - name: dim_feature
+    description: >
+      Machine-readable feature dictionary (one row per feature x mode): component, unit, direction,
+      transformation, source, vintage, limitation and production status. No weights.
+    tests:
+      - unique_combination_of_columns: {arguments: {combination_of_columns: [feature_id, mode]}}
+      - unique_combination_of_columns: {arguments: {combination_of_columns: [feature_name, mode]}}
+    columns:
+      - name: feature_id
+        tests: [not_null]
+      - name: feature_name
+        tests: [not_null]
+      - name: component
+        tests: [not_null]
+      - name: production_status
+        tests: [not_null]
+      - name: active_pre_regulation_flag
+        tests: [not_null]

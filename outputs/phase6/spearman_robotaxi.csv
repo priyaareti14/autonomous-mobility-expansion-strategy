@@ -1,0 +1,11 @@
+,population_2025_log1p,pw_tract_density_log1p,share_taxi_or_ride_hailing,enplanements_per_resident_log1p,median_household_income_usd,establishments_per_1k_pop,shuttle_chauffeur_median_annual_wage_usd,days_precip_ge_010_in,days_tmax_ge_90f,annual_snowfall_in
+population_2025_log1p,1.0,0.636,0.442,0.306,0.389,0.319,0.342,-0.204,0.021,-0.198
+pw_tract_density_log1p,0.636,1.0,0.408,0.204,0.542,0.457,0.659,-0.227,-0.254,-0.123
+share_taxi_or_ride_hailing,0.442,0.408,1.0,0.31,0.056,0.26,0.017,0.066,0.013,0.093
+enplanements_per_resident_log1p,0.306,0.204,0.31,1.0,0.285,0.41,0.071,-0.133,0.173,-0.196
+median_household_income_usd,0.389,0.542,0.056,0.285,1.0,0.403,0.771,-0.234,-0.33,0.023
+establishments_per_1k_pop,0.319,0.457,0.26,0.41,0.403,1.0,0.391,0.137,-0.454,-0.008
+shuttle_chauffeur_median_annual_wage_usd,0.342,0.659,0.017,0.071,0.771,0.391,1.0,-0.324,-0.346,-0.004
+days_precip_ge_010_in,-0.204,-0.227,0.066,-0.133,-0.234,0.137,-0.324,1.0,-0.425,0.478
+days_tmax_ge_90f,0.021,-0.254,0.013,0.173,-0.33,-0.454,-0.346,-0.425,1.0,-0.543
+annual_snowfall_in,-0.198,-0.123,0.093,-0.196,0.023,-0.008,-0.004,0.478,-0.543,1.0

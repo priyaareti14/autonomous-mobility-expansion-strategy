@@ -249,6 +249,36 @@ models:
       - name: longitude
         tests: [not_null, {values_between: {arguments: {min_value: -180, max_value: 180}}}]
 
+  - name: stg_noaa__homr_emshr_lite_202609
+    description: "S-41 HOMR EMSHR Lite 202609, typed. Grain: one row per station history-period record (no unique key). is_plcd / is_asos / is_awos / is_airways / is_coop / is_military parse the TYPE list."
+    columns:
+      - name: ncdc_station_id
+        tests: [not_null]
+      - name: is_plcd
+        tests: [not_null]
+      - name: period_begin_date
+        description: "Null for exactly one record (row 295321, a Svalbard station whose name contains a line break)."
+
+  - name: stg_census__geocoder_airport_county_acs2024
+    description: "S-40 official county (ACS 2024 boundaries) containing each commercial-service airport's NASR reference point. Grain: one row per airport (516)."
+    tests:
+      - equal_row_count:
+          arguments:
+            compare_model: ref('stg_faa__enplanements_cy2025')
+    columns:
+      - name: airport_code
+        tests:
+          - not_null
+          - unique
+          - relationships: {arguments: {to: ref('stg_faa__enplanements_cy2025'), field: airport_code}}
+      - name: county_match_count
+        description: "Counties returned for the point; exactly one is required."
+        tests: [not_null, {accepted_values: {arguments: {values: [1]}}}]
+      - name: county_fips
+        tests: [not_null, {matches_regex: {arguments: {pattern: '^[0-9]{5}$'}}}]
+      - name: geocoder_vintage
+        tests: [{accepted_values: {arguments: {values: ["ACS2024_Current"]}}}]
+
   # ------------------------------------------------------- Built environment
   - name: stg_epa__sld_v3_block_group
     description: "S-21 EPA SLD v3.0 (+ S-22 NatWalkInd). Grain: one row per 2010-based block group."

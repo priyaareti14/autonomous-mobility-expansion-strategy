@@ -1,0 +1,3 @@
+mode,feature_a,feature_b,pearson,spearman,spearman_ge_080
+ROBOTAXI,median_household_income_usd,shuttle_chauffeur_median_annual_wage_usd,0.855,0.771,False
+SIDEWALK_DELIVERY,pw_tract_density_log1p,population_weighted_walkability,0.858,0.883,True

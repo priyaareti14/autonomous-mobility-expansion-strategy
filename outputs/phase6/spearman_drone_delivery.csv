@@ -1,0 +1,11 @@
+,population_2025_log1p,median_household_income_usd,retail_establishments_per_10k_pop,restaurants_per_10k_pop,courier_median_annual_wage_usd,days_precip_ge_010_in,days_tmax_ge_90f,annual_snowfall_in,annual_mean_wind_mph,share_single_family_detached
+population_2025_log1p,1.0,0.389,0.069,0.181,0.046,-0.204,0.021,-0.198,0.091,-0.499
+median_household_income_usd,0.389,1.0,-0.269,0.427,0.632,-0.234,-0.33,0.023,0.045,-0.518
+retail_establishments_per_10k_pop,0.069,-0.269,1.0,0.334,-0.215,0.434,-0.276,0.225,0.177,-0.218
+restaurants_per_10k_pop,0.181,0.427,0.334,1.0,0.512,0.138,-0.489,0.047,0.123,-0.46
+courier_median_annual_wage_usd,0.046,0.632,-0.215,0.512,1.0,-0.249,-0.302,0.131,0.165,-0.198
+days_precip_ge_010_in,-0.204,-0.234,0.434,0.138,-0.249,1.0,-0.425,0.478,0.095,-0.033
+days_tmax_ge_90f,0.021,-0.33,-0.276,-0.489,-0.302,-0.425,1.0,-0.543,-0.202,0.195
+annual_snowfall_in,-0.198,0.023,0.225,0.047,0.131,0.478,-0.543,1.0,0.567,0.056
+annual_mean_wind_mph,0.091,0.045,0.177,0.123,0.165,0.095,-0.202,0.567,1.0,-0.191
+share_single_family_detached,-0.499,-0.518,-0.218,-0.46,-0.198,-0.033,0.195,0.056,-0.191,1.0

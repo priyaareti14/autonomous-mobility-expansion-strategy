@@ -1,7 +1,7 @@
 {#
   Project generic tests. Each one protects a data contract named in the
   model YAML. dbt_utils would provide similar tests; these few are written
-  here to avoid adding a package dependency for five short macros.
+  here to avoid adding a package dependency for six short macros.
 #}
 
 {# Composite natural key is unique: the documented grain #}
@@ -42,4 +42,11 @@ with a as (select count(*) as n from {{ model }}),
 select a.n as model_rows, b.n as compare_rows
 from a cross join b
 where a.n <> b.n
+{% endtest %}
+
+{# Column must be entirely null, e.g. no BLS suppression marker on a production wage #}
+{% test is_null(model, column_name) %}
+select {{ column_name }}
+from {{ model }}
+where {{ column_name }} is not null
 {% endtest %}

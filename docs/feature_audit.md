@@ -160,7 +160,7 @@ Detail is in [mapping_methodology.md](mapping_methodology.md). All recommendatio
 | Measure | Recommended | Rejected | Key evidence |
 |---|---|---|---|
 | Density (A-008) | D2 population-weighted tract density | D1 raw (ρ 0.57 with D2); D4 central county (ρ 0.40) | Riverside raw density is understated ×26.6 |
-| Weather (A-007, A-021) | W5: first-order station ≤ 25 km, else nearest qualifying; snow S/P with 50 km fallback | W1 (10 of 35 complete), W3 alone (Riverside 88 km), W4 ring mean | 32 of 35 first-order, max 24.5 km; snow 35 of 35 |
+| Weather (A-007, A-021) | W5: first-order station ≤ 25 km, else nearest qualifying; snow S/P with 50 km fallback (Phase 6: "first-order" corrected to the NOAA HOMR class PLCD, see production_feature_layer.md §4a) | W1 (10 of 35 complete), W3 alone (Riverside 88 km), W4 ring mean | 32 of 35 first-order, max 24.5 km; snow 35 of 35 |
 | Wind (A-027) | Nearest hourly station, **mph** (confirmed) | — | Austin 81.8 km flagged |
 | Airports (A-009) | A1 inside-CBSA per capita | A2 80 km radius (double counts BWI, ONT, SNA, DCA) | ρ 0.994 with A4 |
 | Walkability | NW1 population-weighted mean | — (all methods ρ ≥ 0.91) | Transit-data penalty (A-031) |

@@ -287,6 +287,51 @@
       "raw_table": "RAW.EPA_SLD_V3_BLOCK_GROUP",
       "required_columns": ["OBJECTID", "GEOID10", "STATEFP", "COUNTYFP", "TotPop", "Ac_Land", "D1B", "D3B", "D4A", "D2A_EPHHM", "NatWalkInd"],
       "natural_key": ["GEOID10"]
+    },
+    {
+      "dataset_id": "census_geocoder_airport_county_acs2024",
+      "source_id": "S-40",
+      "provider": "U.S. Census Bureau, Geocoder (geographies by coordinates)",
+      "dataset": "County containing each FAA CY2025 commercial-service airport's NASR reference point (Phase 6 controlled source extension; replaces the county-name match, A-032)",
+      "vintage": "ACS2024_Current",
+      "feasibility": "GO",
+      "usage_category": "CROSSWALK",
+      "access_method": "census_geocoder_coordinates",
+      "endpoint": "https://geocoding.geo.census.gov/geocoder/geographies/coordinates",
+      "benchmark_name": "Public_AR_Current",
+      "vintage_name": "ACS2024_Current",
+      "pause_seconds": 0.2,
+      "expected_airports": 516,
+      "input_snapshots": {
+        "enplanements": {"source_id": "S-17", "snapshot_name": "S-17_CY2025_arp-cy2025-commercial-service-enplanements.xlsx", "sha256": "91C8D4457E9558B8BCB65C2A27CD9B95062E3C7B443E58E9714BA77942777B40"},
+        "nasr": {"source_id": "S-19", "snapshot_name": "S-19_NASR-2026-09-03_APT_CSV.zip", "sha256": "D5E4C999D4C96AB4D66D8CE9A387DE8EA59B5226A6144EA1BA58758FF29BBBD9"}
+      },
+      "snapshot_name": "S-40_ACS2024_airport_county_by_coordinates.ndjson",
+      "native_geography": "airport reference point -> county (ACS 2024 boundaries)",
+      "grain": "one row per FAA commercial-service airport",
+      "raw_table": "RAW.CENSUS_GEOCODER_AIRPORT_COUNTY_ACS2024",
+      "required_columns": ["AIRPORT_CODE", "INPUT_LATITUDE", "INPUT_LONGITUDE", "VINTAGE_NAME", "COUNTY_MATCH_COUNT", "COUNTY_GEOID", "COUNTY_STATE", "COUNTY_NAME"],
+      "natural_key": ["AIRPORT_CODE"]
+    },
+    {
+      "dataset_id": "noaa_homr_emshr_lite_202609",
+      "source_id": "S-41",
+      "provider": "NOAA NCEI, Historical Observing Metadata Repository (HOMR)",
+      "dataset": "Enhanced Master Station History Report, Lite (emshr_lite), edition 202609: station identifiers, history periods and TYPE (station type / platforms, e.g. PLCD, ASOS, COOP). Phase 6 controlled source extension for the W5 station class",
+      "vintage": "EMSHR-Lite-202609",
+      "feasibility": "GO",
+      "usage_category": "CROSSWALK",
+      "access_method": "http_zip_fixed_width",
+      "url": "https://www.ncei.noaa.gov/access/homr/file/emshr_lite.txt.zip",
+      "zip_member": "emshr_lite_202609.txt",
+      "encoding": "latin-1",
+      "snapshot_name": "S-41_EMSHR-Lite-202609_emshr_lite.txt.zip",
+      "expected_header": ["NCDC", "BEG_DT", "END_DT", "COOP", "WBAN", "ICAO", "FAA", "NWSLI", "WMO", "TRANS", "GHCND", "STATION_NAME", "CC", "CTRY_NAME", "ST", "COUNTY", "CD", "UTC", "LAT_DEC", "LON_DEC", "LOC_PREC", "LAT_DMS", "LON_DMS", "EL_GR_FT", "EL_GR_M", "EL_AP_FT", "EL_AP_M", "TYPE", "RELOCATION", "GHCNMLT", "IGRA", "HPD", "GHCNH"],
+      "native_geography": "station (point) x history period",
+      "grain": "one row per station history period record (no unique key: a station can hold several records for one period)",
+      "raw_table": "RAW.NOAA_HOMR_EMSHR_LITE_202609",
+      "required_columns": ["NCDC", "BEG_DT", "END_DT", "WBAN", "GHCND", "STATION_NAME", "TYPE"],
+      "key_note": "Layout documented in https://www.ncei.noaa.gov/access/homr/file/MSHR_Enhanced_Lite_Table.txt (TYPE: Reference Table B; PLCD = Primary Local Climatological Data)."
     }
   ],
   "not_ingested": [

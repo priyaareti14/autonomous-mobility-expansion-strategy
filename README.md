@@ -46,18 +46,21 @@ Public data sources (Census, NOAA, BTS/FAA, EPA, official regulatory sources)
 
 This is the *planned* design. Components are listed here only as they get built and validated.
 
-**Built so far (Phases 1–4):**
-- **Ingestion:** reproducible Python ingestion of 25 public datasets into Snowflake RAW, with a META audit trail of checksums, idempotent reruns and source-to-RAW reconciliation.
+**Built so far (Phases 1–6):**
+- **Ingestion:** reproducible Python ingestion of 27 public datasets into Snowflake RAW (25 in Phase 3, plus two Phase 6 extensions: the Census Geocoder airport counties and the NOAA HOMR station-history report), with a META audit trail of checksums, idempotent reruns and source-to-RAW reconciliation.
 - **dbt (Core 1.12):**
-  - 25 staging views
-  - 11 intermediate tables: official geography crosswalks, plus candidate station and airport relationships with no selection made
+  - 27 staging views
+  - 11 intermediate tables: official geography crosswalks, plus candidate station and airport relationships
   - 14 CORE dimension, bridge and fact tables at documented grain
   - `ANALYTICS.MART_MARKET_FEATURE_BASE`: 35 markets, CBSA-native measures only
-  - 336 tests, all passing
+  - Phase 6: 12 feature-engineering intermediate models, 3 mode feature marts and `DIM_FEATURE`
+  - 519 tests, all passing (336 at the end of Phase 4)
 
-**Phase 5 (in review):** a read-only feature audit (`python scripts/run_feature_audit.py`) of 70 candidate measures. It covers missingness, variation, outliers, redundancy and market-size duplication. It also compares density, weather-station, airport and walkability mapping methods. Results are in `outputs/` and two docs, linked below. Nothing is written back to Snowflake.
+**Phase 6 (in review):** a tested production feature layer. It covers population-weighted density, the W5 weather-station rule (preferring NOAA HOMR PLCD stations), airport activity on official county FIPS (a new Census Geocoder source, S-40), and population-weighted walkability. Three marts (`ANALYTICS.MART_ROBOTAXI_FEATURES`, `MART_SIDEWALK_DELIVERY_FEATURES`, `MART_DRONE_DELIVERY_FEATURES`) hold 10 pre-regulatory features each for the 35 markets, and `ANALYTICS.DIM_FEATURE` documents every feature. dbt build: 590 nodes, all passing. Clustering was evaluated and not adopted.
 
-No final features, scores, weights or rankings exist yet.
+**Phase 5:** a read-only feature audit (`python scripts/run_feature_audit.py`) of 70 candidate measures. It covers missingness, variation, outliers, redundancy and market-size duplication. It also compares density, weather-station, airport and walkability mapping methods. Results are in `outputs/` and two docs, linked below. Nothing is written back to Snowflake.
+
+No scores, weights, normalization or rankings exist yet. Regulatory features are pending Phase 6.5.
 
 ## Current status
 
@@ -67,8 +70,9 @@ No final features, scores, weights or rankings exist yet.
 | 2 | Python environment + Snowflake warehouse foundation | **Complete** |
 | 3 | Python ingestion + validation + Snowflake RAW landing | **Complete** |
 | 4 | dbt sources, staging, intermediate, core, marts, tests, docs | **Complete** |
-| 5 | EDA + feature audit + mapping-method evaluation | **Complete (in review)** |
-| 6 | Feature/index engineering (+ clustering only if justified) | Not started |
+| 5 | EDA + feature audit + mapping-method evaluation | **Complete** |
+| 6 | Production feature layer (pre-regulatory mode feature sets) | **Complete (in review)** |
+| 6.5 | Regulatory & deployment evidence curation | Not started |
 | 7 | Mode-specific readiness models | Not started |
 | 8 | Sensitivity analysis | Not started |
 | 9 | Analytical output write-back + reconciliation | Not started |
@@ -89,3 +93,7 @@ No rankings, scores or market-readiness findings exist yet.
 - [docs/dbt_reconciliation.md](docs/dbt_reconciliation.md): RAW → STAGING → INTERMEDIATE → CORE → ANALYTICS row counts and explanations
 - [docs/feature_audit.md](docs/feature_audit.md): Phase 5 EDA, feature audit and KEEP/MODIFY/DEFER/DROP decisions by mode
 - [docs/mapping_methodology.md](docs/mapping_methodology.md): Phase 5 comparison of density, weather-station, airport and walkability mapping methods
+- [docs/production_feature_layer.md](docs/production_feature_layer.md): Phase 6 implemented methods, final mode feature sets, directions, components and marts
+- [docs/feature_redundancy_resolution.md](docs/feature_redundancy_resolution.md): which signal represents each concept, and scale vs intensity
+- [docs/feature_engineering_reconciliation.md](docs/feature_engineering_reconciliation.md): feature lineage and mapping counts
+- [docs/regulatory_handoff.md](docs/regulatory_handoff.md): the data contract Phase 6.5 must satisfy

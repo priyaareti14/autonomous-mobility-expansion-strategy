@@ -51,6 +51,7 @@ This document catalogs every candidate source considered in Phase 1. For each so
 10. [Candidate features without a defensible source](#10-candidate-features-without-a-defensible-source)
 11. [Phase 3 retrieval findings](#11-phase-3-retrieval-findings-2026-10-0405)
 12. [Phase 5 source findings](#12-phase-5-source-findings-2026-10-05)
+13. [Phase 6 source extension and findings](#13-phase-6-source-extension-and-findings-2026-10-05)
 
 ---
 
@@ -97,8 +98,10 @@ This document catalogs every candidate source considered in Phase 1. For each so
 | S-37 | FAA drone-delivery environmental reviews (NEPA) | FAA | EXTERNAL VALIDATION | **GO** |
 | S-38 | Operator official service-area pages and newsrooms | Operators (see §2) | EXTERNAL VALIDATION | **GO** (per-operator verdicts in the record) |
 | S-39 | Partner/platform announcements (e.g., ride-hail platform newsrooms, investor releases) | Platforms | EXTERNAL VALIDATION | **PROXY** |
+| S-40 | Census Geocoder, geographies by coordinates (vintage ACS2024_Current), added in Phase 6 (§13) | U.S. Census Bureau | CROSSWALK | **GO** |
+| S-41 | NOAA NCEI HOMR Enhanced Master Station History Report, Lite (edition 202609), added in Phase 6 (§13) | NOAA NCEI | CROSSWALK (station class) | **GO** |
 
-Counts: 39 sources: 21 GO · 12 PROXY · 6 DROP. S-38 also carries per-operator sub-verdicts.
+Counts: 41 sources: 23 GO · 12 PROXY · 6 DROP. S-38 also carries per-operator sub-verdicts. S-40 and S-41 were added in Phase 6 as controlled source extensions.
 
 ---
 
@@ -329,10 +332,10 @@ Each record has the same fields. The research/access date is 2026-09-29 for all 
 | Provider / URL | NOAA NCEI. https://www.ncei.noaa.gov/data/normals-hourly/1991-2020/ (V) |
 | Pinned vintage | 1991–2020 |
 | Access method | Per-station CSV, no credentials |
-| Native geography / grain | Station × hour of year (8,760 rows). About 467 stations, mostly first-order airports (V) |
+| Native geography / grain | Station × hour of year (8,760 rows). About 467 stations, mostly WBAN-numbered airport stations (V; corrected in Phase 6, see §13) |
 | Useful fields (V) | `HLY-WIND-AVGSPD`, `HLY-WIND-PCTCLM`, `HLY-WIND-VCTDIR`, `HLY-WIND-VCTSPD`, `HLY-WIND-1STDIR/1STPCT/2NDDIR/2NDPCT` |
 | Aggregation | Hours → annual mean wind speed per station → CBSA |
-| Crosswalk | Same station rule as S-12. Coverage is limited to first-order stations |
+| Crosswalk | Same station rule as S-12. Coverage is limited to about 467 stations, mostly airports |
 | License / terms | As S-12 |
 | Limitations | Mean wind is a coarse proxy for the gust and turbulence limits that matter to drone operations. Wind is the only field used from this product |
 | Usage category | OBSERVED FEATURE |
@@ -698,7 +701,7 @@ Common fields for S-38:
 | F16 | SW, RT | C2 | Days with snow depth ≥ 1 in | Persistent snow cover blocks sidewalks and hides lane markings | S-12 | `ANN-SNWD-AVGNDS-GE001WI` | Station | CBSA | As F15 | 1991–2020 | Obs | **GO** | As F15 |
 | F17 | All | C2 | Days with Tmin ≤ 32 °F | Freeze/ice exposure; battery performance | S-12 | `ANN-TMIN-AVGNDS-LSTH032` | Station | CBSA | Station rule | 1991–2020 | Obs | **GO** | Correlated with snow features |
 | F18 | All | C2 | Days with Tmax ≥ 90 °F | Heat stress on batteries and sensors | S-12 | `ANN-TMAX-AVGNDS-GRTH090` | Station | CBSA | Station rule | 1991–2020 | Obs | **GO** | Airport stations may run warmer or cooler than the core |
-| F19 | DR | C2 | Mean annual wind speed | Drone flight suitability | S-13 | `HLY-WIND-AVGSPD` | Station | CBSA | Hourly → annual mean; station rule | 1991–2020 | Der | **PROXY** | Mean wind is a coarse stand-in for gust limits; first-order stations only |
+| F19 | DR | C2 | Mean annual wind speed | Drone flight suitability | S-13 | `HLY-WIND-AVGSPD` | Station | CBSA | Hourly → annual mean; station rule | 1991–2020 | Der | **PROXY** | Mean wind is a coarse stand-in for gust limits; hourly-normals stations only (467) |
 | F20 | DR | C2 | Gust / high-wind frequency | Drone operating-limit exceedance | S-14 | `HourlyWindGustSpeed` | Station | CBSA | Self-computed multi-year statistic | Not pinned | Der | **PROXY** | Only if F19 proves insufficient; our own methodology |
 | F21 | All | C2 | Severe-weather event frequency | Extreme-event disruption | S-15 | `EVENT_TYPE` counts | County/zone | CBSA | County → CBSA | — | Der | **DROP** | Reporting bias correlated with population |
 | F22 | RT | C2 | Road operating complexity | Harder driving environments slow AV deployment | S-21 | `D3B` (intersection density) | Block group | CBSA | Population-weighted mean by county → CBSA | SLD v3 (2017–2020 inputs) | Der | **PROXY** | Intersection density is an indirect, direction-ambiguous proxy. No national source for road geometry, construction or traffic complexity |
@@ -1032,3 +1035,44 @@ These facts were established while auditing features and comparing mapping metho
 | S-19 NASR | County names need normalization to match Gazetteer county names: suffixes, `SAINT`/`ST`, `MC LEAN`, `DADE` → Miami-Dade, and Virginia independent cities. 488 of 516 FAA airports match; the 28 unmatched are in territories, Connecticut planning regions and Alaska | A-032 |
 | S-21 EPA SLD | In the 35 markets, block groups with `D4A = -99999` (no transit data) hold a median 45% of residents per market (15.6%–79.5%) | A-031 |
 | S-09 OEWS | Coverage in the 35 markets: 53-3054 Taxi Drivers 7; 53-3053 Shuttle Drivers and Chauffeurs 35; 43-5021 Couriers 35; 53-3033 Light Truck Drivers 35; 53-0000 all transportation 35 | A-026 decided |
+
+## 13. Phase 6 source extension and findings (2026-10-05)
+
+### S-40: Census Geocoder, geographies by coordinates
+
+| Field | Value |
+|---|---|
+| Provider / URL | U.S. Census Bureau. https://geocoding.geo.census.gov/geocoder/geographies/coordinates (V) |
+| Pinned vintage | Benchmark `Public_AR_Current`, geography vintage **`ACS2024_Current`** (V: echoed in every response). The same county boundaries as Gazetteer 2024 |
+| Access method | One GET per point (`x` = longitude, `y` = latitude, `layers=Counties`, `format=json`). **No credentials** (V) |
+| Inputs sent | Public NASR reference-point coordinates of the 516 FAA CY2025 commercial-service airports, read from the pinned S-17 and S-19 snapshots (SHA-256 verified) |
+| Native geography / grain | Point → county. One row per airport |
+| Useful fields (V) | `GEOID` (5-digit county FIPS), `STATE`, `COUNTY`, `NAME`, `BASENAME`, `COUNTYNS`, `FUNCSTAT` |
+| Usage category | CROSSWALK (airport → county → CBSA for A1) |
+| Limitations | Assigns by a single reference point; airports spanning a county line take the county of that point (A-038) |
+| Verdict | **GO** |
+
+**Retrieval findings:**
+
+| Source | Finding | Effect |
+|---|---|---|
+| S-40 | 516 of 516 airports returned exactly one county. A rerun was `SKIPPED_IDENTICAL`: answers are deterministic once internal object IDs are dropped | A-032 superseded |
+| S-19 NASR | `COUNTY_NAME` is the airport's *associated* county, not always the county containing the reference point. ATL is listed as FULTON but its point is in Clayton County (13063); PHL is listed as PHILADELPHIA but its point is in Delaware County (42045). Also GSP, SRQ, ROA and AKP (outside the universe) | No project-market assignment changed |
+| S-09 OEWS | OEWS carries occupation titles only. The definitions were verified on O\*NET OnLine (U.S. Department of Labor, SOC 2018 codes, V, accessed 2026-10-05). **53-3053** Shuttle Drivers and Chauffeurs: "Drive a motor vehicle to transport passengers on a planned or scheduled basis. May collect a fare. Includes nonemergency medical transporters and hearse drivers." **43-5021** Couriers and Messengers: "Pick up and deliver messages, documents, packages, and other items between offices or departments within an establishment or directly to other business concerns, traveling by foot, bicycle, motorcycle, automobile, or public conveyance." **53-3054** Taxi Drivers: "Drive a motor vehicle to transport passengers on an unplanned basis and charge a fare, usually based on a meter." BLS occupation profile pages redirected automated requests | Labor-cost feature definitions (A-026) |
+| S-13 hourly normals | `HLY-WIND-AVGSPD` holds one climatological mean per hour of the normal year. Any percentile across the 8,760 values is a percentile of hourly **means**, not of observed wind | The p90 statistic is not an extreme-wind measure (A-027) |
+
+### S-41: NOAA NCEI HOMR Enhanced Master Station History Report, Lite
+
+| Field | Value |
+|---|---|
+| Provider / URL | NOAA NCEI Historical Observing Metadata Repository. https://www.ncei.noaa.gov/access/homr/file/emshr_lite.txt.zip (V); layout https://www.ncei.noaa.gov/access/homr/file/MSHR_Enhanced_Lite_Table.txt (V) |
+| Pinned vintage | Edition **202609** (zip member `emshr_lite_202609.txt`; file dated 2026-10-01). NCEI republishes in place, so a different member name fails the run |
+| Access method | Zip download, fixed-width text, no credentials (V) |
+| Native geography / grain | Station × history period; 311,054 records; no unique record key |
+| Useful fields (V) | `NCDC`, `BEG_DT`, `END_DT`, `GHCND`, `WBAN`, `STATION_NAME`, **`TYPE`**: "Station type and/or platforms station participates in, delimited by comma" (Reference Table B) |
+| Reference Table B (V) | `PLCD` Primary Local Climatological Data · `ASOS` Automated Surface Observation System · `AWOS` Airway Weather Observation · `AIRWAYS` Surface Airways Observations · `COOP` COOPerative station · `MILITARY` Military Bases · `WXSVC` U.S. Weather Service |
+| Usage category | CROSSWALK (station class for the W5 rule) |
+| Limitations | PLCD is recorded only in periods beginning 2017-10-01 or later. No HOMR documentation file uses the term "First Order", so this project says PLCD. One record (a Svalbard station) has a line break in its name and is landed with null dates |
+| Verdict | **GO** |
+
+**Station-ID finding (Phase 6, V):** the GHCN-Daily readme, §IV (format of `ghcnd-stations.txt`), defines the third ID character as "a network code that identifies the station numbering system used", with `W` = "WBAN identification number (last five characters of the GHCN-Daily ID)". `USW` therefore means a U.S. station numbered by WBAN. It does not establish a network or a First Order / PLCD class: on 2020-12-31, 207 core-qualifying `USW` normals stations were not PLCD.

@@ -3,7 +3,7 @@
 -- distance_km is the great-circle distance from the station to the CBSA's Gazetteer internal
 -- point. The internal point is a geographic reference point, not a population centroid; it
 -- is not the station-selection rule.
--- The station-to-market rule is OPEN (A-007, data_sources.md section 5): primary first-order airport
+-- The station-to-market rule is OPEN (A-007, data_sources.md section 5): primary airport
 -- station, mean of in-CBSA stations, or population-weighted nearest station. In-polygon tests
 -- need TIGER CBSA boundaries (S-07, deferred). This table only makes candidates comparable in Phase 5.
 select

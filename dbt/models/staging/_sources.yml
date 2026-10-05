@@ -167,6 +167,13 @@ sources:
             tests: [not_null]
           - name: DATE
             tests: [not_null]
+      - name: NOAA_HOMR_EMSHR_LITE_202609
+        description: "S-41 NOAA NCEI HOMR Enhanced Master Station History Report, Lite edition 202609 (fixed-width, landed as published). TYPE lists the station type / platforms per history period (PLCD = Primary Local Climatological Data). Phase 6 controlled source extension. Grain: one row per station history-period record; no unique key."
+        config:
+          meta: {source_id: S-41, provider: NOAA NCEI HOMR, vintage: EMSHR-Lite-202609, grain: station history period}
+        columns:
+          - name: NCDC
+            tests: [not_null]
       # ----------------------------------------------------------- Airports
       - name: FAA_ENPLANEMENTS_CY2025_COMMERCIAL_SERVICE
         description: "S-17 FAA CY2025 commercial-service enplanements (summary rows rejected at ingestion and kept in META). Grain: one row per airport."
@@ -174,6 +181,13 @@ sources:
           meta: {source_id: S-17, provider: FAA Office of Airports, vintage: CY2025, grain: airport}
         columns:
           - name: LOCID
+            tests: [not_null, unique]
+      - name: CENSUS_GEOCODER_AIRPORT_COUNTY_ACS2024
+        description: "S-40 Census Geocoder geographies-by-coordinates (vintage ACS2024_Current): county containing each FAA commercial-service airport's NASR reference point. Phase 6 controlled source extension; inputs are the pinned S-17 and S-19 snapshots. Grain: one row per airport."
+        config:
+          meta: {source_id: S-40, provider: U.S. Census Bureau Geocoder, vintage: ACS2024_Current, grain: airport}
+        columns:
+          - name: AIRPORT_CODE
             tests: [not_null, unique]
       - name: FAA_NASR_APT_BASE_20260903
         description: "S-19 FAA NASR 28-day subscription APT_BASE, edition effective 2026-09-03. Grain: one row per landing facility. SITE_NO repeats once (known source anomaly); ARPT_ID is unique."

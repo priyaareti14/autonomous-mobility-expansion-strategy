@@ -1,0 +1,32 @@
+{
+  "artifact": "outputs/feature_audit.csv",
+  "sha256": "3CC26A6C01CEB3D630070F7386C8A2A43355A382C3D4EB8899F09E3BC9517DAF",
+  "features": 70,
+  "overall_decision_counts": {
+    "DROP": 25,
+    "DEFER": 23,
+    "KEEP": 14,
+    "MODIFY": 8
+  },
+  "mode_status_counts": {
+    "ROBOTAXI": {
+      "DROP": 44,
+      "DEFER": 14,
+      "KEEP": 9,
+      "MODIFY": 3
+    },
+    "SIDEWALK_DELIVERY": {
+      "DROP": 36,
+      "DEFER": 20,
+      "KEEP": 11,
+      "MODIFY": 3
+    },
+    "DRONE_DELIVERY": {
+      "DROP": 42,
+      "DEFER": 12,
+      "KEEP": 10,
+      "MODIFY": 6
+    }
+  },
+  "validation": "PASS"
+}

@@ -1,0 +1,35 @@
+area,measure,value
+density,"market tracts (Gazetteer 2024, July 2023 delineation)",38579
+density,tracts with ACS 2020-2024 population,38565
+density,"tracts missing ACS population (A-029, New York only)",14
+density,zero-land-area tracts excluded,65
+density,tracts used in D2,38500
+density,tract population used in D2,162717360.0
+density,"ACS CBSA population, 35 markets",162794939.0
+density,minimum population coverage (New York),0.9960815791591066
+weather,stations considered per market (with coordinates),15656
+weather,core-qualifying stations,3376
+weather,snow-qualifying stations,5749
+weather,hourly-wind stations,467
+weather,stations classified PLCD by NOAA HOMR (as of 2020-12-31),269
+weather,core-qualifying PLCD stations,265
+weather,core-qualifying WBAN-numbered ('USW') stations that are NOT PLCD,207
+weather,normals stations without an EMSHR record,38
+weather,markets: PLCD station within 25 km,30
+weather,markets: nearest qualifying any-network fallback,5
+weather,markets: snow from the climate station,30
+weather,markets: snow fallback within 50 km,5
+weather,markets: snow not published,0
+weather,markets: wind station > 25 km,2
+airports,commercial-service airports (FAA CY2025),516
+airports,airports with an official county (Census Geocoder),516
+airports,airports inside a frozen market (A1),67
+airports,enplanements at A1 airports,772732731
+airports,enplanements summed over markets,772732731
+airports,airports whose NASR county name differs from the official county,5
+walkability,market block groups (SLD v3.0),98029
+walkability,"block groups used (index published, population > 0)",97740
+walkability,block groups with zero population,289
+walkability,populated block groups missing the index,0
+walkability,SLD population covered / total,1.0
+walkability,block groups whose SLD CBSA differs from 2023 (not used),1919

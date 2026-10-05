@@ -26,7 +26,9 @@
     ('NOAA_NORMALS_1991_2020_HOURLY_WIND', 'stg_noaa__normals_hourly_wind'),
     ('FAA_ENPLANEMENTS_CY2025_COMMERCIAL_SERVICE', 'stg_faa__enplanements_cy2025'),
     ('FAA_NASR_APT_BASE_20260903', 'stg_faa__nasr_apt_base'),
-    ('EPA_SLD_V3_BLOCK_GROUP', 'stg_epa__sld_v3_block_group')
+    ('EPA_SLD_V3_BLOCK_GROUP', 'stg_epa__sld_v3_block_group'),
+    ('CENSUS_GEOCODER_AIRPORT_COUNTY_ACS2024', 'stg_census__geocoder_airport_county_acs2024'),
+    ('NOAA_HOMR_EMSHR_LITE_202609', 'stg_noaa__homr_emshr_lite_202609')
 ] %}
 with meta as (
     select snowflake_table, raw_row_count

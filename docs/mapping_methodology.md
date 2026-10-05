@@ -1,6 +1,10 @@
 # Mapping Methodology: Evaluation of Candidate Methods (Phase 5)
 
-**Status:** Phase 5, in review · **Last updated:** 2026-10-05
+**Status:** Phase 5 evaluation, approved; implemented in Phase 6 · **Last updated:** 2026-10-05
+
+> **Phase 6:** D2, W5, A1 and NW1 were approved and are now implemented as tested dbt models. See [production_feature_layer.md](production_feature_layer.md) §4–5. Two refinements apply to this document: the A1 county key now comes from the official Census Geocoder (S-40) instead of a name match (§3), and the A4 diagnostic follows the documented "inside first" rule (§3).
+>
+> **Phase 6 correction to §2 (W5).** This evaluation treated the GHCN-Daily `USW` prefix as "first-order". NOAA defines that prefix as the WBAN *numbering system* (GHCN-Daily readme §IV), not a station class. Production W5 uses the NOAA HOMR class **PLCD (Primary Local Climatological Data)** as of 2020-12-31 (source S-41). The rule changed station for Cincinnati (now CVG) and Sacramento (now Sacramento Executive AP); Denver and Kansas City keep their stations as any-network fallbacks. The "first-order" wording below is kept as the Phase 5 record. See production_feature_layer.md §4a and §5.2.
 
 This document compares candidate methods for turning sub-market or point data into one value per market (CBSA). It covers four measures: density, weather stations, airports and walkability. For each one it states the recommended method, why, and the rejected alternatives.
 
@@ -128,13 +132,14 @@ Flag P (Provisional, at least 10 years, unfilled) and flag E (Estimated) do not 
 - The matching normalizes several patterns: suffixes, "SAINT" → "ST", "MC LEAN" → "MCLEAN", Dade → Miami-Dade, and Virginia independent cities.
 - Result: 488 of 516 matched. The 28 unmatched are in territories, Connecticut planning regions or Alaska boroughs, none of which are in a project market.
 - This is name matching, not the point-in-polygon method A-009 assumed. CBSA polygons are not in RAW. It is recorded as a limitation.
+- **Superseded in Phase 6:** production uses the official county FIPS containing each airport's NASR reference point, from the Census Geocoder (S-40, ACS 2024 boundaries; 516 of 516 resolved). The name match had placed ATL in Fulton County (actually Clayton) and PHL in Philadelphia County (actually Delaware County). Both stay in the same market, so no A1 result changed.
 
 | Method | Definition | ρ with A1 (per capita) | Verdict |
 |---|---|---|---|
 | **A1 Inside-CBSA** | Enplanements at commercial-service airports in the CBSA's counties | — | **Recommended** |
 | A2 Within 80 km | Every airport within 80 km of the PW centroid | 0.970 | **Rejected.** Double-counts: BWI counts for both Baltimore and Washington, ONT for both Los Angeles and Riverside, SNA for both Los Angeles and Riverside, and DCA for both Washington and Baltimore |
 | A3 Large/medium hubs inside | A1 restricted to FAA hub type L/M | — | Diagnostic only |
-| A4 Nearest market within 80 km | Each airport goes to one market: the one it is inside, otherwise the nearest market within 80 km. No double counting | 0.994 | **Sensitivity variant** |
+| A4 Nearest market within 80 km | Each airport goes to one market: the one it is inside, otherwise the nearest market within 80 km. No double counting | 0.994 | **Sensitivity variant** (Phase 6 note: the Phase 5 *code* used nearest centre only; Phase 6 implements this documented rule, which adds STC to Minneapolis) |
 
 **Edge cases from the brief:**
 - **BWI** is in Anne Arundel County, inside **Baltimore** (12580). Under A1 it counts for Baltimore only.
