@@ -1,0 +1,204 @@
+version: 2
+
+# RAW is landed by the Phase 3 ingestion pipeline (scripts/run_ingestion.py).
+# Every source value is VARCHAR text as published; every row carries lineage
+# metadata: _INGEST_RUN_ID, _INGESTED_AT, _SOURCE_ID, _SOURCE_VINTAGE,
+# _SOURCE_FILE, _SOURCE_FILE_SHA256, _SOURCE_ROW_NUMBER.
+#
+# Source freshness is deliberately NOT configured. Every dataset is a pinned
+# vintage (PEP V2025, ACS 2020-2024, Normals 1991-2020, ...) that is not
+# expected to refresh. A freshness test would only report that old vintages
+# are old. Re-acquisition is controlled by the checksum/idempotency rules in
+# META, not by load timestamps.
+
+sources:
+  - name: raw
+    database: AUTONOMOUS_MOBILITY
+    schema: RAW
+    description: >
+      Source-aligned landing tables from approved public sources (docs/data_sources.md).
+      Values are untyped text; staging models do the technical typing.
+    tables:
+      # ------------------------------------------------------------- Census
+      - name: CENSUS_PEP_CBSA_EST2025
+        description: "S-01 Census PEP Vintage 2025 CBSA population totals. Grain: one row per geography (CBSA, Metropolitan Division or county row, distinguished by LSAD)."
+        config:
+          meta: {source_id: S-01, provider: U.S. Census Bureau PEP, vintage: V2025, grain: geography row}
+        columns:
+          - name: CBSA
+            tests: [not_null]
+          - name: LSAD
+            tests:
+              - accepted_values:
+                  arguments:
+                    values: ["Metropolitan Statistical Area", "Micropolitan Statistical Area", "Metropolitan Division", "County or equivalent"]
+      - name: CENSUS_CBSA_DELINEATION_2023
+        description: "S-02 OMB/Census July 2023 CBSA delineation (list1_2023). Grain: one row per county x CBSA."
+        config:
+          meta: {source_id: S-02, provider: OMB / U.S. Census Bureau, vintage: 2023-07, grain: county}
+        columns:
+          - name: CBSA_CODE
+            tests: [not_null]
+      - name: CENSUS_ACS5_2024_CBSA_B01003
+        description: "S-03 ACS 5-year 2020-2024 table B01003 (total population). Grain: one row per CBSA (metro + micro)."
+        config:
+          meta: &acs_cbsa {source_id: S-03, provider: U.S. Census Bureau ACS, vintage: ACS5-2024, grain: CBSA}
+        columns: &acs_cbsa_cols
+          - name: GEO_ID
+            tests: [not_null, unique]
+          - name: METROPOLITAN_STATISTICAL_AREA_MICROPOLITAN_STATISTICAL_AREA
+            tests: [not_null, unique]
+      - name: CENSUS_ACS5_2024_CBSA_B11001
+        description: "S-03 ACS 5-year 2020-2024 table B11001 (household type). Grain: one row per CBSA."
+        config:
+          meta: *acs_cbsa
+        columns: *acs_cbsa_cols
+      - name: CENSUS_ACS5_2024_CBSA_B19013
+        description: "S-03 ACS 5-year 2020-2024 table B19013 (median household income, 2024 dollars). Grain: one row per CBSA."
+        config:
+          meta: *acs_cbsa
+        columns: *acs_cbsa_cols
+      - name: CENSUS_ACS5_2024_CBSA_B08301
+        description: "S-03 ACS 5-year 2020-2024 table B08301 (means of transportation to work). Grain: one row per CBSA."
+        config:
+          meta: *acs_cbsa
+        columns: *acs_cbsa_cols
+      - name: CENSUS_ACS5_2024_CBSA_B08201
+        description: "S-03 ACS 5-year 2020-2024 table B08201 (household size by vehicles available). Grain: one row per CBSA."
+        config:
+          meta: *acs_cbsa
+        columns: *acs_cbsa_cols
+      - name: CENSUS_ACS5_2024_CBSA_B25044
+        description: "S-03 ACS 5-year 2020-2024 table B25044 (tenure by vehicles available). Grain: one row per CBSA."
+        config:
+          meta: *acs_cbsa
+        columns: *acs_cbsa_cols
+      - name: CENSUS_ACS5_2024_CBSA_B25046
+        description: "S-03 ACS 5-year 2020-2024 table B25046 (aggregate vehicles available by tenure). Grain: one row per CBSA."
+        config:
+          meta: *acs_cbsa
+        columns: *acs_cbsa_cols
+      - name: CENSUS_ACS5_2024_CBSA_B08013
+        description: "S-03 ACS 5-year 2020-2024 table B08013 (aggregate travel time to work). Grain: one row per CBSA."
+        config:
+          meta: *acs_cbsa
+        columns: *acs_cbsa_cols
+      - name: CENSUS_ACS5_2024_CBSA_B08303
+        description: "S-03 ACS 5-year 2020-2024 table B08303 (travel time to work). Grain: one row per CBSA."
+        config:
+          meta: *acs_cbsa
+        columns: *acs_cbsa_cols
+      - name: CENSUS_ACS5_2024_CBSA_B25024
+        description: "S-03 ACS 5-year 2020-2024 table B25024 (units in structure). Grain: one row per CBSA."
+        config:
+          meta: *acs_cbsa
+        columns: *acs_cbsa_cols
+      - name: CENSUS_ACS5_2024_CBSA_B25003
+        description: "S-03 ACS 5-year 2020-2024 table B25003 (tenure). Grain: one row per CBSA."
+        config:
+          meta: *acs_cbsa
+        columns: *acs_cbsa_cols
+      - name: CENSUS_ACS5_2024_CBSA_S0801_SUBSET
+        description: "S-03 ACS 5-year 2020-2024 subject table S0801, mean travel time to work only. Grain: one row per CBSA."
+        config:
+          meta: *acs_cbsa
+        columns: *acs_cbsa_cols
+      - name: CENSUS_ACS5_2024_TRACT_B01003
+        description: "S-04 ACS 5-year 2020-2024 B01003 for every census tract (50 states + DC + PR). Grain: one row per tract."
+        config:
+          meta: {source_id: S-04, provider: U.S. Census Bureau ACS, vintage: ACS5-2024, grain: tract}
+        columns:
+          - name: GEO_ID
+            tests: [not_null, unique]
+      - name: CENSUS_GAZETTEER_2024_CBSA
+        description: "S-05 Census 2024 Gazetteer, CBSAs. Grain: one row per CBSA."
+        config:
+          meta: &gaz {source_id: S-05, provider: U.S. Census Bureau Geography, vintage: "2024", grain: geography}
+        columns:
+          - name: GEOID
+            tests: [not_null, unique]
+      - name: CENSUS_GAZETTEER_2024_COUNTIES
+        description: "S-05 Census 2024 Gazetteer, counties. Grain: one row per county."
+        config:
+          meta: *gaz
+        columns:
+          - name: GEOID
+            tests: [not_null, unique]
+      - name: CENSUS_GAZETTEER_2024_TRACTS
+        description: "S-05 Census 2024 Gazetteer, census tracts. Grain: one row per tract."
+        config:
+          meta: *gaz
+        columns:
+          - name: GEOID
+            tests: [not_null, unique]
+      - name: CENSUS_CBP_2023_MSA
+        description: "S-08 County Business Patterns 2023, metropolitan-area file. Grain: one row per CBSA x NAICS code."
+        config:
+          meta: {source_id: S-08, provider: U.S. Census Bureau, vintage: "2023", grain: CBSA x NAICS}
+        columns:
+          - name: MSA
+            tests: [not_null]
+          - name: NAICS
+            tests: [not_null]
+      # -------------------------------------------------------------- Labor
+      - name: BLS_OEWS_MAY2025_MSA
+        description: "S-09 BLS OEWS May 2025 metropolitan-area estimates (MSA workbook). Grain: one row per metro area x SOC occupation."
+        config:
+          meta: {source_id: S-09, provider: U.S. Bureau of Labor Statistics, vintage: May2025, grain: area x occupation}
+        columns:
+          - name: AREA
+            tests: [not_null]
+          - name: OCC_CODE
+            tests: [not_null]
+      # ------------------------------------------------------------ Weather
+      - name: NOAA_NORMALS_1991_2020_ANNUALSEASONAL
+        description: "S-12 NOAA U.S. Climate Normals 1991-2020, annual/seasonal, by station. Each station's full record is a VARIANT object (element sets differ by station). Grain: one row per station."
+        config:
+          meta: {source_id: S-12, provider: NOAA NCEI, vintage: 1991-2020_v1.0.1_c20230404, grain: station}
+        columns:
+          - name: STATION
+            tests: [not_null, unique]
+      - name: NOAA_NORMALS_1991_2020_HOURLY_WIND
+        description: "S-13 NOAA U.S. Climate Normals 1991-2020, hourly, wind columns only (documented projection, A-027). Grain: one row per station x hour of the normal year."
+        config:
+          meta: {source_id: S-13, provider: NOAA NCEI, vintage: 1991-2020_v1.0.0_c20210423, grain: station x hour}
+        columns:
+          - name: STATION
+            tests: [not_null]
+          - name: DATE
+            tests: [not_null]
+      # ----------------------------------------------------------- Airports
+      - name: FAA_ENPLANEMENTS_CY2025_COMMERCIAL_SERVICE
+        description: "S-17 FAA CY2025 commercial-service enplanements (summary rows rejected at ingestion and kept in META). Grain: one row per airport."
+        config:
+          meta: {source_id: S-17, provider: FAA Office of Airports, vintage: CY2025, grain: airport}
+        columns:
+          - name: LOCID
+            tests: [not_null, unique]
+      - name: FAA_NASR_APT_BASE_20260903
+        description: "S-19 FAA NASR 28-day subscription APT_BASE, edition effective 2026-09-03. Grain: one row per landing facility. SITE_NO repeats once (known source anomaly); ARPT_ID is unique."
+        config:
+          meta: {source_id: S-19, provider: FAA Aeronautical Information Services, vintage: NASR-2026-09-03, grain: landing facility}
+        columns:
+          - name: ARPT_ID
+            tests: [not_null, unique]
+      # -------------------------------------------------- Built environment
+      - name: EPA_SLD_V3_BLOCK_GROUP
+        description: "S-21 EPA Smart Location Database v3.0 attributes (includes NatWalkInd, S-22). Grain: one row per 2010-based census block group. Its CBSA field uses a pre-2023 delineation and must not be used for mapping (A-006)."
+        config:
+          meta: {source_id: S-21, provider: U.S. EPA, vintage: SLD-v3.0-2021-06, grain: block group}
+        columns:
+          - name: GEOID10
+            tests: [not_null, unique]
+
+  - name: meta
+    database: AUTONOMOUS_MOBILITY
+    schema: META
+    description: "Phase 3 ingestion audit trail. Used here only for cross-layer reconciliation tests."
+    tables:
+      - name: INGESTION_RUNS
+        description: "One row per dataset ingestion attempt (status, checksum, source/parsed/rejected/RAW counts)."
+      - name: INGESTION_CHECKS
+        description: "One row per validation check per ingestion run."
+      - name: INGESTION_REJECTED_ROWS
+        description: "One row per source record not loaded, with reason."

@@ -14,3 +14,13 @@ pyarrow==25.0.1
 requests==2.34.2
 # Reads the approved XLSX sources (Census delineation file, FAA enplanements).
 openpyxl==3.1.5
+
+# --- Phase 4: dbt transformation layer -------------------------------------
+# dbt 1.12 is the current stable line; 2.0 is still a release candidate.
+# Both packages declare Python 3.13 support. dbt-snowflake accepts
+# snowflake-connector-python >=4.2,<5, so the 4.7.5 pin above is unchanged.
+# Note: every dbt-snowflake release from 1.10 to 1.12 pins certifi<2025.4.26,
+# which downgrades the shared CA bundle to certifi 2025.1.31 (see the
+# assumptions register, A-028).
+dbt-core==1.12.5
+dbt-snowflake==1.12.1

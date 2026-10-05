@@ -1,0 +1,28 @@
+version: 2
+
+models:
+  - name: mart_market_feature_base
+    description: >
+      Trusted CANDIDATE measures at market level, NOT the readiness feature matrix. Grain: one row per
+      market (35). Holds only measures published natively at CBSA level (PEP, Gazetteer, ACS with MOEs,
+      CBP for catalogued NAICS codes, OEWS for catalogued occupations with markers). It excludes weather,
+      airports, density, walkability aggregation, regulation and deployment evidence, and every ratio,
+      index, score and rank. Missing values stay null (no imputation).
+    tests:
+      - row_count_equals: {arguments: {expected: 35}}
+      - equal_row_count:
+          arguments:
+            compare_model: ref('dim_market')
+    columns:
+      - name: market_id
+        tests:
+          - not_null
+          - unique
+          - relationships: {arguments: {to: ref('dim_market'), field: market_id}}
+      - name: population_2025
+        tests: [not_null]
+      - name: median_household_income_usd
+        description: "ACS B19013_001E, 2024 inflation-adjusted USD; see the _moe column."
+        tests: [not_null]
+      - name: oews_annual_median_wage_taxi_drivers
+        description: "Null for most markets: OEWS publishes 53-3054 for only 11 metros. oews_taxi_drivers_published says whether a row exists (A-026)."

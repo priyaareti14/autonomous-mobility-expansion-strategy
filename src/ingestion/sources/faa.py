@@ -1,4 +1,4 @@
-﻿"""FAA sources: CY2025 commercial-service enplanements (S-17) and NASR APT_BASE (S-19).
+"""FAA sources: CY2025 commercial-service enplanements (S-17) and NASR APT_BASE (S-19).
 
 Airports are landed with their native identifiers and coordinates only. No
 airport is assigned to a market here: airport-to-CBSA rules are an open

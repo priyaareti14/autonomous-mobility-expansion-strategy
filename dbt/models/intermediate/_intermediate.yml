@@ -1,0 +1,123 @@
+version: 2
+
+models:
+  - name: int_geo__county_cbsa_2023
+    description: "Official county -> CBSA crosswalk (July 2023). Grain: one row per county in a CBSA."
+    columns:
+      - name: county_fips
+        tests: [not_null, unique]
+      - name: cbsa_code
+        tests: [not_null]
+
+  - name: int_market__universe_ranked
+    description: "The approved selection rule applied to PEP V2025: Metropolitan Statistical Areas ranked by 2025 population, ranks 1-35. Grain: one row per market."
+    tests:
+      - row_count_equals: {arguments: {expected: 35}}
+    columns:
+      - name: market_id
+        tests: [not_null, unique]
+      - name: market_rank_2025
+        tests: [not_null, unique, {values_between: {arguments: {min_value: 1, max_value: 35}}}]
+
+  - name: int_market__counties
+    description: "County membership of the 35 markets (PEP county rows + delineation + Gazetteer). Grain: one row per market x county."
+    tests:
+      - unique_combination_of_columns:
+          arguments:
+            combination_of_columns: [market_id, county_fips]
+      - row_count_equals: {arguments: {expected: 319}}
+    columns:
+      - name: county_fips
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('int_geo__county_cbsa_2023')
+                field: county_fips
+      - name: state_usps
+        description: "From Gazetteer 2024 counties (joined on county FIPS)."
+        tests: [not_null]
+      - name: county_land_area_sq_mi
+        tests: [not_null]
+
+  - name: int_market__state_population
+    description: "Observed state composition of each market (PEP 2025 county populations by state). Not a regulatory mapping (A-012). Grain: one row per market x state."
+    tests:
+      - unique_combination_of_columns:
+          arguments:
+            combination_of_columns: [market_id, state_fips]
+    columns:
+      - name: population_share_2025
+        tests: [not_null, {values_between: {arguments: {min_value: 0, max_value: 1}}}]
+
+  - name: int_geo__tract_cbsa_2023
+    description: "Official tract -> county -> CBSA crosswalk for every Gazetteer 2024 tract; cbsa_code is null outside CBSAs. Grain: one row per tract."
+    tests:
+      - equal_row_count:
+          arguments:
+            compare_model: ref('stg_census__gazetteer_2024_tracts')
+    columns:
+      - name: tract_geoid
+        tests: [not_null, unique]
+
+  - name: int_geo__block_group_cbsa_2023
+    description: "SLD block group -> county -> CBSA (July 2023) via county FIPS; the SLD's pre-2023 CBSA is kept only for comparison. Grain: one row per SLD block group."
+    tests:
+      - equal_row_count:
+          arguments:
+            compare_model: ref('stg_epa__sld_v3_block_group')
+    columns:
+      - name: block_group_geoid10
+        tests: [not_null, unique]
+
+  - name: int_acs__cbsa_measures
+    description: "Catalogued ACS 5-year 2020-2024 measures, one-to-one joined across tables of the same ACS dataset. Grain: one row per CBSA."
+    tests:
+      - row_count_equals: {arguments: {expected: 935}}
+    columns:
+      - name: cbsa_code
+        tests: [not_null, unique]
+
+  - name: int_weather__stations
+    description: "Every station in either normals product (annual/seasonal and/or hourly). Grain: one row per station."
+    columns:
+      - name: station_id
+        tests: [not_null, unique]
+      - name: latitude
+        tests: [not_null]
+
+  - name: int_weather__station_market_candidates
+    description: "CANDIDATE station x market pairs with great-circle distance to the CBSA internal point. NO selection rule applied (A-007). Grain: one row per market x station."
+    tests:
+      - unique_combination_of_columns:
+          arguments:
+            combination_of_columns: [market_id, station_id]
+    columns:
+      - name: distance_km
+        tests: [not_null, {values_between: {arguments: {min_value: 0, max_value: 21000}}}]
+
+  - name: int_airports__commercial_service
+    description: "FAA CY2025 commercial-service airports joined to NASR on the FAA location identifier (all 516 match). Grain: one row per airport."
+    columns:
+      - name: airport_code
+        tests: [not_null, unique]
+      - name: has_nasr_record
+        tests:
+          - accepted_values: {arguments: {values: [true]}}
+
+  - name: int_airports__airport_market_candidates
+    description: "CANDIDATE airport x market pairs with distance; no assignment (A-009). Grain: one row per market x commercial-service airport."
+    tests:
+      - unique_combination_of_columns:
+          arguments:
+            combination_of_columns: [market_id, airport_code]
+      - row_count_equals: {arguments: {expected: 18060}}
+
+seeds:
+  - name: frozen_market_universe
+    description: "The approved 35-market universe exactly as recorded in docs/project_scope.md section 6 (generated from that table). It is the contract that DIM_MARKET is tested against."
+    columns:
+      - name: market_id
+        tests: [not_null, unique]
+      - name: market_rank
+        tests: [not_null, unique]

@@ -1,0 +1,197 @@
+version: 2
+
+models:
+  # -------------------------------------------------------------- Dimensions
+  - name: dim_market
+    description: >
+      The frozen project market universe. Grain: one row per market, exactly 35 rows.
+      market_id = 5-digit CBSA code (July 2023 delineation). Built from the pinned PEP V2025 ranking,
+      and proven identical to the approved seed by tests/assert_dim_market_matches_frozen_seed.sql.
+    tests:
+      - row_count_equals: {arguments: {expected: 35}}
+    columns:
+      - name: market_id
+        description: "CBSA code; the project-wide market key."
+        tests: [not_null, unique, {matches_regex: {arguments: {pattern: '^[0-9]{5}$'}}}]
+      - name: cbsa_name
+        tests: [not_null]
+      - name: market_rank_2025
+        description: "Rank by PEP 2025 population among Metropolitan Statistical Areas (selection rule only; not a readiness rank)."
+        tests: [not_null, unique, {values_between: {arguments: {min_value: 1, max_value: 35}}}]
+      - name: population_2025
+        description: "PEP Vintage 2025 resident population, July 1, 2025 (persons)."
+        tests: [not_null, {values_between: {arguments: {min_value: 1, max_value: 100000000}}}]
+      - name: principal_state_usps
+        description: "First state in the CBSA title (descriptive). Not a regulatory mapping: A-012 is open."
+        tests: [not_null]
+      - name: county_count
+        tests: [not_null]
+      - name: land_area_sq_mi
+        description: "Gazetteer 2024 CBSA land area (sq mi)."
+        tests: [not_null]
+      - name: is_frozen_market_universe
+        tests:
+          - accepted_values: {arguments: {values: [true]}}
+
+  - name: dim_weather_station
+    description: "NOAA normals stations (annual/seasonal and/or hourly). Grain: one row per station. Not assigned to markets (A-007)."
+    columns:
+      - name: station_id
+        tests: [not_null, unique]
+      - name: latitude
+        tests: [not_null, {values_between: {arguments: {min_value: -90, max_value: 90}}}]
+      - name: longitude
+        tests: [not_null, {values_between: {arguments: {min_value: -180, max_value: 180}}}]
+
+  - name: dim_airport
+    description: "NASR landing facilities (2026-09-03). Grain: one row per facility; airport_code = FAA location identifier. Not assigned to markets (A-009)."
+    columns:
+      - name: airport_code
+        tests: [not_null, unique]
+      - name: site_type_code
+        description: "A airport, H heliport, C seaplane base, U ultralight, G gliderport, B balloonport."
+        tests:
+          - accepted_values: {arguments: {values: ["A", "H", "C", "U", "G", "B"]}}
+
+  # ----------------------------------------------------------------- Bridges
+  - name: brg_market_county
+    description: "Counties of each market (official July 2023 delineation). Grain: one row per market x county; 319 rows."
+    tests:
+      - unique_combination_of_columns:
+          arguments:
+            combination_of_columns: [market_id, county_fips]
+      - row_count_equals: {arguments: {expected: 319}}
+    columns:
+      - name: market_id
+        tests:
+          - not_null
+          - relationships: {arguments: {to: ref('dim_market'), field: market_id}}
+      - name: county_population_2025
+        tests: [not_null, {values_between: {arguments: {min_value: 0, max_value: 100000000}}}]
+
+  - name: brg_market_state
+    description: "Observed state composition of each market (PEP 2025). Grain: one row per market x state. Not a regulatory mapping (A-012)."
+    tests:
+      - unique_combination_of_columns:
+          arguments:
+            combination_of_columns: [market_id, state_fips]
+    columns:
+      - name: market_id
+        tests:
+          - not_null
+          - relationships: {arguments: {to: ref('dim_market'), field: market_id}}
+      - name: population_share_2025
+        tests: [not_null, {values_between: {arguments: {min_value: 0, max_value: 1}}}]
+
+  # ------------------------------------------------------------------- Facts
+  - name: fct_market_population_estimates
+    description: "PEP V2025 annual population estimates. Grain: one row per market x estimate year (2020-2025). Unit: persons."
+    tests:
+      - unique_combination_of_columns:
+          arguments:
+            combination_of_columns: [market_id, estimate_year]
+      - row_count_equals: {arguments: {expected: 210}}
+    columns:
+      - name: market_id
+        tests:
+          - not_null
+          - relationships: {arguments: {to: ref('dim_market'), field: market_id}}
+      - name: estimate_year
+        tests: [not_null, {values_between: {arguments: {min_value: 2020, max_value: 2025}}}]
+      - name: population_estimate
+        tests: [not_null, {values_between: {arguments: {min_value: 1, max_value: 100000000}}}]
+
+  - name: fct_market_acs_demographics
+    description: "Catalogued ACS 5-year 2020-2024 measures with MOEs. Grain: one row per market x ACS period (ACS5-2024)."
+    tests:
+      - row_count_equals: {arguments: {expected: 35}}
+    columns:
+      - name: market_id
+        tests:
+          - not_null
+          - unique
+          - relationships: {arguments: {to: ref('dim_market'), field: market_id}}
+      - name: total_population
+        tests: [not_null]
+      - name: median_household_income_usd
+        tests: [not_null]
+
+  - name: fct_market_business_patterns
+    description: "CBP 2023. Grain: one row per market x NAICS code (all published levels). Units: establishments, employees, $1,000 payroll."
+    tests:
+      - unique_combination_of_columns:
+          arguments:
+            combination_of_columns: [market_id, naics_code]
+    columns:
+      - name: market_id
+        tests:
+          - not_null
+          - relationships: {arguments: {to: ref('dim_market'), field: market_id}}
+
+  - name: fct_market_occupation_wages
+    description: "OEWS May 2025. Grain: one row per market x SOC occupation. Units: persons, USD. Markers kept; missing is not low (A-026)."
+    tests:
+      - unique_combination_of_columns:
+          arguments:
+            combination_of_columns: [market_id, occupation_code]
+    columns:
+      - name: market_id
+        tests:
+          - not_null
+          - relationships: {arguments: {to: ref('dim_market'), field: market_id}}
+
+  - name: fct_tract_population_land
+    description: "Tract population (ACS 2020-2024) and land area (Gazetteer 2024) for tracts in the 35 markets: inputs for the open density decision (A-008). Grain: one row per tract."
+    columns:
+      - name: tract_geoid
+        tests: [not_null, unique]
+      - name: market_id
+        tests:
+          - not_null
+          - relationships: {arguments: {to: ref('dim_market'), field: market_id}}
+      - name: land_area_sq_mi
+        tests: [not_null]
+
+  - name: fct_block_group_built_environment
+    description: "EPA SLD v3.0 measures for block groups in the 35 markets (2023 delineation via county). Grain: one row per block group."
+    columns:
+      - name: block_group_geoid10
+        tests: [not_null, unique]
+      - name: market_id
+        tests:
+          - not_null
+          - relationships: {arguments: {to: ref('dim_market'), field: market_id}}
+
+  - name: fct_station_climate_normals
+    description: "Annual 1991-2020 normals per station (catalogued elements with flags). Grain: one row per station x normals period."
+    columns:
+      - name: station_id
+        tests:
+          - not_null
+          - unique
+          - relationships: {arguments: {to: ref('dim_weather_station'), field: station_id}}
+
+  - name: fct_station_hourly_wind_normals
+    description: "Hourly 1991-2020 wind normals. Grain: one row per station x hour of the normal year (8,760 per station)."
+    tests:
+      - unique_combination_of_columns:
+          arguments:
+            combination_of_columns: [station_id, normal_hour_label]
+    columns:
+      - name: station_id
+        tests:
+          - not_null
+          - relationships: {arguments: {to: ref('dim_weather_station'), field: station_id}}
+
+  - name: fct_airport_enplanements
+    description: "FAA CY2025 enplanements. Grain: one row per commercial-service airport x calendar year (CY2025). Unit: enplaned passengers."
+    tests:
+      - row_count_equals: {arguments: {expected: 516}}
+    columns:
+      - name: airport_code
+        tests:
+          - not_null
+          - unique
+          - relationships: {arguments: {to: ref('dim_airport'), field: airport_code}}
+      - name: enplanements_cy2025
+        tests: [not_null, {values_between: {arguments: {min_value: 0, max_value: 1000000000}}}]

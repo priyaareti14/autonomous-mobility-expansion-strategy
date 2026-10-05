@@ -1,4 +1,4 @@
-﻿"""Phase 3 ingestion runner: public source -> snapshot -> validation -> Snowflake RAW -> META audit.
+"""Phase 3 ingestion runner: public source -> snapshot -> validation -> Snowflake RAW -> META audit.
 
 Usage (repository root, .venv active):
     python scripts/run_ingestion.py --setup-audit           # create META audit tables (idempotent)

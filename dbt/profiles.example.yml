@@ -1,0 +1,28 @@
+# Template for dbt/profiles.yml (the real file is git-ignored and never committed).
+#
+# Copy this file to dbt/profiles.yml. Every value comes from environment
+# variables: scripts/run_dbt.py loads them from the git-ignored .env before
+# invoking dbt. No secrets belong in either file.
+#
+# Authentication: key pair for the service user AM_SVC_DEV. The private key
+# stays outside the repository (SNOWFLAKE_PRIVATE_KEY_PATH) as encrypted
+# PKCS#8 (AES-256), which is the format dbt-snowflake requires.
+# Role: AM_TRANSFORMER, set explicitly here. The service user's default role
+# (AM_ANALYST) is not changed.
+
+autonomous_mobility:
+  target: dev
+  outputs:
+    dev:
+      type: snowflake
+      account: "{{ env_var('SNOWFLAKE_ACCOUNT') }}"
+      user: "{{ env_var('SNOWFLAKE_USER') }}"
+      private_key_path: "{{ env_var('SNOWFLAKE_PRIVATE_KEY_PATH') }}"
+      private_key_passphrase: "{{ env_var('SNOWFLAKE_PRIVATE_KEY_PASSPHRASE') }}"
+      role: AM_TRANSFORMER
+      database: AUTONOMOUS_MOBILITY
+      warehouse: AM_EXPANSION_WH
+      schema: STAGING            # default only; every folder sets its own existing schema
+      threads: 4
+      client_session_keep_alive: false
+      query_tag: autonomous-mobility-dbt

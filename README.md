@@ -46,14 +46,25 @@ Public data sources (Census, NOAA, BTS/FAA, EPA, official regulatory sources)
 
 This is the *planned* design. Components are listed here only as they get built and validated.
 
+**Built so far (Phases 1–4):**
+- **Ingestion:** reproducible Python ingestion of 25 public datasets into Snowflake RAW, with a META audit trail of checksums, idempotent reruns and source-to-RAW reconciliation.
+- **dbt (Core 1.12):**
+  - 25 staging views
+  - 11 intermediate tables: official geography crosswalks, plus candidate station and airport relationships with no selection made
+  - 14 CORE dimension, bridge and fact tables at documented grain
+  - `ANALYTICS.MART_MARKET_FEATURE_BASE`: 35 markets, CBSA-native measures only
+  - 336 tests, all passing
+
+No features, scores, weights or rankings exist yet.
+
 ## Current status
 
 | Phase | Scope | Status |
 |---|---|---|
 | 1 | Scope, market universe, source feasibility, repository foundation | **Complete** |
 | 2 | Python environment + Snowflake warehouse foundation | **Complete** |
-| 3 | Python ingestion + validation + Snowflake RAW landing | **Complete (in review)** |
-| 4 | dbt sources, staging, intermediate, core, marts, tests, docs | Not started |
+| 3 | Python ingestion + validation + Snowflake RAW landing | **Complete** |
+| 4 | dbt sources, staging, intermediate, core, marts, tests, docs | **Complete (in review)** |
 | 5 | EDA + feature audit | Not started |
 | 6 | Feature/index engineering (+ clustering only if justified) | Not started |
 | 7 | Mode-specific readiness models | Not started |
@@ -72,3 +83,5 @@ No rankings, scores or findings exist yet.
 - [docs/assumptions_and_limitations.md](docs/assumptions_and_limitations.md): assumptions and limitations register
 - [docs/snowflake_foundation.md](docs/snowflake_foundation.md): warehouse, schemas, roles, authentication and cost controls
 - [docs/ingestion_pipeline.md](docs/ingestion_pipeline.md): source-to-RAW ingestion, audit trail, checksums, idempotency and reconciliation (source-aligned RAW only)
+- [docs/dbt_transformation_layer.md](docs/dbt_transformation_layer.md): dbt architecture, grains, DIM_MARKET, tests, lineage, deferred decisions
+- [docs/dbt_reconciliation.md](docs/dbt_reconciliation.md): RAW → STAGING → INTERMEDIATE → CORE → ANALYTICS row counts and explanations

@@ -1,0 +1,267 @@
+version: 2
+
+# Staging: one view per RAW table, with source-level cleanup only (rename, trim, type, documented
+# sentinels -> null + flag). No joins, filters or business logic. Uniqueness tests exist only where
+# the documented grain makes a key unique.
+
+models:
+  # ------------------------------------------------------------------ Census
+  - name: stg_census__pep_cbsa_est2025
+    description: "S-01 PEP Vintage 2025. Grain: one row per published geography row (CBSA, Metropolitan Division, or county within a CBSA), distinguished by geography_type."
+    tests:
+      - unique_combination_of_columns:
+          arguments:
+            combination_of_columns: [cbsa_code, metro_division_code, county_fips]
+    columns:
+      - name: cbsa_code
+        description: "5-digit CBSA code (July 2023 delineation)."
+        tests:
+          - not_null
+          - matches_regex: {arguments: {pattern: '^[0-9]{5}$'}}
+      - name: county_fips
+        description: "5-digit state+county FIPS code; populated only on county rows."
+        tests:
+          - matches_regex: {arguments: {pattern: '^[0-9]{5}$'}}
+      - name: geography_type
+        description: "PEP LSAD value."
+        tests:
+          - accepted_values:
+              arguments:
+                values: ["Metropolitan Statistical Area", "Micropolitan Statistical Area", "Metropolitan Division", "County or equivalent"]
+      - name: population_estimate_2025
+        description: "Resident population estimate, July 1, 2025 (persons)."
+        tests:
+          - not_null
+          - values_between: {arguments: {min_value: 0, max_value: 100000000}}
+
+  - name: stg_census__cbsa_delineation_2023
+    description: "S-02 OMB July 2023 delineation. Grain: one row per county within a CBSA."
+    columns:
+      - name: county_fips
+        description: "5-digit state+county FIPS code. Unique: each county belongs to at most one CBSA."
+        tests:
+          - not_null
+          - unique
+          - matches_regex: {arguments: {pattern: '^[0-9]{5}$'}}
+      - name: cbsa_code
+        tests:
+          - not_null
+          - matches_regex: {arguments: {pattern: '^[0-9]{5}$'}}
+      - name: state_fips
+        tests:
+          - matches_regex: {arguments: {pattern: '^[0-9]{2}$'}}
+      - name: cbsa_type
+        tests:
+          - accepted_values:
+              arguments:
+                values: ["Metropolitan Statistical Area", "Micropolitan Statistical Area"]
+      - name: central_outlying
+        tests:
+          - accepted_values:
+              arguments:
+                values: ["Central", "Outlying"]
+
+  - name: stg_census__acs5_2024_cbsa_b01003
+    description: &acs_desc "S-03 ACS 5-year 2020-2024 CBSA-level table. Grain: one row per CBSA (metro + micro). Estimates and MOEs are typed; Census negative special codes become null and are flagged."
+    columns: &acs_cols
+      - name: cbsa_code
+        tests:
+          - not_null
+          - unique
+          - matches_regex: {arguments: {pattern: '^[0-9]{5}$'}}
+  - {name: stg_census__acs5_2024_cbsa_b11001, description: *acs_desc, columns: *acs_cols}
+  - name: stg_census__acs5_2024_cbsa_b19013
+    description: *acs_desc
+    columns:
+      - name: cbsa_code
+        tests: [not_null, unique]
+      - name: median_household_income_usd
+        description: "B19013_001E, median household income, 2024 inflation-adjusted USD."
+        tests:
+          - values_between: {arguments: {min_value: 0, max_value: 1000000}}
+  - {name: stg_census__acs5_2024_cbsa_b08301, description: *acs_desc, columns: *acs_cols}
+  - {name: stg_census__acs5_2024_cbsa_b08201, description: *acs_desc, columns: *acs_cols}
+  - {name: stg_census__acs5_2024_cbsa_b25044, description: *acs_desc, columns: *acs_cols}
+  - {name: stg_census__acs5_2024_cbsa_b25046, description: *acs_desc, columns: *acs_cols}
+  - {name: stg_census__acs5_2024_cbsa_b08013, description: *acs_desc, columns: *acs_cols}
+  - {name: stg_census__acs5_2024_cbsa_b08303, description: *acs_desc, columns: *acs_cols}
+  - {name: stg_census__acs5_2024_cbsa_b25024, description: *acs_desc, columns: *acs_cols}
+  - {name: stg_census__acs5_2024_cbsa_b25003, description: *acs_desc, columns: *acs_cols}
+  - {name: stg_census__acs5_2024_cbsa_s0801_subset, description: *acs_desc, columns: *acs_cols}
+
+  - name: stg_census__acs5_2024_tract_b01003
+    description: "S-04 ACS 5-year 2020-2024 total population by tract. Grain: one row per 2020 census tract."
+    columns:
+      - name: tract_geoid
+        description: "11-digit tract GEOID (state + county + tract)."
+        tests:
+          - not_null
+          - unique
+          - matches_regex: {arguments: {pattern: '^[0-9]{11}$'}}
+      - name: total_population
+        tests:
+          - not_null
+          - values_between: {arguments: {min_value: 0, max_value: 100000}}
+      - name: total_population_moe_is_special_code
+        description: "True for 110 tracts whose MOE was -555555555 (controlled estimate; no sampling MOE)."
+
+  - name: stg_census__gazetteer_2024_cbsa
+    description: "S-05 Gazetteer 2024 CBSAs. Grain: one row per CBSA."
+    columns:
+      - name: cbsa_code
+        tests: [not_null, unique]
+      - name: cbsa_type_code
+        description: "1 = Metropolitan, 2 = Micropolitan."
+        tests:
+          - accepted_values: {arguments: {values: ["1", "2"]}}
+      - name: land_area_sq_mi
+        tests:
+          - not_null
+          - values_between: {arguments: {min_value: 0, max_value: 200000}}
+      - name: internal_point_latitude
+        tests: [not_null, {values_between: {arguments: {min_value: -90, max_value: 90}}}]
+      - name: internal_point_longitude
+        tests: [not_null, {values_between: {arguments: {min_value: -180, max_value: 180}}}]
+
+  - name: stg_census__gazetteer_2024_counties
+    description: "S-05 Gazetteer 2024 counties. Grain: one row per county."
+    columns:
+      - name: county_fips
+        tests: [not_null, unique, {matches_regex: {arguments: {pattern: '^[0-9]{5}$'}}}]
+      - name: internal_point_latitude
+        tests: [not_null, {values_between: {arguments: {min_value: -90, max_value: 90}}}]
+      - name: internal_point_longitude
+        description: "Positive values are published with a leading '+' (e.g. Aleutians West +179.62); parsed correctly."
+        tests: [not_null, {values_between: {arguments: {min_value: -180, max_value: 180}}}]
+
+  - name: stg_census__gazetteer_2024_tracts
+    description: "S-05 Gazetteer 2024 tracts. Grain: one row per 2020 census tract."
+    columns:
+      - name: tract_geoid
+        tests: [not_null, unique, {matches_regex: {arguments: {pattern: '^[0-9]{11}$'}}}]
+      - name: land_area_sq_mi
+        description: "Tract land area (sq mi). The largest is 85,524 (North Slope, AK); the bound is Alaska's land area."
+        tests: [not_null, {values_between: {arguments: {min_value: 0, max_value: 571000}}}]
+      - name: internal_point_latitude
+        tests: [not_null, {values_between: {arguments: {min_value: -90, max_value: 90}}}]
+      - name: internal_point_longitude
+        tests: [not_null, {values_between: {arguments: {min_value: -180, max_value: 180}}}]
+
+  - name: stg_census__cbp_2023_msa
+    description: "S-08 CBP 2023 metro file. Grain: one row per CBSA x published NAICS code."
+    tests:
+      - unique_combination_of_columns:
+          arguments:
+            combination_of_columns: [cbsa_code, naics_code]
+    columns:
+      - name: cbsa_code
+        tests: [not_null, {matches_regex: {arguments: {pattern: '^[0-9]{5}$'}}}]
+      - name: naics_code
+        tests: [not_null]
+      - name: establishments
+        tests: [not_null, {values_between: {arguments: {min_value: 0, max_value: 10000000}}}]
+      - name: employment_noise_flag
+        description: "CBP noise-infusion flag: G (< 2%), H (2-5%), J (>= 5%)."
+        tests:
+          - accepted_values: {arguments: {values: ["G", "H", "J"]}}
+
+  # ------------------------------------------------------------------- Labor
+  - name: stg_bls__oews_may2025_msa
+    description: "S-09 OEWS May 2025 metro estimates. Grain: one row per metro area x SOC occupation."
+    tests:
+      - unique_combination_of_columns:
+          arguments:
+            combination_of_columns: [cbsa_code, occupation_code]
+    columns:
+      - name: cbsa_code
+        tests: [not_null, {matches_regex: {arguments: {pattern: '^[0-9]{5}$'}}}]
+      - name: area_type_code
+        description: "OEWS area type; 4 = metropolitan area (the only type in this workbook)."
+        tests:
+          - accepted_values: {arguments: {values: ["4"]}}
+      - name: annual_median_wage_usd_marker
+        description: "BLS marker published instead of a value: '*' not available, '#' top-coded."
+        tests:
+          - accepted_values: {arguments: {values: ["*", "**", "#"]}}
+      - name: total_employment_marker
+        tests:
+          - accepted_values: {arguments: {values: ["*", "**", "#"]}}
+
+  # ----------------------------------------------------------------- Weather
+  - name: stg_noaa__normals_annualseasonal
+    description: "S-12 Normals 1991-2020 annual/seasonal. Grain: one row per station. Catalogued elements are extracted from the VARIANT record with published/missing/trace/completeness flags."
+    columns:
+      - name: station_id
+        tests: [not_null, unique]
+      - name: latitude
+        tests: [not_null, {values_between: {arguments: {min_value: -90, max_value: 90}}}]
+      - name: longitude
+        tests: [not_null, {values_between: {arguments: {min_value: -180, max_value: 180}}}]
+      - name: days_precip_ge_010_in
+        tests: [{values_between: {arguments: {min_value: 0, max_value: 366}}}]
+      - name: days_tmin_le_32f
+        tests: [{values_between: {arguments: {min_value: 0, max_value: 366}}}]
+      - name: days_tmax_ge_90f
+        tests: [{values_between: {arguments: {min_value: 0, max_value: 366}}}]
+      - name: annual_snowfall_in
+        tests: [{values_between: {arguments: {min_value: 0, max_value: 1000}}}]
+
+  - name: stg_noaa__normals_hourly_wind
+    description: "S-13 Normals 1991-2020 hourly wind. Grain: one row per station x hour of the normal year."
+    tests:
+      - unique_combination_of_columns:
+          arguments:
+            combination_of_columns: [station_id, normal_hour_label]
+    columns:
+      - name: station_id
+        tests: [not_null]
+      - name: normal_month
+        tests: [not_null, {values_between: {arguments: {min_value: 1, max_value: 12}}}]
+      - name: normal_hour
+        tests: [not_null, {values_between: {arguments: {min_value: 0, max_value: 23}}}]
+      - name: wind_avg_speed
+        tests: [{values_between: {arguments: {min_value: 0, max_value: 200}}}]
+
+  # ---------------------------------------------------------------- Airports
+  - name: stg_faa__enplanements_cy2025
+    description: "S-17 FAA CY2025 commercial-service enplanements. Grain: one row per airport."
+    columns:
+      - name: airport_code
+        tests: [not_null, unique]
+      - name: service_level_code
+        description: "P = primary, CS = nonprimary commercial service."
+        tests:
+          - accepted_values: {arguments: {values: ["P", "CS"]}}
+      - name: hub_type_code
+        description: "L/M/S/N hub size for primary airports; null where the source writes 'None'."
+        tests:
+          - accepted_values: {arguments: {values: ["L", "M", "S", "N"]}}
+      - name: enplanements_cy2025
+        tests: [not_null, {values_between: {arguments: {min_value: 0, max_value: 1000000000}}}]
+
+  - name: stg_faa__nasr_apt_base
+    description: "S-19 NASR APT_BASE (2026-09-03). Grain: one row per landing facility; airport_code unique, site_no NOT unique (one known repeat)."
+    columns:
+      - name: airport_code
+        tests: [not_null, unique]
+      - name: latitude
+        tests: [not_null, {values_between: {arguments: {min_value: -90, max_value: 90}}}]
+      - name: longitude
+        tests: [not_null, {values_between: {arguments: {min_value: -180, max_value: 180}}}]
+
+  # ------------------------------------------------------- Built environment
+  - name: stg_epa__sld_v3_block_group
+    description: "S-21 EPA SLD v3.0 (+ S-22 NatWalkInd). Grain: one row per 2010-based block group."
+    columns:
+      - name: block_group_geoid10
+        tests: [not_null, unique, {matches_regex: {arguments: {pattern: '^[0-9]{12}$'}}}]
+      - name: county_fips
+        tests: [not_null, {matches_regex: {arguments: {pattern: '^[0-9]{5}$'}}}]
+      - name: national_walkability_index
+        description: "EPA National Walkability Index, relative 1-20 scale (A-013)."
+        tests: [{values_between: {arguments: {min_value: 1, max_value: 20}}}]
+      - name: d4a_distance_to_transit_m
+        description: "Distance to nearest transit stop (m); null where EPA codes -99999 (no transit data), see d4a_no_transit_data."
+        tests: [{values_between: {arguments: {min_value: 0, max_value: 1000000}}}]
+      - name: cbsa_code_sld_pre2023
+        description: "The SLD's own pre-2023 CBSA field. Kept for comparison only; never used for mapping (A-006)."

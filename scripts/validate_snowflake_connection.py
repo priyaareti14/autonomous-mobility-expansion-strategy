@@ -4,7 +4,7 @@ Checks, in order:
   1. Key-pair connection succeeds; session context (account, region, user,
      role, warehouse, database, version).
   2. Expected objects exist: database, six schemas, warehouse configuration,
-     four project roles.
+     four project roles; project table counts per schema are reported.
   3. Least privilege: the service user holds the three functional roles and
      not AM_ADMIN.
   4. Privilege tests per role, using empty, temporary ZZ_PHASE2_* check
@@ -166,11 +166,15 @@ def check_objects(cur) -> None:
     for r in PROJECT_ROLES:
         record(f"role {r} exists", r in roles)
 
+    # Informational only: tables are expected once Phase 3+ has run. (The Phase 2
+    # version asserted zero, which was true only before ingestion.)
     rows = run(cur, f"""
-        SELECT COUNT(*) FROM {DB}.INFORMATION_SCHEMA.TABLES
+        SELECT table_schema, COUNT(*) FROM {DB}.INFORMATION_SCHEMA.TABLES
         WHERE table_schema IN ({", ".join(f"'{s}'" for s in SCHEMAS)})
+        GROUP BY 1 ORDER BY 1
     """)
-    record("no project tables/views exist yet", rows[0][0] == 0, f"{rows[0][0]} found")
+    print("     project tables/views by schema: "
+          + (", ".join(f"{s}={n}" for s, n in rows) or "none"))
 
 
 def check_user_roles(cur) -> None:

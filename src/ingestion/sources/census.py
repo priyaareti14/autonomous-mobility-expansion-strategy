@@ -1,4 +1,4 @@
-﻿"""Census Bureau sources: PEP (S-01), delineation (S-02), ACS (S-03/S-04),
+"""Census Bureau sources: PEP (S-01), delineation (S-02), ACS (S-03/S-04),
 Gazetteer (S-05) and County Business Patterns (S-08)."""
 
 from __future__ import annotations

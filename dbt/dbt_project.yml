@@ -1,0 +1,53 @@
+# Autonomous Mobility Expansion Strategy: dbt transformation layer (Phase 4)
+#
+# RAW (Phase 3 ingestion) -> STAGING -> INTERMEDIATE -> CORE -> ANALYTICS
+# Every layer targets an EXISTING schema (see macros/generate_schema_name.sql).
+# The dbt role AM_TRANSFORMER deliberately has no CREATE SCHEMA privilege.
+
+name: autonomous_mobility
+version: "0.4.0"
+config-version: 2
+profile: autonomous_mobility
+
+model-paths: ["models"]
+seed-paths: ["seeds"]
+test-paths: ["tests"]
+macro-paths: ["macros"]
+target-path: "target"
+clean-targets: ["target", "dbt_packages", "logs"]
+
+flags:
+  send_anonymous_usage_stats: false
+
+models:
+  autonomous_mobility:
+    # Model and column descriptions become Snowflake comments, so Snowsight and
+    # Power BI users see the same documentation as dbt docs.
+    +persist_docs:
+      relation: true
+      columns: true
+    staging:
+      +schema: STAGING
+      +materialized: view        # source-level cleanup only; RAW stays the single copy
+    intermediate:
+      +schema: INTERMEDIATE
+      +materialized: table       # reusable bridges and candidate relationship tables
+    core:
+      +schema: CORE
+      +materialized: table       # dimensional layer with documented grain
+    marts:
+      +schema: ANALYTICS
+      +materialized: table       # decision-ready, one row per market
+
+seeds:
+  autonomous_mobility:
+    +schema: INTERMEDIATE
+    +persist_docs:
+      relation: true
+      columns: true
+    frozen_market_universe:
+      +column_types:
+        market_rank: number(2,0)
+        market_id: varchar(5)
+        cbsa_name: varchar
+        population_2025: number(12,0)
