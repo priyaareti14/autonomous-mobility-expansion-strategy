@@ -50,6 +50,7 @@ This document catalogs every candidate source considered in Phase 1. For each so
 9. [Vintage alignment](#9-vintage-alignment)
 10. [Candidate features without a defensible source](#10-candidate-features-without-a-defensible-source)
 11. [Phase 3 retrieval findings](#11-phase-3-retrieval-findings-2026-10-0405)
+12. [Phase 5 source findings](#12-phase-5-source-findings-2026-10-05)
 
 ---
 
@@ -1016,4 +1017,18 @@ Facts established by actually retrieving the sources. They correct or complete t
 | S-19 NASR | **`SITE_NO` is not unique**: `23747.31` is shared by airport 9XS4 and heliport 16XA (Denison, TX). `ARPT_ID` is unique across all 19,411 rows and is the natural key; the repeat is kept and flagged | Key choice corrected |
 | S-21 EPA SLD | The REST service returned transient HTTP 502 errors mid-paging in the first full run. Pages now retry with longer backoff | Operational only |
 | S-21 EPA SLD (Phase 4) | `D4A = -99999` (EPA's no-transit-data code) on 125,941 of 220,134 block groups. 2,581 Connecticut block groups carry legacy county codes with no 2023 county, so they map to no CBSA (no project market is in CT). In the 35 markets, 1,919 block groups have an SLD CBSA that differs from the 2023 delineation | Mapping via 2023 county FIPS confirmed (A-006) |
-| S-04 / S-05 tracts (Phase 4) | 14 Suffolk County, NY (36103) tracts are in Gazetteer 2024 but not in ACS 2020–2024 (A-029). Every other tract matches 1:1 (85,382 joined) | Density inputs for the New York market are incomplete |
+| S-04 / S-05 tracts (Phase 4) | 14 Suffolk County, NY (36103) tracts are in Gazetteer 2024 but not in ACS 2020–2024 (A-029). Every other tract matches 1:1 (85,382 joined). **Phase 5 correction:** the cause is not a tract revision. See §12 | Density inputs for the New York market are incomplete |
+
+## 12. Phase 5 source findings (2026-10-05)
+
+These facts were established while auditing features and comparing mapping methods. They correct or complete the earlier sections. The analytical recommendations built on them are in [mapping_methodology.md](mapping_methodology.md) and [feature_audit.md](feature_audit.md).
+
+| Source | Finding | Effect |
+|---|---|---|
+| S-13 Normals hourly | **Wind speed unit is miles per hour** in standard output, or m/s in metric output, to the nearest tenth (NCEI `Normals_HLY_Documentation` §III.A, V). The landed values match NCEI's standard-output sample file for 120 of 120 values checked (V). Direction codes are 1 = N … 8 = NW; `-9999` means missing; measurement flag `X` means a nonzero value rounded to zero (V). The same sample reports pressure in hPa, so "standard" output is not imperial for every element (V) | F19 can use `wind_avg_speed` as mph. Closes the A-027 note |
+| S-12 Normals annual | Completeness flags (NCEI readme, V): **S** Standard (≥ 24 years, filled), **R** Representative (≥ 10 years, filled), **P** Provisional (≥ 10 years, unfilled), **E** Estimated (≥ 2 years). The R definition is ≥ 10 years, not ≥ 24. The archive's annual snowfall normals carry **4,970 P and 779 S flags, and no R** | The snow rule accepts S or P (A-021) |
+| S-12 Normals annual | Of the 35 stations nearest each market's CBSA internal point, only 10 publish every core element with S/R flags | Nearest-station-of-any-kind is not a usable rule (A-007) |
+| S-04 ACS tracts | Suffolk County, NY: every Gazetteer vintage from 2020 to 2024 lists 385 tracts. The ACS 5-year 2018–2022 tract tables list 385; the 2019–2023 and 2020–2024 tables list 371. The neighbouring tracts did not absorb the 14 tracts' population. The ACS 2020–2024 county total (1,530,146) and CBSA 35620 total (19,798,537) include it. In 2018–2022 the 14 tracts held 77,579 people on 13.2 sq mi. No Census explanation found (U) | A-029 cause corrected: tract-table omission, not a tract revision |
+| S-19 NASR | County names need normalization to match Gazetteer county names: suffixes, `SAINT`/`ST`, `MC LEAN`, `DADE` → Miami-Dade, and Virginia independent cities. 488 of 516 FAA airports match; the 28 unmatched are in territories, Connecticut planning regions and Alaska | A-032 |
+| S-21 EPA SLD | In the 35 markets, block groups with `D4A = -99999` (no transit data) hold a median 45% of residents per market (15.6%–79.5%) | A-031 |
+| S-09 OEWS | Coverage in the 35 markets: 53-3054 Taxi Drivers 7; 53-3053 Shuttle Drivers and Chauffeurs 35; 43-5021 Couriers 35; 53-3033 Light Truck Drivers 35; 53-0000 all transportation 35 | A-026 decided |

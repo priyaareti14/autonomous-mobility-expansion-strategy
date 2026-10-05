@@ -1,0 +1,253 @@
+market_id,occupation_code,occupation_title,annual_median_wage_usd,annual_median_wage_usd_marker,total_employment
+37980,00-0000,All Occupations,54310.0,,2897830.0
+37980,35-3023,Fast Food and Counter Workers,32220.0,,69080.0
+37980,43-5021,Couriers and Messengers,40340.0,,1530.0
+37980,53-0000,Transportation and Material Moving Occupations,44740.0,,247580.0
+37980,53-3031,Driver/Sales Workers,37520.0,,6080.0
+37980,53-3033,Light Truck Drivers,45740.0,,20930.0
+37980,53-3053,Shuttle Drivers and Chauffeurs,36760.0,,6390.0
+37980,53-3054,Taxi Drivers,37420.0,,150.0
+38060,00-0000,All Occupations,51380.0,,2375760.0
+38060,35-3023,Fast Food and Counter Workers,34540.0,,54900.0
+38060,43-5021,Couriers and Messengers,39100.0,,610.0
+38060,53-0000,Transportation and Material Moving Occupations,45620.0,,206600.0
+38060,53-3031,Driver/Sales Workers,39640.0,,7640.0
+38060,53-3033,Light Truck Drivers,45790.0,,13820.0
+38060,53-3053,Shuttle Drivers and Chauffeurs,37520.0,,3920.0
+38300,00-0000,All Occupations,49650.0,,1114490.0
+38300,35-3023,Fast Food and Counter Workers,28250.0,,27460.0
+38300,43-5021,Couriers and Messengers,42250.0,,600.0
+38300,53-0000,Transportation and Material Moving Occupations,42950.0,,91270.0
+38300,53-3031,Driver/Sales Workers,30660.0,,4010.0
+38300,53-3033,Light Truck Drivers,42700.0,,8180.0
+38300,53-3053,Shuttle Drivers and Chauffeurs,33950.0,,3140.0
+38900,00-0000,All Occupations,60690.0,,1208410.0
+38900,35-3023,Fast Food and Counter Workers,35620.0,,34840.0
+38900,43-5021,Couriers and Messengers,45650.0,,520.0
+38900,53-0000,Transportation and Material Moving Occupations,47340.0,,104320.0
+38900,53-3031,Driver/Sales Workers,46330.0,,2390.0
+38900,53-3033,Light Truck Drivers,47720.0,,7340.0
+38900,53-3053,Shuttle Drivers and Chauffeurs,42950.0,,1980.0
+40140,00-0000,All Occupations,48400.0,,1716760.0
+40140,35-3023,Fast Food and Counter Workers,42280.0,,51310.0
+40140,43-5021,Couriers and Messengers,39160.0,,390.0
+40140,53-0000,Transportation and Material Moving Occupations,45420.0,,272380.0
+40140,53-3031,Driver/Sales Workers,45760.0,,3620.0
+40140,53-3033,Light Truck Drivers,45560.0,,14380.0
+40140,53-3053,Shuttle Drivers and Chauffeurs,38030.0,,1930.0
+40900,00-0000,All Occupations,59750.0,,1080590.0
+40900,35-3023,Fast Food and Counter Workers,42860.0,,24910.0
+40900,43-5021,Couriers and Messengers,44760.0,,470.0
+40900,53-0000,Transportation and Material Moving Occupations,45930.0,,76560.0
+40900,53-3031,Driver/Sales Workers,48860.0,,1560.0
+40900,53-3033,Light Truck Drivers,46340.0,,7010.0
+40900,53-3053,Shuttle Drivers and Chauffeurs,43410.0,,1690.0
+41180,00-0000,All Occupations,49990.0,,1341320.0
+41180,35-3023,Fast Food and Counter Workers,31260.0,,19170.0
+41180,43-5021,Couriers and Messengers,42680.0,,540.0
+41180,53-0000,Transportation and Material Moving Occupations,44750.0,,110460.0
+41180,53-3031,Driver/Sales Workers,40240.0,,4100.0
+41180,53-3033,Light Truck Drivers,47150.0,,7180.0
+41180,53-3053,Shuttle Drivers and Chauffeurs,38610.0,,1900.0
+41700,00-0000,All Occupations,47010.0,,1126880.0
+41700,35-3023,Fast Food and Counter Workers,27810.0,,40040.0
+41700,43-5021,Couriers and Messengers,39860.0,,320.0
+41700,53-0000,Transportation and Material Moving Occupations,40270.0,,96820.0
+41700,53-3031,Driver/Sales Workers,35180.0,,3380.0
+41700,53-3033,Light Truck Drivers,41600.0,,7010.0
+41700,53-3053,Shuttle Drivers and Chauffeurs,38490.0,,1520.0
+41740,00-0000,All Occupations,58690.0,,1538060.0
+41740,35-3023,Fast Food and Counter Workers,42190.0,,42550.0
+41740,43-5021,Couriers and Messengers,42440.0,,690.0
+41740,53-0000,Transportation and Material Moving Occupations,45010.0,,98510.0
+41740,53-3031,Driver/Sales Workers,46800.0,,2150.0
+41740,53-3033,Light Truck Drivers,45670.0,,8240.0
+41740,53-3053,Shuttle Drivers and Chauffeurs,43670.0,,2350.0
+41860,00-0000,All Occupations,74260.0,,2373920.0
+41860,35-3023,Fast Food and Counter Workers,43870.0,,49970.0
+41860,43-5021,Couriers and Messengers,47840.0,,940.0
+41860,53-0000,Transportation and Material Moving Occupations,50700.0,,155080.0
+41860,53-3031,Driver/Sales Workers,43680.0,,5220.0
+41860,53-3033,Light Truck Drivers,50820.0,,14470.0
+41860,53-3053,Shuttle Drivers and Chauffeurs,48370.0,,4540.0
+42660,00-0000,All Occupations,72610.0,,2086210.0
+42660,35-3023,Fast Food and Counter Workers,39150.0,,49190.0
+42660,43-5021,Couriers and Messengers,48510.0,,660.0
+42660,53-0000,Transportation and Material Moving Occupations,52940.0,,161300.0
+42660,53-3031,Driver/Sales Workers,41570.0,,3930.0
+42660,53-3033,Light Truck Drivers,49590.0,,14680.0
+42660,53-3053,Shuttle Drivers and Chauffeurs,46180.0,,3040.0
+45300,00-0000,All Occupations,48940.0,,1447120.0
+45300,35-3023,Fast Food and Counter Workers,29260.0,,33910.0
+45300,43-5021,Couriers and Messengers,38100.0,,680.0
+45300,53-0000,Transportation and Material Moving Occupations,39090.0,,109720.0
+45300,53-3031,Driver/Sales Workers,32830.0,,4150.0
+45300,53-3033,Light Truck Drivers,40490.0,,9710.0
+45300,53-3053,Shuttle Drivers and Chauffeurs,34900.0,,1500.0
+47900,00-0000,All Occupations,71060.0,,3136190.0
+47900,35-3023,Fast Food and Counter Workers,34600.0,,60560.0
+47900,43-5021,Couriers and Messengers,44840.0,,1010.0
+47900,53-0000,Transportation and Material Moving Occupations,46300.0,,176470.0
+47900,53-3031,Driver/Sales Workers,38790.0,,9000.0
+47900,53-3033,Light Truck Drivers,46360.0,,16390.0
+47900,53-3053,Shuttle Drivers and Chauffeurs,45640.0,,4960.0
+12060,00-0000,All Occupations,51170.0,,2889670.0
+12060,35-3023,Fast Food and Counter Workers,27780.0,,80730.0
+12060,43-5021,Couriers and Messengers,39720.0,,1380.0
+12060,53-0000,Transportation and Material Moving Occupations,44120.0,,313910.0
+12060,53-3031,Driver/Sales Workers,41080.0,,12020.0
+12060,53-3033,Light Truck Drivers,44960.0,,15350.0
+12060,53-3053,Shuttle Drivers and Chauffeurs,35020.0,,3350.0
+12420,00-0000,All Occupations,56950.0,,1293690.0
+12420,35-3023,Fast Food and Counter Workers,29310.0,,35000.0
+12420,43-5021,Couriers and Messengers,44220.0,,410.0
+12420,53-0000,Transportation and Material Moving Occupations,43300.0,,86990.0
+12420,53-3031,Driver/Sales Workers,37220.0,,3650.0
+12420,53-3033,Light Truck Drivers,45820.0,,6380.0
+12420,53-3053,Shuttle Drivers and Chauffeurs,36560.0,,1270.0
+12580,00-0000,All Occupations,59070.0,,1356680.0
+12580,35-3023,Fast Food and Counter Workers,33090.0,,21090.0
+12580,43-5021,Couriers and Messengers,39140.0,,330.0
+12580,53-0000,Transportation and Material Moving Occupations,44720.0,,113300.0
+12580,53-3031,Driver/Sales Workers,40700.0,,5260.0
+12580,53-3033,Light Truck Drivers,48080.0,,7790.0
+12580,53-3053,Shuttle Drivers and Chauffeurs,41200.0,,3020.0
+14460,00-0000,All Occupations,66620.0,,2703890.0
+14460,35-3023,Fast Food and Counter Workers,36290.0,,60130.0
+14460,43-5021,Couriers and Messengers,43830.0,,1070.0
+14460,53-0000,Transportation and Material Moving Occupations,46430.0,,163380.0
+14460,53-3031,Driver/Sales Workers,47340.0,,2880.0
+14460,53-3033,Light Truck Drivers,49630.0,,15910.0
+14460,53-3053,Shuttle Drivers and Chauffeurs,43590.0,,7970.0
+14460,53-3054,Taxi Drivers,35290.0,,230.0
+16740,00-0000,All Occupations,49990.0,,1358370.0
+16740,35-3023,Fast Food and Counter Workers,28880.0,,27050.0
+16740,43-5021,Couriers and Messengers,39110.0,,1100.0
+16740,53-0000,Transportation and Material Moving Occupations,40550.0,,142580.0
+16740,53-3031,Driver/Sales Workers,37830.0,,4180.0
+16740,53-3033,Light Truck Drivers,42860.0,,9560.0
+16740,53-3053,Shuttle Drivers and Chauffeurs,33500.0,,1290.0
+16980,00-0000,All Occupations,54720.0,,4513280.0
+16980,35-3023,Fast Food and Counter Workers,34630.0,,97280.0
+16980,43-5021,Couriers and Messengers,41130.0,,810.0
+16980,53-0000,Transportation and Material Moving Occupations,45920.0,,484580.0
+16980,53-3031,Driver/Sales Workers,40490.0,,10190.0
+16980,53-3033,Light Truck Drivers,47950.0,,34680.0
+16980,53-3053,Shuttle Drivers and Chauffeurs,38290.0,,6370.0
+16980,53-3054,Taxi Drivers,36770.0,,150.0
+17140,00-0000,All Occupations,50170.0,,1101030.0
+17140,35-3023,Fast Food and Counter Workers,29720.0,,30950.0
+17140,43-5021,Couriers and Messengers,40160.0,,340.0
+17140,53-0000,Transportation and Material Moving Occupations,44200.0,,107750.0
+17140,53-3031,Driver/Sales Workers,36900.0,,3670.0
+17140,53-3033,Light Truck Drivers,44070.0,,7590.0
+17140,53-3053,Shuttle Drivers and Chauffeurs,35830.0,,1820.0
+17410,00-0000,All Occupations,50140.0,,1031130.0
+17410,35-3023,Fast Food and Counter Workers,28750.0,,28010.0
+17410,43-5021,Couriers and Messengers,39410.0,,410.0
+17410,53-0000,Transportation and Material Moving Occupations,42360.0,,88040.0
+17410,53-3031,Driver/Sales Workers,38520.0,,3390.0
+17410,53-3033,Light Truck Drivers,43160.0,,6360.0
+17410,53-3053,Shuttle Drivers and Chauffeurs,35550.0,,2440.0
+18140,00-0000,All Occupations,51340.0,,1105580.0
+18140,35-3023,Fast Food and Counter Workers,28670.0,,31590.0
+18140,43-5021,Couriers and Messengers,38790.0,,280.0
+18140,53-0000,Transportation and Material Moving Occupations,43980.0,,118690.0
+18140,53-3031,Driver/Sales Workers,36730.0,,3620.0
+18140,53-3033,Light Truck Drivers,43800.0,,7210.0
+18140,53-3053,Shuttle Drivers and Chauffeurs,34860.0,,1710.0
+19100,00-0000,All Occupations,51440.0,,4049800.0
+19100,35-3023,Fast Food and Counter Workers,28070.0,,128380.0
+19100,43-5021,Couriers and Messengers,41860.0,,1400.0
+19100,53-0000,Transportation and Material Moving Occupations,44570.0,,423430.0
+19100,53-3031,Driver/Sales Workers,44440.0,,9970.0
+19100,53-3033,Light Truck Drivers,44050.0,,25890.0
+19100,53-3053,Shuttle Drivers and Chauffeurs,36900.0,,3660.0
+19740,00-0000,All Occupations,62320.0,,1609350.0
+19740,35-3023,Fast Food and Counter Workers,37070.0,,42810.0
+19740,43-5021,Couriers and Messengers,46170.0,,440.0
+19740,53-0000,Transportation and Material Moving Occupations,47720.0,,132620.0
+19740,53-3031,Driver/Sales Workers,46600.0,,5630.0
+19740,53-3033,Light Truck Drivers,49360.0,,9500.0
+19740,53-3053,Shuttle Drivers and Chauffeurs,43640.0,,2300.0
+19820,00-0000,All Occupations,52080.0,,1904530.0
+19820,35-3023,Fast Food and Counter Workers,29590.0,,42430.0
+19820,43-5021,Couriers and Messengers,39670.0,,620.0
+19820,53-0000,Transportation and Material Moving Occupations,44200.0,,164950.0
+19820,53-3031,Driver/Sales Workers,40630.0,,6730.0
+19820,53-3033,Light Truck Drivers,44200.0,,11530.0
+19820,53-3053,Shuttle Drivers and Chauffeurs,36390.0,,2600.0
+26420,00-0000,All Occupations,49410.0,,3289720.0
+26420,35-3023,Fast Food and Counter Workers,27570.0,,105810.0
+26420,43-5021,Couriers and Messengers,40370.0,,1090.0
+26420,53-0000,Transportation and Material Moving Occupations,43570.0,,314010.0
+26420,53-3031,Driver/Sales Workers,28880.0,,9820.0
+26420,53-3033,Light Truck Drivers,43920.0,,19050.0
+26420,53-3053,Shuttle Drivers and Chauffeurs,33920.0,,3290.0
+26900,00-0000,All Occupations,49340.0,,1105170.0
+26900,35-3023,Fast Food and Counter Workers,29040.0,,28400.0
+26900,43-5021,Couriers and Messengers,38730.0,,520.0
+26900,53-0000,Transportation and Material Moving Occupations,45060.0,,142400.0
+26900,53-3031,Driver/Sales Workers,40590.0,,3850.0
+26900,53-3033,Light Truck Drivers,45180.0,,7530.0
+26900,53-3053,Shuttle Drivers and Chauffeurs,32790.0,,2010.0
+28140,00-0000,All Occupations,50820.0,,1096110.0
+28140,35-3023,Fast Food and Counter Workers,29560.0,,20120.0
+28140,43-5021,Couriers and Messengers,41050.0,,430.0
+28140,53-0000,Transportation and Material Moving Occupations,44570.0,,104360.0
+28140,53-3031,Driver/Sales Workers,38570.0,,1600.0
+28140,53-3033,Light Truck Drivers,45290.0,,8020.0
+28140,53-3053,Shuttle Drivers and Chauffeurs,36760.0,,1850.0
+28140,53-3054,Taxi Drivers,38020.0,,130.0
+29820,00-0000,All Occupations,46670.0,,1136960.0
+29820,35-3023,Fast Food and Counter Workers,31950.0,,36150.0
+29820,43-5021,Couriers and Messengers,46850.0,,420.0
+29820,53-0000,Transportation and Material Moving Occupations,39550.0,,105450.0
+29820,53-3031,Driver/Sales Workers,27710.0,,3290.0
+29820,53-3033,Light Truck Drivers,43150.0,,6510.0
+29820,53-3053,Shuttle Drivers and Chauffeurs,36160.0,,2890.0
+29820,53-3054,Taxi Drivers,44800.0,,2960.0
+31080,00-0000,All Occupations,55850.0,,6271560.0
+31080,35-3023,Fast Food and Counter Workers,42110.0,,160270.0
+31080,43-5021,Couriers and Messengers,43760.0,,3030.0
+31080,53-0000,Transportation and Material Moving Occupations,45330.0,,486360.0
+31080,53-3031,Driver/Sales Workers,45220.0,,11130.0
+31080,53-3033,Light Truck Drivers,46500.0,,40900.0
+31080,53-3053,Shuttle Drivers and Chauffeurs,44460.0,,11590.0
+33100,00-0000,All Occupations,48640.0,,2819940.0
+33100,35-3023,Fast Food and Counter Workers,29600.0,,56900.0
+33100,43-5021,Couriers and Messengers,37650.0,,1770.0
+33100,53-0000,Transportation and Material Moving Occupations,41690.0,,243500.0
+33100,53-3031,Driver/Sales Workers,36850.0,,6530.0
+33100,53-3033,Light Truck Drivers,42750.0,,20000.0
+33100,53-3053,Shuttle Drivers and Chauffeurs,34610.0,,6620.0
+33460,00-0000,All Occupations,59320.0,,1951650.0
+33460,35-3023,Fast Food and Counter Workers,33040.0,,37920.0
+33460,43-5021,Couriers and Messengers,47160.0,,240.0
+33460,53-0000,Transportation and Material Moving Occupations,48250.0,,146680.0
+33460,53-3031,Driver/Sales Workers,32980.0,,6640.0
+33460,53-3033,Light Truck Drivers,49670.0,,11560.0
+33460,53-3053,Shuttle Drivers and Chauffeurs,42280.0,,3990.0
+33460,53-3054,Taxi Drivers,35000.0,,100.0
+34980,00-0000,All Occupations,50390.0,,1099300.0
+34980,35-3023,Fast Food and Counter Workers,29150.0,,28680.0
+34980,43-5021,Couriers and Messengers,42800.0,,1360.0
+34980,53-0000,Transportation and Material Moving Occupations,43280.0,,118420.0
+34980,53-3031,Driver/Sales Workers,43190.0,,3450.0
+34980,53-3033,Light Truck Drivers,44970.0,,11940.0
+34980,53-3053,Shuttle Drivers and Chauffeurs,35470.0,,890.0
+35620,00-0000,All Occupations,61430.0,,9492000.0
+35620,35-3023,Fast Food and Counter Workers,35420.0,,166040.0
+35620,43-5021,Couriers and Messengers,41140.0,,6690.0
+35620,53-0000,Transportation and Material Moving Occupations,46730.0,,699160.0
+35620,53-3031,Driver/Sales Workers,44720.0,,19040.0
+35620,53-3033,Light Truck Drivers,47440.0,,58140.0
+35620,53-3053,Shuttle Drivers and Chauffeurs,45410.0,,18760.0
+36740,00-0000,All Occupations,46630.0,,1411730.0
+36740,35-3023,Fast Food and Counter Workers,28620.0,,34830.0
+36740,43-5021,Couriers and Messengers,37820.0,,770.0
+36740,53-0000,Transportation and Material Moving Occupations,40230.0,,118380.0
+36740,53-3031,Driver/Sales Workers,35180.0,,3930.0
+36740,53-3033,Light Truck Drivers,41870.0,,9590.0
+36740,53-3053,Shuttle Drivers and Chauffeurs,35340.0,,2270.0
+36740,53-3054,Taxi Drivers,31980.0,,60.0

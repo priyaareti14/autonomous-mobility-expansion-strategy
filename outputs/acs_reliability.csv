@@ -1,0 +1,8 @@
+feature_name,cv_median,cv_max,markets_cv_over_15pct,worst_market
+median_household_income_usd,0.0051,0.007,0,34980
+workers_taxi_or_ride_hailing,0.1065,0.1461,0,26900
+workers_bicycle,0.0737,0.1554,2,34980
+workers_walked,0.0321,0.0578,0,34980
+workers_public_transportation,0.0393,0.0833,0,34980
+households_no_vehicle,0.0184,0.0319,0,26900
+mean_travel_time_minutes,0.0044,0.0067,0,40900

@@ -55,7 +55,9 @@ This is the *planned* design. Components are listed here only as they get built 
   - `ANALYTICS.MART_MARKET_FEATURE_BASE`: 35 markets, CBSA-native measures only
   - 336 tests, all passing
 
-No features, scores, weights or rankings exist yet.
+**Phase 5 (in review):** a read-only feature audit (`python scripts/run_feature_audit.py`) of 70 candidate measures. It covers missingness, variation, outliers, redundancy and market-size duplication. It also compares density, weather-station, airport and walkability mapping methods. Results are in `outputs/` and two docs, linked below. Nothing is written back to Snowflake.
+
+No final features, scores, weights or rankings exist yet.
 
 ## Current status
 
@@ -64,8 +66,8 @@ No features, scores, weights or rankings exist yet.
 | 1 | Scope, market universe, source feasibility, repository foundation | **Complete** |
 | 2 | Python environment + Snowflake warehouse foundation | **Complete** |
 | 3 | Python ingestion + validation + Snowflake RAW landing | **Complete** |
-| 4 | dbt sources, staging, intermediate, core, marts, tests, docs | **Complete (in review)** |
-| 5 | EDA + feature audit | Not started |
+| 4 | dbt sources, staging, intermediate, core, marts, tests, docs | **Complete** |
+| 5 | EDA + feature audit + mapping-method evaluation | **Complete (in review)** |
 | 6 | Feature/index engineering (+ clustering only if justified) | Not started |
 | 7 | Mode-specific readiness models | Not started |
 | 8 | Sensitivity analysis | Not started |
@@ -74,7 +76,7 @@ No features, scores, weights or rankings exist yet.
 | 11 | Full QA | Not started |
 | 12 | CI, documentation, portfolio case study | Not started |
 
-No rankings, scores or findings exist yet.
+No rankings, scores or market-readiness findings exist yet.
 
 ## Documentation
 
@@ -85,3 +87,5 @@ No rankings, scores or findings exist yet.
 - [docs/ingestion_pipeline.md](docs/ingestion_pipeline.md): source-to-RAW ingestion, audit trail, checksums, idempotency and reconciliation (source-aligned RAW only)
 - [docs/dbt_transformation_layer.md](docs/dbt_transformation_layer.md): dbt architecture, grains, DIM_MARKET, tests, lineage, deferred decisions
 - [docs/dbt_reconciliation.md](docs/dbt_reconciliation.md): RAW → STAGING → INTERMEDIATE → CORE → ANALYTICS row counts and explanations
+- [docs/feature_audit.md](docs/feature_audit.md): Phase 5 EDA, feature audit and KEEP/MODIFY/DEFER/DROP decisions by mode
+- [docs/mapping_methodology.md](docs/mapping_methodology.md): Phase 5 comparison of density, weather-station, airport and walkability mapping methods
