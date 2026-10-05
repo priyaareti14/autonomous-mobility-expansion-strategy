@@ -1,7 +1,16 @@
-# Phase 2: Snowflake connectivity and environment loading only.
 # Target interpreter: Python 3.13.16 (official python.org build), in .venv
 # Later phases add their own dependencies here when they are actually needed.
 
+# --- Phase 2: Snowflake connectivity and environment loading ---------------
 # 4.7.5 rather than 4.8.0: 4.8.0 (2026-09-30) disables OCSP revocation checking by default.
 snowflake-connector-python==4.7.5
 python-dotenv==1.2.3
+
+# --- Phase 3: ingestion -----------------------------------------------------
+# pandas 2.x: snowflake-connector-python 4.7.5's pandas support requires pandas<3.0.
+pandas==2.3.3
+# Parquet engine used by snowflake.connector.pandas_tools.write_pandas.
+pyarrow==25.0.1
+requests==2.34.2
+# Reads the approved XLSX sources (Census delineation file, FAA enplanements).
+openpyxl==3.1.5

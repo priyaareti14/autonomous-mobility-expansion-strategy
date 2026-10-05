@@ -49,6 +49,7 @@ This document catalogs every candidate source considered in Phase 1. For each so
 8. [Deployment evidence framework](#8-deployment-evidence-framework)
 9. [Vintage alignment](#9-vintage-alignment)
 10. [Candidate features without a defensible source](#10-candidate-features-without-a-defensible-source)
+11. [Phase 3 retrieval findings](#11-phase-3-retrieval-findings-2026-10-0405)
 
 ---
 
@@ -254,7 +255,7 @@ Each record has the same fields. The research/access date is 2026-09-29 for all 
 | Field | Value |
 |---|---|
 | Provider | U.S. Bureau of Labor Statistics |
-| Official URL | https://www.bls.gov/oes/. Metro file: https://www.bls.gov/oes/special-requests/oesm25ma.zip. Area definitions: https://www.bls.gov/oes/2025/may/oessrcma.htm (V, research pass). The spot-check from this machine returned 403 because BLS blocks automated agents |
+| Official URL | https://www.bls.gov/oes/. Metro file: https://www.bls.gov/oes/special-requests/oesm25ma.zip. Area definitions: https://www.bls.gov/oes/2025/may/oessrcma.htm (V, research pass). **Phase 3 correction:** the 403 seen in Phase 1 came from a browser-style User-Agent. The ingestion pipeline's descriptive User-Agent downloaded the file successfully on 2026-10-04 (see §11) |
 | Dataset | OEWS May 2025, metropolitan and nonmetropolitan area estimates |
 | Release date | 2026-05-15 (V) |
 | Pinned vintage | **May 2025** |
@@ -859,7 +860,7 @@ The canonical target for every mapping is the **CBSA code (July 2023 delineation
 | DR-f | A state statute restricts drone operation over critical infrastructure | State statute (e.g., FL §330.41, V) | State | Enactment/amendment dates (FL amended 2025) | Binary + exemptions (qualitative) | Most exempt FAA-authorized commercial operations | **GO** |
 | DR-g | The state preempts local drone regulation, or local take-off/landing control exists | State statute (+ municipal code) | State + municipal | Enactment date | Categorical | Local rules are hard to enumerate | **GO (state) / PROXY (local)** |
 
-### 7.4 Evidence record schema (curated CSV, loaded to RAW in Phase 3)
+### 7.4 Evidence record schema (curated CSV, loaded to RAW in the dedicated evidence-curation step before Phase 7; see `project_scope.md` §14)
 
 Grain: **one row per jurisdiction × mode × concept × evidence item.**
 
@@ -935,7 +936,7 @@ The research pass confirmed at summary level that the official sources in S-35�
 - Dated operator releases for Las Vegas (2026-03-13) and Houston-area drone delivery (2026-01-15).
 - A dated sidewalk-robot campus wind-down (2026-06-04).
 
-**No deployment records are curated or stored in Phase 1.** Collection, manual verification of exact wording, and archive capture happen in Phase 3. The evidence is used only in the validation phases.
+**No deployment records are curated or stored in Phase 1.** Collection, manual verification of exact wording, and archive capture happen in the dedicated evidence-curation step before Phase 7 (`project_scope.md` §14; this replaces the original Phase 3 timing). The evidence is used only in the validation phases.
 
 ### 8.6 Limitations
 - Marketing language: "serving" can mean a tiny area, a waitlist or limited hours.
@@ -992,3 +993,25 @@ The research pass confirmed at summary level that the official sources in S-35�
 | Local ordinances (PDD bans, drone take-off/landing, curb rules) | **Proxy only** | Cannot be enumerated comprehensively; state text is coded instead |
 | Controlled-airspace constraint as a true operating restriction | **Proxy only** (F49) | Controlled airspace ≠ prohibition; authorizations, waivers and TFRs are not captured |
 | Fleet economics, partnerships, safety performance | **No public source** | Proprietary; acknowledged as a limitation |
+
+---
+
+## 11. Phase 3 retrieval findings (2026-10-04/05)
+
+Facts established by actually retrieving the sources. They correct or complete the Phase 1 research above. No analytical decision is changed. Full pipeline detail is in [ingestion_pipeline.md](ingestion_pipeline.md).
+
+| Source | Finding | Effect |
+|---|---|---|
+| S-01 PEP | Re-downloaded file has the same SHA-256 as Phase 1 (`BF6FAD83…1852`). The frozen top 35 (code, name, population, rank) matches §6 of the scope document exactly | Market universe confirmed unchanged |
+| S-02 Delineation | 1,915 county rows. The sheet also has 2 title rows above the header, plus 1 blank row and 2 source-note rows below the data. The 3 trailing non-data rows are recorded as rejected with reasons | None |
+| S-03 ACS (CBSA) | Every table returns 935 CBSAs (387 metro + 538 micro), and all 35 frozen market codes are present. This is consistent with the July 2023 delineation | A-005 evidence (see register) |
+| S-04 ACS (tract) | 85,382 tracts across 52 state-level geographies (50 states + DC + Puerto Rico), all landed without filtering | Includes Puerto Rico tracts (not in any market) |
+| S-03 / S-04 Census API | **Row order is not guaranteed.** An identical S-04 response came back reordered on 2026-10-05: same records, same values, different order. API snapshots are now sorted by GEO_ID before hashing | Checksums are content-based; see `ingestion_pipeline.md` §6.1 |
+| S-05 Gazetteer | The last field of every line is padded with trailing spaces. Leading/trailing whitespace is trimmed from names and values (recorded as WARN). Positive longitudes are written with a leading `+` (e.g. Aleutians West `+179.621188`) | Technical normalization only |
+| S-08 CBP | 576,818 rows (CBSA × NAICS); all 35 frozen markets present | None |
+| S-09 OEWS | **Accessible** (see the S-09 correction above). The zip holds `MSA_M2025_dl.xlsx` (landed: 150,023 rows, 393 metropolitan areas including Puerto Rico), `BOS_M2025_dl.xlsx` (nonmetropolitan areas, not landed) and `file_descriptions.xlsx`. Wage cells use BLS markers `*` (not available, 11,005 cells across the two median columns) and `#` (top-coded, 416). **There is no 53-3054 Taxi Drivers row for New York (35620)**. A metadata sheet `UpdateTime` reads `09MAR2021`, which appears to be a stale BLS template value | Labor-cost feature F25 must handle missing occupations per market (Phase 4/5) |
+| S-12 Normals annual | 15,616 station files with **2,140 distinct column names**; each station publishes a different element set. Landed as one row per station with the full record in a VARIANT column | Element extraction happens in dbt |
+| S-13 Normals hourly | 467 stations × 8,760 hours = 4,090,920 rows. Column naming differs from the annual product: wind elements are `HLY-WIND-*` with `*_ATTRIBUTES` flag columns and a `DATE` column. Projected to 38 of 113 source columns (identifiers + wind) | Documented column projection |
+| S-17 FAA enplanements | 516 airport rows. The sheet also contains **6 summary rows**: hub-group subtotals Large 30, Medium 35, Small 79 and Nonhub 258 (= 402 primary airports), plus 114 nonprimary and the 402 total. They are rejected with reasons, and the subtotals reconcile exactly to the 516 airports loaded | None |
+| S-19 NASR | **`SITE_NO` is not unique**: `23747.31` is shared by airport 9XS4 and heliport 16XA (Denison, TX). `ARPT_ID` is unique across all 19,411 rows and is the natural key; the repeat is kept and flagged | Key choice corrected |
+| S-21 EPA SLD | The REST service returned transient HTTP 502 errors mid-paging in the first full run. Pages now retry with longer backoff | Operational only |

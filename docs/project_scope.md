@@ -255,8 +255,21 @@ The full register is in [assumptions_and_limitations.md](assumptions_and_limitat
 - A top-35-by-population universe excludes smaller markets where some modes (notably drones) actually operate.
 - Readiness scores (future) will be decision models built on explicit assumptions, not objective truth.
 
-## 14. Change log
+## 14. Evidence curation sequencing (decision, 2026-10-05)
+
+Agreed by the project owner after Phase 3:
+
+1. **Timing.** Regulatory evidence (S-28–S-33) and deployment evidence (S-35–S-39) will be curated in a **dedicated evidence-curation step**. That step comes after the dbt foundation (Phase 4) and the feature audit work (Phases 5–6) are mature, and **before Phase 7 readiness scoring**. This replaces the Phase 1 plan to curate them during Phase 3.
+2. **Deployment evidence stays external validation only.** It is never used for market selection, feature engineering or readiness scoring. It is used only for the reasonableness check (Phases 9 and 11).
+3. **Regulatory evidence may become a scored input later,** under two conditions:
+   - The evidence framework (`data_sources.md` §7) and its measurement rules are finalized first: the state-to-market mapping rule (A-012), the definitions of any categorical levels, and the re-verification cadence.
+   - Until then it remains qualitative, sourced and dated evidence, with no numeric score.
+
+Both evidence types will be curated into source-aligned files using the schemas in `data_sources.md` §7.4 and §8.3. They will then be landed through the same audited ingestion path into RAW and META.
+
+## 15. Change log
 
 | Date | Change | Reason |
 |---|---|---|
 | 2026-09-29 | Initial scope contract | Phase 1 |
+| 2026-10-05 | Added §14, evidence curation sequencing | Owner decision at the end of Phase 3 |
