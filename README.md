@@ -56,11 +56,13 @@ This is the *planned* design. Components are listed here only as they get built 
   - Phase 6: 12 feature-engineering intermediate models, 3 mode feature marts and `DIM_FEATURE`
   - 519 tests, all passing (336 at the end of Phase 4)
 
-**Phase 6 (in review):** a tested production feature layer. It covers population-weighted density, the W5 weather-station rule (preferring NOAA HOMR PLCD stations), airport activity on official county FIPS (a new Census Geocoder source, S-40), and population-weighted walkability. Three marts (`ANALYTICS.MART_ROBOTAXI_FEATURES`, `MART_SIDEWALK_DELIVERY_FEATURES`, `MART_DRONE_DELIVERY_FEATURES`) hold 10 pre-regulatory features each for the 35 markets, and `ANALYTICS.DIM_FEATURE` documents every feature. dbt build: 590 nodes, all passing. Clustering was evaluated and not adopted.
+**Phase 6.5 (in review):** an auditable evidence layer, version-controlled in `evidence/`. It holds 582 regulatory records (robotaxi, sidewalk-robot and drone law for the 31 jurisdictions of the 35 markets, plus federal drone context), each with a citation, verification status and confidence. 180 deployment records are kept separately for external validation only. A regulatory feature contract (`config/regulatory_feature_contract.csv`: 7 active candidates, no weights) and a dimension-specific multi-state mapping that resolves A-012 (`outputs/phase65/`) complete it. Analytical classification only, not legal advice.
+
+**Phase 6:** a tested production feature layer. It covers population-weighted density, the W5 weather-station rule (preferring NOAA HOMR PLCD stations), airport activity on official county FIPS (a new Census Geocoder source, S-40), and population-weighted walkability. Three marts (`ANALYTICS.MART_ROBOTAXI_FEATURES`, `MART_SIDEWALK_DELIVERY_FEATURES`, `MART_DRONE_DELIVERY_FEATURES`) hold 10 pre-regulatory features each for the 35 markets, and `ANALYTICS.DIM_FEATURE` documents every feature. dbt build: 590 nodes, all passing. Clustering was evaluated and not adopted.
 
 **Phase 5:** a read-only feature audit (`python scripts/run_feature_audit.py`) of 70 candidate measures. It covers missingness, variation, outliers, redundancy and market-size duplication. It also compares density, weather-station, airport and walkability mapping methods. Results are in `outputs/` and two docs, linked below. Nothing is written back to Snowflake.
 
-No scores, weights, normalization or rankings exist yet. Regulatory features are pending Phase 6.5.
+No scores, weights, normalization or rankings exist yet.
 
 ## Current status
 
@@ -71,8 +73,8 @@ No scores, weights, normalization or rankings exist yet. Regulatory features are
 | 3 | Python ingestion + validation + Snowflake RAW landing | **Complete** |
 | 4 | dbt sources, staging, intermediate, core, marts, tests, docs | **Complete** |
 | 5 | EDA + feature audit + mapping-method evaluation | **Complete** |
-| 6 | Production feature layer (pre-regulatory mode feature sets) | **Complete (in review)** |
-| 6.5 | Regulatory & deployment evidence curation | Not started |
+| 6 | Production feature layer (pre-regulatory mode feature sets) | **Complete** |
+| 6.5 | Regulatory & deployment evidence curation | **Complete (in review)** |
 | 7 | Mode-specific readiness models | Not started |
 | 8 | Sensitivity analysis | Not started |
 | 9 | Analytical output write-back + reconciliation | Not started |
@@ -96,4 +98,8 @@ No rankings, scores or market-readiness findings exist yet.
 - [docs/production_feature_layer.md](docs/production_feature_layer.md): Phase 6 implemented methods, final mode feature sets, directions, components and marts
 - [docs/feature_redundancy_resolution.md](docs/feature_redundancy_resolution.md): which signal represents each concept, and scale vs intensity
 - [docs/feature_engineering_reconciliation.md](docs/feature_engineering_reconciliation.md): feature lineage and mapping counts
-- [docs/regulatory_handoff.md](docs/regulatory_handoff.md): the data contract Phase 6.5 must satisfy
+- [docs/regulatory_handoff.md](docs/regulatory_handoff.md): the Phase 6.5 data contract and how it was met
+- [docs/regulatory_methodology.md](docs/regulatory_methodology.md): Phase 6.5 evidence methodology, findings, feature contract and A-012 multi-state mapping (not legal advice)
+- [docs/regulatory_ambiguities.md](docs/regulatory_ambiguities.md): unresolved, conflicting, pending and unretrievable regulatory evidence
+- [docs/deployment_validation_plan.md](docs/deployment_validation_plan.md): how deployment evidence may (and may not) be used in Phase 8
+- [evidence/research_protocol.md](evidence/research_protocol.md): the evidence coding contract

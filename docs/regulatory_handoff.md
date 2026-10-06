@@ -1,6 +1,6 @@
 # Regulatory Handoff: Data Contract for Phase 6.5
 
-**Status:** Phase 6 deliverable (contract only, **no evidence populated**) · **Last updated:** 2026-10-05
+**Status:** Phase 6 deliverable; **satisfied by Phase 6.5** (see §6) · **Last updated:** 2026-10-05
 
 ## 1. Purpose and boundaries
 
@@ -82,7 +82,7 @@ It builds on:
 
 The drone airspace candidates F49 (UAS Facility Map share) and F50 (national-security UAS restrictions) are C5 PROXY candidates in data_sources.md §3. They are not ingested, not part of C4, and not regulatory evidence.
 
-## 4. Market mapping requirement (A-012, unresolved)
+## 4. Market mapping requirement (A-012; resolved in Phase 6.5, see §6)
 
 - 11 of the 35 markets span more than one state.
 - `CORE.BRG_MARKET_STATE` is **preserved unchanged** (market × state with observed PEP 2025 population shares) and is the input for any mapping.
@@ -105,3 +105,24 @@ Each option needs a sensitivity comparison. Examples of balanced markets are Was
 4. **Landing:** records land through the existing architecture: registry, RAW, META audit, checksum, dbt source, staging, tests, lineage. No manual table edits.
 5. **Mapping:** the A-012 state → market method is documented with its sensitivity before any C4 feature is created.
 6. **Measurement rules:** how coded values become an ordinal C4 measure is defined and approved in Phase 7. Until then, the mode marts keep no C4 column, which `assert_mode_marts_match_feature_contract` enforces.
+
+## 6. Phase 6.5 outcome (2026-10-05)
+
+Evidence was curated in `evidence/regulatory_evidence.csv` (582 records). The methodology is in [regulatory_methodology.md](regulatory_methodology.md) and open issues are in [regulatory_ambiguities.md](regulatory_ambiguities.md).
+
+**Refinements to this contract:**
+- **Field names.** The record schema follows `evidence/research_protocol.md` §2, which carries this contract's §2 fields under the protocol's names: `coded_status`, `source_type`, `second_source_status`, `confidence`.
+- **Robotaxi vocabularies** gained `AUTHORIZED_BY_EXECUTIVE_ORDER`, `NO_SPECIFIC_STATUTE` and `NO_SPECIFIC_FRAMEWORK`, so that absence is never coded as prohibition.
+- **Sidewalk** speed was split into sidewalk and roadway limits.
+- **Drone** dimensions were reduced to three state dimensions plus seven federal CONTEXT_ONLY dimensions; `LOCAL_TAKEOFF_LANDING_RESTRICTION` was folded into `DR_STATE_PREEMPTION_OF_LOCAL`.
+
+**Acceptance criteria (§5):**
+
+| # | Criterion | Result |
+|---|---|---|
+| 1 | Coverage: every state in `BRG_MARKET_STATE` plus US, with explicit codes and no blanks | **Met**: 31 jurisdictions plus US; `validate_evidence.py` coverage check PASS |
+| 2 | Evidence fields on every record | **Met**: citation, URL, effective date (where known), access date, verification status and confidence on all 582. 75 records are not primary-retrieved, and say so |
+| 3 | No proxies (no deployment- or socioeconomic-derived codes) | **Met**: operator sources are rejected as regulatory evidence; deployment evidence is in a separate file |
+| 4 | Landing through registry / RAW / META / dbt | **Deferred to Phase 7 preparation**, as permitted by the Phase 6.5 brief (Step 19). The evidence is version-controlled and validated; Snowflake landing waits for the Phase 7 measurement rules |
+| 5 | A-012 method documented with sensitivity | **Met**: dimension-specific contract (`POPULATION_SHARE_BY_STATUS`; `MOST_RESTRICTIVE_NUMERIC_AMONG_PERMITTING_STATES`; `CONTEXT_ONLY`) with the method comparison in `outputs/phase65/a012_method_comparison.csv` |
+| 6 | Ordinal measurement rules only in Phase 7; no C4 column in the marts | **Met**: `config/regulatory_feature_contract.csv` lists candidates and favorable statuses only; `assert_mode_marts_match_feature_contract` still passes |

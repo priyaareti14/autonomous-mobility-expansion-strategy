@@ -41,6 +41,8 @@ dbt_packages/
 data/raw/
 data/interim/
 data/downloads/
+# Phase 6.5 agent drafts; the merged evidence/*.csv files are canonical
+evidence/_staging/
 *.zip
 *.gz
 *.7z

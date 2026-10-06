@@ -1,0 +1,95 @@
+mode,jurisdiction,research_completed,authoritative_source_checked,second_source_checked,unresolved_issue,last_verified_date
+DRONE_DELIVERY,AZ,PARTIAL,YES,NO,LOW confidence: DR_UAS_SPECIFIC_PRIVACY_OR_TRESPASS,2026-10-05
+DRONE_DELIVERY,CA,PARTIAL,NO (host blocked),NO,LOW confidence: DR_CRITICAL_INFRASTRUCTURE_RESTRICTION;DR_STATE_PREEMPTION_OF_LOCAL,2026-10-05
+DRONE_DELIVERY,CO,YES,YES,NO,,2026-10-05
+DRONE_DELIVERY,DC,YES,YES,NO,,2026-10-05
+DRONE_DELIVERY,DE,YES,YES,NO,,2026-10-05
+DRONE_DELIVERY,FL,YES,YES,NO,,2026-10-05
+DRONE_DELIVERY,GA,PARTIAL,NO (host blocked),NO,LOW confidence: DR_CRITICAL_INFRASTRUCTURE_RESTRICTION;DR_UAS_SPECIFIC_PRIVACY_OR_TRESPASS,2026-10-05
+DRONE_DELIVERY,IL,PARTIAL,NO (host blocked),NO,LOW confidence: DR_CRITICAL_INFRASTRUCTURE_RESTRICTION;DR_STATE_PREEMPTION_OF_LOCAL;DR_UAS_SPECIFIC_PRIVACY_OR_TRESPASS,2026-10-05
+DRONE_DELIVERY,IN,YES,YES,NO,,2026-10-05
+DRONE_DELIVERY,KS,YES,YES,NO,,2026-10-05
+DRONE_DELIVERY,KY,PARTIAL,YES,NO,LOW confidence: DR_UAS_SPECIFIC_PRIVACY_OR_TRESPASS,2026-10-05
+DRONE_DELIVERY,MA,PARTIAL,NO (host blocked),NO,LOW confidence: DR_CRITICAL_INFRASTRUCTURE_RESTRICTION;DR_STATE_PREEMPTION_OF_LOCAL;DR_UAS_SPECIFIC_PRIVACY_OR_TRESPASS,2026-10-05
+DRONE_DELIVERY,MD,PARTIAL,YES,NO,LOW confidence: DR_CRITICAL_INFRASTRUCTURE_RESTRICTION;DR_UAS_SPECIFIC_PRIVACY_OR_TRESPASS,2026-10-05
+DRONE_DELIVERY,MI,YES,YES,NO,,2026-10-05
+DRONE_DELIVERY,MN,YES,YES,NO,,2026-10-05
+DRONE_DELIVERY,MO,YES,YES,NO,,2026-10-05
+DRONE_DELIVERY,NC,YES,"ncleg.gov G.S. 15A Art. 16B (15A-300.1 to 300.4), 14-401.24",NCSL (secondary),2025 HB 808 infrastructure bill status not confirmed; prison-only CI code is a scope judgment,2026-10-05
+DRONE_DELIVERY,NH,YES,"gc.nh.gov RSA 644:23 (2025, 278; 2026, 6), RSA 207:57",NCSL (secondary),No preemption statute found; FAA-restricted-airspace prison clause coded NO_STATUTE,2026-10-05
+DRONE_DELIVERY,NJ,YES,pub.njleg.gov P.L.2017 c.315 session law,NO,Codified text on lis.njleg not re-checked for post-2018 amendments; pending 2024-26 drone bills not verified,2026-10-05
+DRONE_DELIVERY,NV,YES,"leg.state.nv.us NRS ch. 493 (493.020, .103, .109, .112, .115, .118)",NCSL (secondary),Local authority not addressed; 493.103 business exception text truncated,2026-10-05
+DRONE_DELIVERY,NY,YES,"nysenate.gov Open Legislation (S4839, A8176B, PEN 270.45/240.76, VTL A48-D)",NCSL (secondary),S4839/A4944 pending in committee; no enacted UAS statute found,2026-10-05
+DRONE_DELIVERY,OH,YES,"codes.ohio.gov R.C. 4561.51, 4561.52, 4561.53, 4561.61; HB 251 enrolled PDF",YES (HB 251 enrolled text),4561.61 effective 2026-10-06 (day after as-of); implied scope of local authority under 4561.52 unclear,2026-10-05
+DRONE_DELIVERY,OR,YES,"oregonlegislature.gov ORS ch. 837 (837.320, .372, .380, .385, .387)",NCSL (secondary),Exact effective dates year-only,2026-10-05
+DRONE_DELIVERY,PA,YES,palegis.us 18 Pa.C.S. 3505; 53 Pa.C.S. 305,NCSL (secondary),Effective date computed (90 days after 2018-10-12),2026-10-05
+DRONE_DELIVERY,SC,PARTIAL,scstatehouse.gov Code 24-1-300; keyword scan of selected Title 16/17/23/24/44/50/55/58 chapters,NCSL (secondary),No full-code search; 2025-26 session laws not fully reviewed; some Title 4-6 chapter pages did not load,2026-10-05
+DRONE_DELIVERY,TN,PARTIAL,TN SOS Pub. Ch. 240 (2015) and 60 (2019); capitol.tn.gov bill pages HB0153/SB0306,FindLaw T.C.A. 39-13-903 (secondary host),Official T.C.A. (LexisNexis) not retrieved; preemption absence relies on secondary; 39-13-609 not verified,2026-10-05
+DRONE_DELIVERY,TX,YES,"tcss.legis.texas.gov Gov't Code ch. 423; Penal Code 28.09, 38.115, 42.15",YES (5th Cir. McCraw opinion 2024-01-10),Post-2024 certiorari/as-applied litigation status not verified this session,2026-10-05
+DRONE_DELIVERY,US,YES,"eCFR (Parts 107, 89, 135.1; Part 108 versions); FederalRegister.gov API (BVLOS NPRM 90 FR 38212 and notices; public inspection for 2026-10-05); FAA pages (package delivery, LAANC, Remote ID, State/Local UAS fact sheet 2023); GovInfo 49 USC 40103",YES (Unified Agenda RIN 2120-AL82; FAA pages vs eCFR),Part 108 final rule not published as of 2026-10-05; OIRA receipt date (2026-07-10) secondary-only because reginfo EO 12866 page unavailable; FAA operator list is narrative and may omit newer certificate holders,2026-10-05
+DRONE_DELIVERY,VA,YES,"law.lis.virginia.gov Va. Code 18.2-121.3, 15.2-926.3",NCSL (secondary),Scope of federal-authorization exception in 18.2-121.3(C) unclear for delivery; date subsection B added not confirmed,2026-10-05
+DRONE_DELIVERY,WA,PARTIAL,"app.leg.wa.gov keyword scan of 34 RCW chapters incl. 47.68, 10.116",NCSL (secondary),"Absence based on chapter scans, not full-code search; 2025-26 session laws not fully reviewed",2026-10-05
+DRONE_DELIVERY,WI,YES,"docs.legis.wisconsin.gov Wis. Stat. 114.04, 114.045, 114.105, 942.10; 2025 Act 194 page",YES (2025 Act 194 page),Act 194 effective date derived from publication default; 2017 Act 322 and 2013 Act 213 effective dates not confirmed,2026-10-05
+DRONE_DELIVERY,WV,YES,"code.wvlegislature.gov 61-16-1, 61-16-2; wvlegislature.gov SB 900 (2026) status",NCSL (secondary),SB 900 (2026) final disposition inferred from unamended code and last action 2026-03-14,2026-10-05
+ROBOTAXI,AZ,YES,A.R.S. 28-9701 to 28-9708 and 28-4038 (azleg.gov),ADOT driverless operation page; SB 1417 (2026) status via bill tracker/press,Applicability of 28-4038 TNC insurance limits to on-demand AV networks; general effective date of Laws 2021 ch.117 not confirmed on page,2026-10-05
+ROBOTAXI,CA,PARTIAL,Veh. Code 38750-38755 and 21 (leginfo); 13 CCR Art. 3.7/3.8 adopted text (OAL 2025-0415-04); CPUC AV programs page,"DMV rulemaking page and milestones; secondary law-firm summaries (Sidley, Covington)",CPUC 2025-2026 rulemaking and decision texts not checked; local preemption is implied not express; CPUC insurance requirements not checked,2026-10-05
+ROBOTAXI,CO,PARTIAL,"C.R.S. 42-4-242, 42-4-110(6), 42-1-102 (CRS 2024 official printout); Title 40 searched",Session Laws 2017 ch.277 (SB17-213); HB25-1122 veto record,2026-session bills not searched; PUC authority over driverless paid passenger service untested,2026-10-05
+ROBOTAXI,DC,YES,D.C. Code 50-2351 to 50-2354 and 50-301.03/50-301.29a (code.dccouncil.gov),D.C. Code 50-2351 definitions,No commercial deployment framework; possible 2025-2026 deployment legislation not checked; DDOT program page not located,2026-10-05
+ROBOTAXI,DE,YES,YES,YES,,2026-10-05
+ROBOTAXI,FL,YES,"Fla. Stat. 316.85 and 627.749 (leg.state.fl.us, 2026 Statutes)",flsenate.gov 2026 316.85,Exact effective date of teleoperation language not confirmed,2026-10-05
+ROBOTAXI,GA,PARTIAL,"OCGA 40-8-11, 40-1-166, 40-5-21 via OCGA Release 84 (2022) mirror; official LexisNexis host not fetchable",Ga. Legislative Counsel 2017 session summary (SB 219),Post-2022 amendments not ruled out; TNC applicability and local preemption ambiguous under 40-8-11 commercial-use/no-limiting-rules clauses,2026-10-05
+ROBOTAXI,IL,PARTIAL,NO (host blocked),NO,LOW confidence: RT_TESTING_AUTHORIZATION;RT_DRIVERLESS_OPERATION;RT_COMMERCIAL_PASSENGER_SERVICE;RT_TNC_APPLICABILITY;RT_SAFETY_DRIVER_REQUIREMENT;RT_LOCAL_AUTHORITY;RT_STATE_APPROVAL_REQUIRED;RT_INSURANCE_MINIMUM,2026-10-05
+ROBOTAXI,IN,YES,YES,NO,,2026-10-05
+ROBOTAXI,KS,YES,YES,NO,,2026-10-05
+ROBOTAXI,KY,YES,YES,NO,,2026-10-05
+ROBOTAXI,MA,PARTIAL,NO (host blocked),NO,LOW confidence: RT_TESTING_AUTHORIZATION;RT_DRIVERLESS_OPERATION;RT_COMMERCIAL_PASSENGER_SERVICE;RT_TNC_APPLICABILITY;RT_SAFETY_DRIVER_REQUIREMENT;RT_LOCAL_AUTHORITY;RT_STATE_APPROVAL_REQUIRED;RT_INSURANCE_MINIMUM,2026-10-05
+ROBOTAXI,MD,PARTIAL,MDOT MVA HAV testing permit process PDF; Md. Code PU 10-401,MDOT CAV collaboration-with-industry page,No statute located but Maryland Code full-text search and 2025-2026 bills not performed; legal basis of MVA permit unstated,2026-10-05
+ROBOTAXI,MI,YES,YES,NO,,2026-10-05
+ROBOTAXI,MN,YES,YES,YES,,2026-10-05
+ROBOTAXI,MO,YES,YES,NO,,2026-10-05
+ROBOTAXI,NC,YES,N.C. Gen. Stat. 20-400 to 20-403 and Article 10A (ncleg.gov),Article 18 full text,No explicit commercial/for-hire AV framework; driverless authority requires synthesis,2026-10-05
+ROBOTAXI,NH,YES,YES,NO,,2026-10-05
+ROBOTAXI,NJ,PARTIAL,NO (host blocked),NO,LOW confidence: RT_TESTING_AUTHORIZATION;RT_DRIVERLESS_OPERATION;RT_COMMERCIAL_PASSENGER_SERVICE;RT_TNC_APPLICABILITY;RT_SAFETY_DRIVER_REQUIREMENT;RT_LOCAL_AUTHORITY;RT_STATE_APPROVAL_REQUIRED;RT_INSURANCE_MINIMUM,2026-10-05
+ROBOTAXI,NV,YES,"NRS 482A, 706A, 706B (leg.state.nv.us, rev. 2026-04-15)","NAC 482A (testing certificate, certificate of compliance)",NTA regulations under NRS 706B not reviewed,2026-10-05
+ROBOTAXI,NY,PARTIAL,NO (host blocked),NO,LOW confidence: RT_TESTING_AUTHORIZATION;RT_COMMERCIAL_PASSENGER_SERVICE;RT_TNC_APPLICABILITY;RT_LOCAL_AUTHORITY;RT_STATE_APPROVAL_REQUIRED;RT_INSURANCE_MINIMUM,2026-10-05
+ROBOTAXI,OH,PARTIAL,NO (host blocked),NO,LOW confidence: RT_TESTING_AUTHORIZATION;RT_DRIVERLESS_OPERATION;RT_COMMERCIAL_PASSENGER_SERVICE;RT_TNC_APPLICABILITY;RT_SAFETY_DRIVER_REQUIREMENT;RT_LOCAL_AUTHORITY;RT_STATE_APPROVAL_REQUIRED;RT_INSURANCE_MINIMUM,2026-10-05
+ROBOTAXI,OR,PARTIAL,2025 ORS full-text search of vehicle code and related chapters; ORS 184.667,Enrolled HB 4063 (2018),ODOT voluntary testing program unverified; driverless legality under human-driver vehicle code uncertain; 2026 short-session laws not searched,2026-10-05
+ROBOTAXI,PA,YES,YES,NO,,2026-10-05
+ROBOTAXI,SC,PARTIAL,S.C. Code Title 56 all chapters and Title 58 Ch. 23 (scstatehouse.gov),Title 56 Ch. 5,2025-2026 pending bills not checked; no agency AV page located,2026-10-05
+ROBOTAXI,TN,PARTIAL,Tenn. Code 55-30-101 to 108 and Title 65 TNC via TCA Release 76 (2021) mirror,FindLaw 55-30-103 (2024) secondary,Post-2021 amendments not ruled out; insurance minimum status after 2021 deletion; TNC applicability,2026-10-05
+ROBOTAXI,TX,YES,Tex. Transp. Code ch.545 subch. J; Occ. Code 2402.003/2402.005; Ins. Code 1954.003/1954.053 (tcss.legis.texas.gov),SB 2807 enrolled text and bill history; TxDMV 43 TAC ch.220 adoption notice,"Compliance date depends on Public Safety Commission rule under 545.455(c)(2), not verified",2026-10-05
+ROBOTAXI,VA,PARTIAL,"Code of Virginia Titles 46.2, 33.2, 38.2, 56, 15.2 full-text search (law.lis.virginia.gov)",Va. Code 46.2-100,Virginia DMV AV guidance not located; 2025-2026 bills not checked,2026-10-05
+ROBOTAXI,WA,PARTIAL,"RCW 46.92.010, 46.30.050, 46.72B (app.leg.wa.gov)",Cross-read RCW 46.92/46.30/46.72B,EO 17-02 not retrievable; driverless operation status unclear; 2026-session bills not searched,2026-10-05
+ROBOTAXI,WI,YES,YES,YES,,2026-10-05
+ROBOTAXI,WV,YES,YES,NO,,2026-10-05
+SIDEWALK_DELIVERY,AZ,YES,"A.R.S. 28-101, 28-1221 to 28-1228 (azleg.gov)",SB1305 House engrossed summary; RList 2026 (secondary),Chaptered SB1305 effective date not independently confirmed; zone/hour local prohibitions make local-authority code a judgment call; secondary source reports superseded 2018 limits,2026-10-05
+SIDEWALK_DELIVERY,CA,PARTIAL,"Cal. Veh. Code Div. 1, §§21663, 21100 (leginfo)",RList 2026 (secondary),No statewide statute found; 2025-26 bills not fully searched; SF local permit program not retrieved from primary,2026-10-05
+SIDEWALK_DELIVERY,CO,PARTIAL,CRS 2024 Titles 42 and 43 printouts (OLLS); SB20-092 bill page,RList 2026 (secondary),Only a fee-law PDD definition exists; 2025-26 session bills and 2025 CRS not checked,2026-10-05
+SIDEWALK_DELIVERY,DC,TRUE,code.dccouncil.gov D.C. Code 50-110.01 to 50-110.07 (current and permanent versions),Permanent-version text of 50-110.01/50-110.03,Weight limit of 250 lb set by temporary D.C. Law 26-175 that expires 2027-04-02 (permanent 90 lb); DDOT rules (insurance/permit conditions) not reviewed,2026-10-05
+SIDEWALK_DELIVERY,DE,YES,Del. Code tit. 21 official PDF (acts through 2026-09-04) full-text search,NO,No second authoritative source; 2022 PDD hypothesis not confirmed,2026-10-05
+SIDEWALK_DELIVERY,FL,TRUE,"Online Sunshine Fla. Stat. 316.2071, 316.003, 316.008; flrules.org Rule 14-120.001",flsenate.gov 2025 statute page; Senate 2021 bill summary HB 1289,"PDD weight limit delegated to FDOT rule, which has not been adopted (no numeric cap); exact effective dates of 2017/2018 provisions not confirmed from session laws",2026-10-05
+SIDEWALK_DELIVERY,GA,TRUE,HB 1009 (2022) as-passed text (gov.georgia.gov); Ga. Legislative Counsel 2025 and 2026 session summaries,GPB News 2022 article (secondary),"Codified O.C.G.A. not retrieved (Justia 403); HB 986 (2026) enrolled text not retrieved, sidewalk 7 mph coded from official summary; 2023-2024 amendments not checked; GPB 20 mph sidewalk claim conflicts with enacted text",2026-10-05
+SIDEWALK_DELIVERY,IL,YES,"ILCS 625 ILCS 5/1-146, 1-217, 11-1412.4; HB 2902 (103rd GA) engrossed PDF",YES (ILCS section lookups),"HB 2902 final action not read (JS bill-status page); Chicago municipal PDD pilot not verified, no LOCAL row",2026-10-05
+SIDEWALK_DELIVERY,IN,YES,IC 9-21-11.5 via FindLaw (official iga.in.gov SPA and Justia 403),PARTIAL (Indiana House Republicans release),Official text not retrieved; effective date unverified; local prohibition power ambiguous; reported state-route restriction not found,2026-10-05
+SIDEWALK_DELIVERY,KS,YES,ksrevisor.gov Chapter 8 index; K.S.A. 8-126; SB 161 bill history and supplemental note,YES (SB 161 bill history),2022 SB 161 vetoed; 2023-2026 bills not separately searched,2026-10-05
+SIDEWALK_DELIVERY,KY,YES,26RS HB 741 bill record,"YES (Lexington Times 2026-08-03, secondary)",KRS ch. 189 not full-text searched; absence rests on bill history,2026-10-05
+SIDEWALK_DELIVERY,MA,YES,malegislature.gov General/Session Laws search; M.G.L. c.90 s.1,YES,"No statute; prior PDD bills (H.3482/S.2256 2021-22, H.3331 2023-24) not enacted; Amendment 727 to H.5007 outcome not traced; local codes not surveyed",2026-10-05
+SIDEWALK_DELIVERY,MD,TRUE,"mgaleg.maryland.gov Transp. 21-104.3, 21-1205.1, 13-402, 11-135; 2021 Ch. 351 enrolled text; MGA bill master lists 2019-2026",2021 Md. Laws Ch. 351,Local power to prohibit not stated (coded regulate-not-prohibit); MVA pilot permitting status unknown; county ordinances not surveyed,2026-10-05
+SIDEWALK_DELIVERY,MI,YES,MCL Act 300 of 1949 official PDF (rendered 2026-09-24) full-text search,YES (SFA SB 538 summary),2023-2026 bills not separately searched,2026-10-05
+SIDEWALK_DELIVERY,MN,YES,Minn. Stat. ch. 169 (2025 edition) full-text search,NO,2026 session laws not checked,2026-10-05
+SIDEWALK_DELIVERY,MO,YES,RSMo 304.900 (Missouri Revisor; L. 2021 S.B. 176),NO,Local power to prohibit vs regulate under 304.900.9; roadway grant names county/municipal roads only; no second source,2026-10-05
+SIDEWALK_DELIVERY,NC,TRUE,"ncleg.gov G.S. 20-4.01, 20-175.15 to 20-175.18",Session Law 2020-73 ratified text,None material; registration NONE is an absence reading,2026-10-05
+SIDEWALK_DELIVERY,NH,YES,"RSA 265:163; RSA 259:75-a (2022, 13)",YES,Roadway authorization implied not express; registration silent,2026-10-05
+SIDEWALK_DELIVERY,NJ,YES,NJ statutes NXT full-text search,YES,No statute and no pending PDD bill found; statutes database currency date not shown; local codes not surveyed,2026-10-05
+SIDEWALK_DELIVERY,NV,YES,"NRS 484B.044/.045/.787/.788, 482, 268.41015, 244.3565 (Rev. 9/9/2026)","RList 2026 (secondary, omits NV = conflict)",Authorization limited to NSHE campuses; enacting 2023 bill number and effective date not confirmed,2026-10-05
+SIDEWALK_DELIVERY,NY,YES,NY Senate VTL article list,NO,VTL page currency shown as 2020-04-17; pending bills not confirmed; NYC local rules not verified,2026-10-05
+SIDEWALK_DELIVERY,OH,YES,R.C. 4511.513 (eff. 2021-06-30),YES,Local prohibition power inferred from unqualified local-regulation clause; 10 mph is a device-capability definition; original 2017 enactment date not verified,2026-10-05
+SIDEWALK_DELIVERY,OR,PARTIAL,"ORS 2025 Ed. ch. 801, 803, 810, 811, 814, 815",RList 2026 (secondary),2026 short-session measures not checked,2026-10-05
+SIDEWALK_DELIVERY,PA,YES,75 Pa.C.S. 8511-8522; Act 106 of 2020,YES,Local authority is limited hazard-based prohibition (LOCAL_MAY_PROHIBIT vs STATE_PREEMPTS_LOCAL); PUB 955 revision currency not checked,2026-10-05
+SIDEWALK_DELIVERY,SC,TRUE,"scstatehouse.gov Title 56 Chs. 1, 2, 3, 5, 10 full text and Title 56 chapter list",Title 56 Ch. 2 (Specialized Vehicles),No PDD statute found; site code search non-functional; 2025-2026 session laws and pending bills not checked (web search budget exhausted),2026-10-05
+SIDEWALK_DELIVERY,TN,TRUE,FindLaw reproduction of Tenn. Code 55-8-101 and 55-8-209 (official Lexis code not retrieved),"Same republisher, related section only",Official code and session law not retrieved; text current only to 2024-01-02; enactment year/effective date unknown,2026-10-05
+SIDEWALK_DELIVERY,TX,YES,Tex. Transp. Code ch. 552A (TCSS official resource file),RList 2026 (secondary),Whether a total local ban is 'inconsistent' with ch. 552A is not expressly addressed,2026-10-05
+SIDEWALK_DELIVERY,VA,TRUE,"law.lis.virginia.gov Va. Code 46.2-908.1:1, 46.2-100, 46.2-904",Cross-checked among related Code sections,"Effective dates assumed July 1 defaults; split local authority (sidewalk ban allowed, roadway ban barred)",2026-10-05
+SIDEWALK_DELIVERY,WA,YES,"RCW 46.75 (all sections), RCW 46.61.733",ESHB 1325 House Bill Report (PL),"Effective-date discrepancy (RCW note 2019-09-01 vs report emergency clause); local prohibition power inferred, not express",2026-10-05
+SIDEWALK_DELIVERY,WI,YES,"Wis. Stat. 346.807, 346.94(18m), 349.236, 340.01(43fg), 341.0585",YES,Weight limit remains 80 lb excl. cargo; effective date computed from publication; no insurance provision,2026-10-05
+SIDEWALK_DELIVERY,WV,YES,"code.wvlegislature.gov §§17C-24-1, 17C-24-2",YES (HB 4675 2022 enrolled text),Effective date computed (90 days from 2022-03-08); roadway authority inferred; 2020 hypothesis not confirmed,2026-10-05

@@ -1076,3 +1076,15 @@ These facts were established while auditing features and comparing mapping metho
 | Verdict | **GO** |
 
 **Station-ID finding (Phase 6, V):** the GHCN-Daily readme, §IV (format of `ghcnd-stations.txt`), defines the third ID character as "a network code that identifies the station numbering system used", with `W` = "WBAN identification number (last five characters of the GHCN-Daily ID)". `USW` therefore means a U.S. station numbered by WBAN. It does not establish a network or a First Order / PLCD class: on 2020-12-31, 207 core-qualifying `USW` normals stations were not PLCD.
+
+## 14. Phase 6.5 evidence sources (2026-10-05)
+
+Regulatory evidence (S-28 to S-33) and deployment evidence (S-35 to S-39) were curated into `evidence/`. Facts established while retrieving them:
+
+| Source | Finding |
+|---|---|
+| S-28 state statutes | Retrieved directly from official code sites for most jurisdictions. **Blocked automated access** on 2026-10-05: ilga.gov (Illinois, connection refused), mass.gov and malegislature.gov (403), nysenate.gov and dmv.ny.gov (bot challenge), leginfo.legislature.ca.gov (bot challenge), the Georgia and Tennessee official code hosts. Affected records are marked `PRIMARY_CITED_NOT_RETRIEVED` or `SECONDARY_ONLY` (A-042) |
+| S-29 state agencies | Ohio governor executive-order pages returned no order text; the DDOT, MassDOT and DriveOhio program pages were not retrievable. Agency guidance is used only where read (e.g. Maryland MVA) |
+| S-30 federal | Federal Register and eCFR content was read through their official APIs (the web pages redirect bots). As of 2026-10-05 **no final BVLOS rule (14 CFR Part 108) has been published**; the proposal is 90 FR 38212 (2025-08-07) |
+| S-31 / S-32 NCSL | Used for discovery only. The AV and UAS state-law pages are largely 2015–2021 summaries and miss later laws (e.g. Kansas 2022 Article 29, Kentucky 2024 HB 7, West Virginia 2022 ch. 17H); never a sole basis where primary text exists |
+| S-38 / S-39 operator and platform sources | Many operator pages are JavaScript-rendered; SEC filings (Tesla quarterly updates, May Mobility 8-K) and platform newsrooms (Uber, Lyft) were used where operator pages failed |

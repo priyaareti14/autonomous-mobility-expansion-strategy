@@ -1,0 +1,52 @@
+market_id,cbsa_name,principal_state_usps,state_fips,state_usps,population_share_2025,state_population_2025,county_count,is_principal_state,n_states,is_dominant_state
+12060,"Atlanta-Sandy Springs-Roswell, GA",GA,13,GA,1.0,6482182,29,True,1,True
+12420,"Austin-Round Rock-San Marcos, TX",TX,48,TX,1.0,2620945,5,True,1,True
+12580,"Baltimore-Columbia-Towson, MD",MD,24,MD,1.0,2857781,7,True,1,True
+14460,"Boston-Cambridge-Newton, MA-NH",MA,25,MA,0.9088001897413721,4575101,5,True,2,True
+14460,"Boston-Cambridge-Newton, MA-NH",MA,33,NH,0.0911998102586279,459120,2,False,2,False
+16740,"Charlotte-Concord-Gastonia, NC-SC",NC,37,NC,0.8454541433155371,2484646,8,True,2,True
+16740,"Charlotte-Concord-Gastonia, NC-SC",NC,45,SC,0.15454585668446286,454184,3,False,2,False
+16980,"Chicago-Naperville-Elgin, IL-IN",IL,17,IL,0.9227545581078389,8705380,9,True,2,True
+16980,"Chicago-Naperville-Elgin, IL-IN",IL,18,IN,0.07724544189216104,728743,4,False,2,False
+17140,"Cincinnati, OH-KY-IN",OH,39,OH,0.7597098481618846,1757101,5,True,3,True
+17140,"Cincinnati, OH-KY-IN",OH,21,KY,0.2053165391044327,474868,7,False,3,False
+17140,"Cincinnati, OH-KY-IN",OH,18,IN,0.03497361273368274,80889,3,False,3,False
+17410,"Cleveland, OH",OH,39,OH,1.0,2165775,6,True,1,True
+18140,"Columbus, OH",OH,39,OH,1.0,2242028,10,True,1,True
+19100,"Dallas-Fort Worth-Arlington, TX",TX,48,TX,1.0,8477157,11,True,1,True
+19740,"Denver-Aurora-Centennial, CO",CO,08,CO,1.0,3092037,10,True,1,True
+19820,"Detroit-Warren-Dearborn, MI",MI,26,MI,1.0,4390913,6,True,1,True
+26420,"Houston-Pasadena-The Woodlands, TX",TX,48,TX,1.0,7904627,10,True,1,True
+26900,"Indianapolis-Carmel-Greenwood, IN",IN,18,IN,1.0,2205695,11,True,1,True
+28140,"Kansas City, MO-KS",MO,29,MO,0.586783618313793,1332399,9,True,2,True
+28140,"Kansas City, MO-KS",MO,20,KS,0.41321638168620706,938283,5,False,2,False
+29820,"Las Vegas-Henderson-North Las Vegas, NV",NV,32,NV,1.0,2407226,1,True,1,True
+31080,"Los Angeles-Long Beach-Anaheim, CA",CA,06,CA,1.0,12844441,2,True,1,True
+33100,"Miami-Fort Lauderdale-West Palm Beach, FL",FL,12,FL,1.0,6391072,3,True,1,True
+33460,"Minneapolis-St. Paul-Bloomington, MN-WI",MN,27,MN,0.9625899831015792,3648500,13,True,2,True
+33460,"Minneapolis-St. Paul-Bloomington, MN-WI",MN,55,WI,0.037410016898420835,141795,2,False,2,False
+34980,"Nashville-Davidson--Murfreesboro--Franklin, TN",TN,47,TN,1.0,2197416,14,True,1,True
+35620,"New York-Newark-Jersey City, NY-NJ",NY,36,NY,0.6464566620632157,13001826,10,True,2,True
+35620,"New York-Newark-Jersey City, NY-NJ",NY,34,NJ,0.3535433379367842,7110622,12,False,2,False
+36740,"Orlando-Kissimmee-Sanford, FL",FL,12,FL,1.0,2957672,4,True,1,True
+37980,"Philadelphia-Camden-Wilmington, PA-NJ-DE-MD",PA,42,PA,0.6695727587951433,4237805,5,True,4,True
+37980,"Philadelphia-Camden-Wilmington, PA-NJ-DE-MD",PA,34,NJ,0.22059250593842616,1396156,4,False,4,False
+37980,"Philadelphia-Camden-Wilmington, PA-NJ-DE-MD",PA,10,DE,0.09290804816721698,588026,1,False,4,False
+37980,"Philadelphia-Camden-Wilmington, PA-NJ-DE-MD",PA,24,MD,0.016926687099213508,107131,1,False,4,False
+38060,"Phoenix-Mesa-Chandler, AZ",AZ,04,AZ,1.0,5228938,2,True,1,True
+38300,"Pittsburgh, PA",PA,42,PA,1.0,2421992,8,True,1,True
+38900,"Portland-Vancouver-Hillsboro, OR-WA",OR,41,OR,0.7857090598131915,1997494,5,True,2,True
+38900,"Portland-Vancouver-Hillsboro, OR-WA",OR,53,WA,0.21429094018680855,544788,2,False,2,False
+40140,"Riverside-San Bernardino-Ontario, CA",CA,06,CA,1.0,4769007,2,True,1,True
+40900,"Sacramento-Roseville-Folsom, CA",CA,06,CA,1.0,2477274,4,True,1,True
+41180,"St. Louis, MO-IL",MO,29,MO,0.7612464517568622,2142468,7,True,2,True
+41180,"St. Louis, MO-IL",MO,17,IL,0.23875354824313774,671953,8,False,2,False
+41700,"San Antonio-New Braunfels, TX",TX,48,TX,1.0,2813140,8,True,1,True
+41740,"San Diego-Chula Vista-Carlsbad, CA",CA,06,CA,1.0,3282248,1,True,1,True
+41860,"San Francisco-Oakland-Fremont, CA",CA,06,CA,1.0,4630041,5,True,1,True
+42660,"Seattle-Tacoma-Bellevue, WA",WA,53,WA,1.0,4161883,3,True,1,True
+45300,"Tampa-St. Petersburg-Clearwater, FL",FL,12,FL,1.0,3418895,4,True,1,True
+47900,"Washington-Arlington-Alexandria, DC-VA-MD-WV",DC,51,VA,0.4925272096365388,3184545,17,False,4,True
+47900,"Washington-Arlington-Alexandria, DC-VA-MD-WV",DC,24,MD,0.39043299713999546,2524432,4,False,4,False
+47900,"Washington-Arlington-Alexandria, DC-VA-MD-WV",DC,11,DC,0.10728032931810885,693645,1,True,4,False
+47900,"Washington-Arlington-Alexandria, DC-VA-MD-WV",DC,54,WV,0.009759463905356926,63102,1,False,4,False
