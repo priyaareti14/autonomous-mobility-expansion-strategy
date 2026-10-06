@@ -38,21 +38,21 @@ ROBOTAXI,DC,YES,D.C. Code 50-2351 to 50-2354 and 50-301.03/50-301.29a (code.dcco
 ROBOTAXI,DE,YES,YES,YES,,2026-10-05
 ROBOTAXI,FL,YES,"Fla. Stat. 316.85 and 627.749 (leg.state.fl.us, 2026 Statutes)",flsenate.gov 2026 316.85,Exact effective date of teleoperation language not confirmed,2026-10-05
 ROBOTAXI,GA,PARTIAL,"OCGA 40-8-11, 40-1-166, 40-5-21 via OCGA Release 84 (2022) mirror; official LexisNexis host not fetchable",Ga. Legislative Counsel 2017 session summary (SB 219),Post-2022 amendments not ruled out; TNC applicability and local preemption ambiguous under 40-8-11 commercial-use/no-limiting-rules clauses,2026-10-05
-ROBOTAXI,IL,PARTIAL,NO (host blocked),NO,LOW confidence: RT_TESTING_AUTHORIZATION;RT_DRIVERLESS_OPERATION;RT_COMMERCIAL_PASSENGER_SERVICE;RT_TNC_APPLICABILITY;RT_SAFETY_DRIVER_REQUIREMENT;RT_LOCAL_AUTHORITY;RT_STATE_APPROVAL_REQUIRED;RT_INSURANCE_MINIMUM,2026-10-05
+ROBOTAXI,IL,PARTIAL,PARTIAL (EO 2018-13 official; ilga.gov blocked),NO,Phase 6.5b: 625 ILCS 5/11-208(e-5) text and 2025-2026 bills unverified (manual checklist),2026-10-05
 ROBOTAXI,IN,YES,YES,NO,,2026-10-05
 ROBOTAXI,KS,YES,YES,NO,,2026-10-05
 ROBOTAXI,KY,YES,YES,NO,,2026-10-05
-ROBOTAXI,MA,PARTIAL,NO (host blocked),NO,LOW confidence: RT_TESTING_AUTHORIZATION;RT_DRIVERLESS_OPERATION;RT_COMMERCIAL_PASSENGER_SERVICE;RT_TNC_APPLICABILITY;RT_SAFETY_DRIVER_REQUIREMENT;RT_LOCAL_AUTHORITY;RT_STATE_APPROVAL_REQUIRED;RT_INSURANCE_MINIMUM,2026-10-05
+ROBOTAXI,MA,PARTIAL,NO (mass.gov blocked),NO,Phase 6.5b: EO 572 / successor and MassDOT program unverified (manual checklist),2026-10-05
 ROBOTAXI,MD,PARTIAL,MDOT MVA HAV testing permit process PDF; Md. Code PU 10-401,MDOT CAV collaboration-with-industry page,No statute located but Maryland Code full-text search and 2025-2026 bills not performed; legal basis of MVA permit unstated,2026-10-05
 ROBOTAXI,MI,YES,YES,NO,,2026-10-05
 ROBOTAXI,MN,YES,YES,YES,,2026-10-05
 ROBOTAXI,MO,YES,YES,NO,,2026-10-05
 ROBOTAXI,NC,YES,N.C. Gen. Stat. 20-400 to 20-403 and Article 10A (ncleg.gov),Article 18 full text,No explicit commercial/for-hire AV framework; driverless authority requires synthesis,2026-10-05
 ROBOTAXI,NH,YES,YES,NO,,2026-10-05
-ROBOTAXI,NJ,PARTIAL,NO (host blocked),NO,LOW confidence: RT_TESTING_AUTHORIZATION;RT_DRIVERLESS_OPERATION;RT_COMMERCIAL_PASSENGER_SERVICE;RT_TNC_APPLICABILITY;RT_SAFETY_DRIVER_REQUIREMENT;RT_LOCAL_AUTHORITY;RT_STATE_APPROVAL_REQUIRED;RT_INSURANCE_MINIMUM,2026-10-05
+ROBOTAXI,NJ,PARTIAL,NO (no retrievable statute search),NO,Phase 6.5b: Absence of NJ AV statute unverified on official code (manual checklist),2026-10-05
 ROBOTAXI,NV,YES,"NRS 482A, 706A, 706B (leg.state.nv.us, rev. 2026-04-15)","NAC 482A (testing certificate, certificate of compliance)",NTA regulations under NRS 706B not reviewed,2026-10-05
-ROBOTAXI,NY,PARTIAL,NO (host blocked),NO,LOW confidence: RT_TESTING_AUTHORIZATION;RT_COMMERCIAL_PASSENGER_SERVICE;RT_TNC_APPLICABILITY;RT_LOCAL_AUTHORITY;RT_STATE_APPROVAL_REQUIRED;RT_INSURANCE_MINIMUM,2026-10-05
-ROBOTAXI,OH,PARTIAL,NO (host blocked),NO,LOW confidence: RT_TESTING_AUTHORIZATION;RT_DRIVERLESS_OPERATION;RT_COMMERCIAL_PASSENGER_SERVICE;RT_TNC_APPLICABILITY;RT_SAFETY_DRIVER_REQUIREMENT;RT_LOCAL_AUTHORITY;RT_STATE_APPROVAL_REQUIRED;RT_INSURANCE_MINIMUM,2026-10-05
+ROBOTAXI,NY,PARTIAL,YES (L.2026 ch.58 Part E; L.2017 ch.55 Part FF),NO,Phase 6.5b: Program lapse 2026-04-01..2026-05-26; NYC DOT local permit unverified,2026-10-05
+ROBOTAXI,OH,PARTIAL,PARTIAL (DriveOhio policy page lists EO 2018-04K),NO,Phase 6.5b: EO 2018-04K text and ORC absence unverified (manual checklist),2026-10-05
 ROBOTAXI,OR,PARTIAL,2025 ORS full-text search of vehicle code and related chapters; ORS 184.667,Enrolled HB 4063 (2018),ODOT voluntary testing program unverified; driverless legality under human-driver vehicle code uncertain; 2026 short-session laws not searched,2026-10-05
 ROBOTAXI,PA,YES,YES,NO,,2026-10-05
 ROBOTAXI,SC,PARTIAL,S.C. Code Title 56 all chapters and Title 58 Ch. 23 (scstatehouse.gov),Title 56 Ch. 5,2025-2026 pending bills not checked; no agency AV page located,2026-10-05

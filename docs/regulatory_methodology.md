@@ -83,13 +83,13 @@ No state outside the universe was researched.
 | | Robotaxi | Sidewalk | Drone | Total |
 |---|---|---|---|---|
 | Records | 248 | 232 | 102 | 582 |
-| HIGH / MEDIUM / LOW | 74 / 136 / 38 | 106 / 119 / 7 | 33 / 54 / 15 | **213 / 309 / 60** |
-| Primary retrieved (`VERIFIED_PRIMARY`) | 208 | 211 | 88 | **507 (87%)** |
-| Primary cited, not retrievable | 8 | 21 | 7 | 36 |
-| Secondary only | 32 | 0 | 7 | 39 |
-| Second source checked (consistent / conflict) | 110 / 0 | 136 / 2 | 27 / 0 | **273 / 2** |
+| HIGH / MEDIUM / LOW | 74 / 140 / 34 | 106 / 119 / 7 | 33 / 54 / 15 | **213 / 313 / 56** |
+| Primary retrieved (`VERIFIED_PRIMARY`) | 213 | 211 | 88 | **512 (88%)** |
+| Primary cited, not retrievable | 6 | 21 | 7 | 34 |
+| Secondary only | 29 | 0 | 7 | 36 |
+| Second source checked (consistent / conflict) | 112 / 0 | 136 / 2 | 27 / 0 | **275 / 2** |
 
-The LOW-confidence records are concentrated in hosts that blocked retrieval: IL 11, MA 11, NJ 8, OH 8, TN 7, NY 6.
+The LOW-confidence records are concentrated in hosts that blocked retrieval: MA 11, IL 8, NJ 8, OH 8, TN 7, NY 5. These counts are after Phase 6.5b (§11).
 
 ## 6. Findings by mode (state level; full detail in the evidence file)
 
@@ -97,9 +97,9 @@ The LOW-confidence records are concentrated in hosts that blocked retrieval: IL 
 
 | Dimension | Status (jurisdictions) |
 |---|---|
-| Driverless operation | **Authorized by statute:** AZ CO FL GA KS KY MI NC NH NV TN TX WV · **with permit:** CA PA · **testing only:** DC · **unclear:** WA · **not authorized:** NY (VTL §1226) · **no specific statute:** DE IL IN MA MD MN MO NJ OH OR SC VA WI |
+| Driverless operation | **Authorized by statute:** AZ CO FL GA KS KY MI NC NH NV TN TX WV · **with permit:** CA PA · **testing only:** DC · **unclear:** WA · **not authorized:** IL (licensed driver in control required, per EO 2018-13; no dedicated driverless statute) · NY (VTL §1226; Part FF testing requires a licensed person on board) · **no specific statute:** DE IN MA MD MN MO NJ OH OR SC VA WI |
 | Commercial passenger service | **Statute:** AZ FL GA KS MI NH TN WV · **permit:** CA NV PA TX · **unclear:** KY · **no framework:** CO DC DE IL IN MA MD MN MO NC NJ NY OH OR SC VA WA WI |
-| Local authority | **State preempts:** AZ CA CO FL KS KY NC NV PA TN TX WV · **unclear:** GA NY · **not addressed:** the rest |
+| Local authority | **State preempts:** AZ CA CO FL IL KS KY NC NV PA TN TX WV · **unclear:** GA NY · **not addressed:** the rest |
 
 Material conditions recorded:
 - **Kansas:** a 12-month in-vehicle human driver is required for each new entity's vehicles with manual controls.
@@ -108,7 +108,7 @@ Material conditions recorded:
 - **Texas:** DMV authorization under SB 2807 (2025).
 - **Kentucky:** $1M insurance.
 - **New Hampshire:** $5M for testing.
-- **New York:** the testing program's status after 2026-04-01 is unverified.
+- **New York:** the Part FF testing program lapsed on 2026-04-01. L.2026 ch.58 Part E (signed 2026-05-26) revived it until 2028-04-01 (ambiguity 4.8).
 
 ### 6.2 Sidewalk delivery robot (PDD)
 
@@ -211,9 +211,42 @@ Each active candidate records:
 ## 10. Updating this evidence
 
 Re-verify in this order:
-1. The LOW-confidence jurisdictions (IL, MA, NJ, NY, OH robotaxi; TN sidewalk; CA, GA, IL, MA drone), preferably in a browser, since those hosts block automated retrieval.
+1. The LOW-confidence jurisdictions (MA, NJ, OH robotaxi and NY local authority, per the §11 checklist; TN sidewalk; CA, GA, IL, MA drone), preferably in a browser, since those hosts block automated retrieval.
 2. Pending federal BVLOS: Part 108 final rule status.
 3. Temporary provisions: D.C.'s PDD weight act expires 2027-04-02.
 4. Annual session laws in all 31 jurisdictions.
 
 `evidence/research_log.csv` records the last verified date and the open issue per jurisdiction and mode.
+
+## 11. Phase 6.5b: manual verification of low-confidence robotaxi jurisdictions
+
+**Scope.** IL, MA, NY, NJ and OH. The three active robotaxi candidates were re-verified: `RT_DRIVERLESS_OPERATION`, `RT_COMMERCIAL_PASSENGER_SERVICE` and `RT_LOCAL_AUTHORITY`. That makes 15 records. The evidence date stays 2026-10-05. Enacted, effective and access dates are recorded separately.
+
+**Method.**
+- Sources were tried in the protocol's priority order: statute, regulator, executive order, legislative history, then secondary sources (corroboration only).
+- Hosts that block automated retrieval (ilga.gov, mass.gov, the Ohio governor's documents) were tried once each, not repeatedly.
+- No status was upgraded without a retrieved official source.
+
+**Outcomes** (per record: `outputs/phase65/phase65b_change_log.csv`):
+
+| Outcome | Records |
+|---|---|
+| UPGRADED TO MEDIUM | RT-IL-03, RT-NY-03 |
+| STATUS CORRECTED, MEDIUM | RT-IL-02 (NO_SPECIFIC_STATUTE → NOT_AUTHORIZED: licensed driver required); RT-IL-06 (NOT_ADDRESSED → STATE_PREEMPTS_LOCAL; current citation 625 ILCS 5/11-208(e-10)) |
+| UNCHANGED, MEDIUM, now primary-verified | RT-NY-02 |
+| UNCHANGED, LOW, **MANUAL VERIFICATION UNRESOLVED** | RT-MA-02/03/06, RT-NJ-02/03/06, RT-OH-02/03/06, RT-NY-06 |
+
+Sources read on 2026-10-05:
+- Illinois EO 2018-13 (illinois.gov), enacted and effective 2018-10-25;
+- L.2017 ch.55 Part FF (nyassembly.gov PDF of S.2005-C / A.3005-C), effective 2017-04-01;
+- L.2026 ch.58 Part E (nyassembly.gov bill text and actions for A.10008-C), signed and effective 2026-05-26;
+- the DriveOhio policy page, which only lists EO 2018-04K and was used as context.
+
+**Provenance fixes.** The RT-IL citations were corrected (they had pointed to the NCSL drone page) and NY "Part FFF" was corrected to Part FF.
+
+**Phase 7 eligibility** (`outputs/phase65/phase7_regulatory_eligibility.csv`):
+- Rule: a state record of an active robotaxi dimension is base-model eligible only if it is `VERIFIED_PRIMARY` with MEDIUM or HIGH confidence.
+- After 6.5b: 28 of 31 states are eligible for driverless and commercial (the exceptions are MA, NJ, OH), and 27 of 31 for local authority (the exceptions are MA, NJ, OH, NY).
+- Remaining LOW records are `INCLUDE_ONLY_IN_SENSITIVITY`.
+
+The open browser checks are in `outputs/phase65/phase65b_manual_checklist.csv` and [regulatory_ambiguities.md](regulatory_ambiguities.md) §7.

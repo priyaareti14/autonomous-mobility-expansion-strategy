@@ -46,7 +46,8 @@ def main() -> int:
             select b.market_id, d.cbsa_name, d.principal_state_usps, b.state_fips, b.state_usps,
                    b.population_share_2025, b.state_population_2025, b.county_count
             from AUTONOMOUS_MOBILITY.CORE.BRG_MARKET_STATE b
-            join AUTONOMOUS_MOBILITY.CORE.DIM_MARKET d using (market_id)""")
+            join AUTONOMOUS_MOBILITY.CORE.DIM_MARKET d using (market_id)
+            order by b.market_id, b.state_usps""")
     finally:
         wh.close()
     brg["market_id"] = brg["market_id"].astype(str)
