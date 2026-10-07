@@ -46,7 +46,7 @@ Public data sources (Census, NOAA, BTS/FAA, EPA, official regulatory sources)
 
 This is the *planned* design. Components are listed here only as they get built and validated.
 
-**Built so far (Phases 1–7):**
+**Built so far (Phases 1–8):**
 - **Ingestion:** reproducible Python ingestion of 27 public datasets into Snowflake RAW (25 in Phase 3, plus two Phase 6 extensions: the Census Geocoder airport counties and the NOAA HOMR station-history report), with a META audit trail of checksums, idempotent reruns and source-to-RAW reconciliation.
 - **dbt (Core 1.12):**
   - 27 staging views
@@ -56,7 +56,16 @@ This is the *planned* design. Components are listed here only as they get built 
   - Phase 6: 12 feature-engineering intermediate models, 3 mode feature marts and `DIM_FEATURE`
   - 519 tests, all passing (336 at the end of Phase 4)
 
-**Phase 7 (in review):** a transparent **baseline** readiness model (`baseline_v1`) built in dbt, in three steps:
+**Phase 8 (in review):** sensitivity, robustness and external validation of the frozen baseline (`scripts/run_phase8_sensitivity.py`, `scripts/run_phase8_deployment_validation.py`; outputs in `outputs/phase8/`). Nothing in the baseline changed. The tests:
+- **Weights:** 10,000 seeded Dirichlet component-weight draws per mode, plus named business-priority scenarios.
+- **Normalization:** raw and winsorized min-max alternatives.
+- **Regulation:** robotaxi pessimistic, neutral and optimistic bounds for the unresolved regulatory records, with nested weight sensitivity.
+- **Methodology:** one-at-a-time alternatives (feature drops, A4 airport, block-group density, W2/W3/W4 weather, p90 wind, regulatory coding).
+- **Deployment:** a deployment comparison run only after the results were frozen (checksum manifest), as an external reasonableness check, not accuracy.
+
+Robust results so far: robotaxi San Francisco, Los Angeles and San Diego are top 5 in at least 96% of weight draws and in every named test. Most other positions are weight- or regulation-dependent ([docs/robustness_and_sensitivity.md](docs/robustness_and_sensitivity.md)).
+
+**Phase 7:** a transparent **baseline** readiness model (`baseline_v1`) built in dbt, in three steps:
 - **Feature scores.** The 30 active features are scored by average-rank percentile in their contract direction, and the 7 regulatory dimensions by verified favorable population share.
 - **Weights.** Weights are equal within components and across active components: robotaxi C1–C4 at 25% each (C5 is structurally absent), sidewalk and drone C1–C5 at 20% each.
 - **Baseline score.** Components combine into a 0–100 baseline readiness score with a **baseline** rank within each mode.
@@ -80,14 +89,14 @@ Markets whose regulatory evidence is incomplete or LOW confidence get no score o
 | 5 | EDA + feature audit + mapping-method evaluation | **Complete** |
 | 6 | Production feature layer (pre-regulatory mode feature sets) | **Complete** |
 | 6.5 | Regulatory & deployment evidence curation | **Complete** |
-| 7 | Mode-specific readiness models (baseline) | **Complete (in review)** |
-| 8 | Sensitivity analysis | Not started |
+| 7 | Mode-specific readiness models (baseline) | **Complete** |
+| 8 | Sensitivity, robustness and external validation | **Complete (in review)** |
 | 9 | Analytical output write-back + reconciliation | Not started |
 | 10 | Power BI semantic model, dashboard, scenario simulator | Not started |
 | 11 | Full QA | Not started |
 | 12 | CI, documentation, portfolio case study | Not started |
 
-Baseline scores and ranks exist (Phase 7). No recommendation exists yet: Phase 8 tests how robust the baseline ranks are.
+Baseline scores and ranks exist (Phase 7), with robustness ranges (Phase 8). No final recommendation exists yet: the decision system and dashboard come in Phases 9–10.
 
 ## Documentation
 
@@ -109,4 +118,7 @@ Baseline scores and ranks exist (Phase 7). No recommendation exists yet: Phase 8
 - [docs/deployment_validation_plan.md](docs/deployment_validation_plan.md): how deployment evidence may (and may not) be used in Phase 8
 - [docs/readiness_model.md](docs/readiness_model.md): Phase 7 baseline readiness model: normalization, weights, regulatory scoring, incomplete-regulation rule, interpretation rules, Phase 8 handoff
 - [docs/score_reconciliation.md](docs/score_reconciliation.md): how every Phase 7 score reconciles to its parts (dbt tests and independent recomputation)
+- [docs/robustness_and_sensitivity.md](docs/robustness_and_sensitivity.md): Phase 8 weight, normalization, regulatory and methodology sensitivity; robust vs assumption-dependent findings
+- [docs/deployment_validation.md](docs/deployment_validation.md): Phase 8 external reasonableness check against deployment evidence (not accuracy)
+- [docs/scenario_simulator_contract.md](docs/scenario_simulator_contract.md): the What-If scenario contract and compact datasets for the future Power BI model
 - [evidence/research_protocol.md](evidence/research_protocol.md): the evidence coding contract

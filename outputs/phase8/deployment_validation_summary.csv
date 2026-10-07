@@ -1,0 +1,10 @@
+mode,cohort,deployment_markets,deployment_markets_ranked,deployment_markets_unscored_c4_incomplete,ranked_markets,median_baseline_rank_deployment,median_baseline_rank_no_recorded_deployment,median_mean_rank_deployment,median_mean_rank_no_recorded_deployment,median_top10_frequency_deployment,median_top10_frequency_no_recorded_deployment,share_of_deployment_markets_in_baseline_top5,share_of_deployment_markets_in_baseline_top10,baseline_top5_with_deployment,baseline_top10_with_deployment,share_of_ranked_markets_with_deployment
+DRONE_DELIVERY,current_commercial_broad,11,10,1,25,10.000000,15.000000,12.870250,14.171900,0.371350,0.273300,0.200000,0.500000,2,5,0.400000
+DRONE_DELIVERY,current_commercial_primary,11,10,1,25,10.000000,15.000000,12.870250,14.171900,0.371350,0.273300,0.200000,0.500000,2,5,0.400000
+DRONE_DELIVERY,current_commercial_primary_verified,11,10,1,25,10.000000,15.000000,12.870250,14.171900,0.371350,0.273300,0.200000,0.500000,2,5,0.400000
+ROBOTAXI,current_commercial_broad,15,15,0,29,9.000000,22.500000,11.522600,21.136650,0.451400,0.087050,0.333333,0.600000,5,9,0.517241
+ROBOTAXI,current_commercial_primary,15,15,0,29,9.000000,22.500000,11.522600,21.136650,0.451400,0.087050,0.333333,0.600000,5,9,0.517241
+ROBOTAXI,current_commercial_primary_verified,14,14,0,29,8.500000,22.000000,11.098350,20.906100,0.489850,0.029600,0.357143,0.642857,5,9,0.482759
+SIDEWALK_DELIVERY,current_commercial_broad,8,7,1,31,10.000000,18.500000,11.212800,16.314250,0.444200,0.208050,0.142857,0.571429,1,4,0.225806
+SIDEWALK_DELIVERY,current_commercial_primary,8,7,1,31,10.000000,18.500000,11.212800,16.314250,0.444200,0.208050,0.142857,0.571429,1,4,0.225806
+SIDEWALK_DELIVERY,current_commercial_primary_verified,7,6,1,31,9.500000,18.000000,10.740150,15.486500,0.482550,0.192100,0.166667,0.666667,1,4,0.193548

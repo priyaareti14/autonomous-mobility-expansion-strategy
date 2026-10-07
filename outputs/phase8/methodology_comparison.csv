@@ -1,0 +1,25 @@
+mode,test_id,family,description,n_markets_compared,spearman_rho,kendall_tau_b,top5_overlap,top10_overlap,max_abs_rank_movement,markets_moving_ge_5
+DRONE_DELIVERY,ABSENCE_HALF_CREDIT,REGULATORY_CODING,A-043/A-055: verified absence earns half credit (score = 100 x (favorable + 0.5 x absence share)),25,0.886110,0.772575,4,8,6,8
+DRONE_DELIVERY,ELIGIBILITY_CONFIDENCE_ONLY,REGULATORY_CODING,A-051: MEDIUM/HIGH evidence is eligible whether or not the primary source was retrieved,25,1.000000,1.000000,4,9,1,0
+DRONE_DELIVERY,WEATHER_W2,WEATHER,"Phase 5 W2 station method for days_precip_ge_010_in, days_tmax_ge_90f (snowfall: baseline unless W3)",25,0.998846,0.989967,5,10,1,0
+DRONE_DELIVERY,WEATHER_W3,WEATHER,"Phase 5 W3 station method for days_precip_ge_010_in, days_tmax_ge_90f, annual_snowfall_in (snowfall: baseline unless W3)",25,0.997500,0.984976,5,10,2,0
+DRONE_DELIVERY,WEATHER_W4,WEATHER,"Phase 5 W4 station method for days_precip_ge_010_in, days_tmax_ge_90f (snowfall: baseline unless W3)",25,0.992497,0.969900,5,10,3,0
+DRONE_DELIVERY,WIND_P90_HOURLY_NORMALS,WIND,"PF14 from the p90 of hourly-mean wind normals (PX04): a climatological statistic, not observed extremes",25,0.990960,0.964943,5,10,3,0
+ROBOTAXI,AIRPORT_A4,AIRPORT,"PF04 from the A4 80 km radius diagnostic (PX03), LOG1P",29,0.999507,0.995074,5,9,1,0
+ROBOTAXI,DENSITY_D3_BLOCK_GROUP,DENSITY,"PF02 from population-weighted block-group density (EPA SLD 2018 diagnostic, PX02), LOG1P",29,0.999507,0.995074,5,10,1,0
+ROBOTAXI,DROP_COMMERCIAL_DIMENSION,FEATURE_DROP,Drop the commercial-passenger dimension from C4 (driverless + local authority; A-056),29,0.990148,0.955665,5,10,5,1
+ROBOTAXI,DROP_INCOME,FEATURE_DROP,Drop PF05 median household income from C1 (4 features at 1/4),29,0.988177,0.926108,5,9,3,0
+ROBOTAXI,DROP_WAGE,FEATURE_DROP,Drop PF09 shuttle/chauffeur wage from C3 (PF06 alone),29,0.936569,0.806412,4,9,6,5
+ROBOTAXI,ABSENCE_HALF_CREDIT,REGULATORY_CODING,A-043/A-055: verified absence earns half credit (score = 100 x (favorable + 0.5 x absence share)),29,0.908374,0.798030,5,9,9,8
+ROBOTAXI,ELIGIBILITY_CONFIDENCE_ONLY,REGULATORY_CODING,A-051: MEDIUM/HIGH evidence is eligible whether or not the primary source was retrieved,29,1.000000,1.000000,5,10,0,0
+ROBOTAXI,WEATHER_W2,WEATHER,"Phase 5 W2 station method for days_precip_ge_010_in, days_tmax_ge_90f (snowfall: baseline unless W3)",29,0.998522,0.985222,5,10,1,0
+ROBOTAXI,WEATHER_W3,WEATHER,"Phase 5 W3 station method for days_precip_ge_010_in, days_tmax_ge_90f, annual_snowfall_in (snowfall: baseline unless W3)",29,0.992118,0.955665,5,9,4,0
+ROBOTAXI,WEATHER_W4,WEATHER,"Phase 5 W4 station method for days_precip_ge_010_in, days_tmax_ge_90f (snowfall: baseline unless W3)",29,0.989163,0.940887,5,9,4,0
+SIDEWALK_DELIVERY,DENSITY_D3_BLOCK_GROUP,DENSITY,"PF02 from population-weighted block-group density (EPA SLD 2018 diagnostic, PX02), LOG1P",31,0.999194,0.991398,5,10,1,0
+SIDEWALK_DELIVERY,DROP_DENSITY,FEATURE_DROP,Drop PF02 population-weighted density from C1 (4 features),31,0.993548,0.948387,5,9,3,0
+SIDEWALK_DELIVERY,ABSENCE_HALF_CREDIT,REGULATORY_CODING,A-043/A-055: verified absence earns half credit (score = 100 x (favorable + 0.5 x absence share)),31,0.947581,0.840860,4,7,7,6
+SIDEWALK_DELIVERY,ELIGIBILITY_CONFIDENCE_ONLY,REGULATORY_CODING,A-051: MEDIUM/HIGH evidence is eligible whether or not the primary source was retrieved,31,0.999597,0.995699,5,10,1,0
+SIDEWALK_DELIVERY,NEVADA_UNADJUSTED,REGULATORY_CODING,A-046: Nevada's campus-only PDD statute counted as a general authorization (scope adjustment removed),31,0.999194,0.991398,5,10,1,0
+SIDEWALK_DELIVERY,WEATHER_W2,WEATHER,"Phase 5 W2 station method for days_precip_ge_010_in, days_tmax_ge_90f (snowfall: baseline unless W3)",31,0.994758,0.961290,4,10,3,0
+SIDEWALK_DELIVERY,WEATHER_W3,WEATHER,"Phase 5 W3 station method for days_precip_ge_010_in, days_tmax_ge_90f, annual_snowfall_in (snowfall: baseline unless W3)",31,0.995565,0.969892,5,10,3,0
+SIDEWALK_DELIVERY,WEATHER_W4,WEATHER,"Phase 5 W4 station method for days_precip_ge_010_in, days_tmax_ge_90f (snowfall: baseline unless W3)",31,0.992339,0.948387,4,10,2,0

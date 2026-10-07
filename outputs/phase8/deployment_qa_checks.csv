@@ -1,0 +1,6 @@
+check,status,detail
+all 23 sensitivity outputs match their frozen checksums,PASS,
+deployment evidence date is 2026-10-05 for every record,PASS,
+deployment evidence is the committed Phase 6.5 file (no local edits),PASS,
+every market x mode has one validation row,PASS,
+sensitivity outputs unchanged after the deployment comparison,PASS,

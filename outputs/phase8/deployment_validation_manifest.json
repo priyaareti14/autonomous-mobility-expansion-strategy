@@ -1,0 +1,30 @@
+{
+  "deployment_evidence_file": "evidence/deployment_evidence.csv",
+  "deployment_evidence_sha256_lf": "1becbf9b2e1fcd10b7993337a80a0df0df9ac5db1048ad60ff804163c7927954",
+  "deployment_evidence_as_of": "2026-10-05",
+  "verified_sensitivity_manifest_sha256": "d1ae0c0e5da2d06dc8b27761ebad9c54369fb329e700df8b7a2d06f5bc79eee2",
+  "primary_cohort": {
+    "statuses": [
+      "COMMERCIAL",
+      "LIMITED_COMMERCIAL"
+    ],
+    "end_date": "blank (open-ended)",
+    "market_resolution": [
+      "WITHIN_MARKET_PARTIAL",
+      "CITY_ONLY"
+    ]
+  },
+  "broad_cohort_market_resolution": [
+    "WITHIN_MARKET_PARTIAL",
+    "CITY_ONLY",
+    "CAMPUS_OR_SITE",
+    "MULTI_MARKET"
+  ],
+  "mismatch_thresholds": {
+    "high_model": "top-10 frequency >= 0.5",
+    "low_model": "top-10 frequency <= 0.1"
+  },
+  "interpretation": "External reasonableness check only; not accuracy; deployment presence is not ground truth",
+  "qa_checks_passed": 5,
+  "qa_checks_failed": 0
+}
