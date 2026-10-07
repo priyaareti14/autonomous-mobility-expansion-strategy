@@ -5,6 +5,19 @@
 --   2. no DIM_FEATURE row (name, description, source, lineage) cites a deployment source or operator;
 --   3. no ANALYTICS relation is a deployment table.
 -- Phase 7: check 1 also covers every baseline scoring relation (scores, ranks, decompositions).
+-- Phase 9: check 1 also covers every Power BI publication relation except the single sanctioned
+-- external-validation table PBI_FCT_DEPLOYMENT_VALIDATION, which is also the only deployment relation
+-- allowed in ANALYTICS (check 3). Scoring and robustness relations never read it.
+-- depends_on: {{ ref('pbi_dim_market') }}
+-- depends_on: {{ ref('pbi_dim_feature') }}
+-- depends_on: {{ ref('pbi_dim_scenario') }}
+-- depends_on: {{ ref('pbi_fct_market_baseline') }}
+-- depends_on: {{ ref('pbi_fct_market_component') }}
+-- depends_on: {{ ref('pbi_fct_market_feature_contribution') }}
+-- depends_on: {{ ref('pbi_fct_market_robustness') }}
+-- depends_on: {{ ref('pbi_fct_business_scenario') }}
+-- depends_on: {{ ref('pbi_fct_regulatory_uncertainty') }}
+-- depends_on: {{ ref('pbi_fct_deployment_validation') }}
 -- depends_on: {{ ref('mart_robotaxi_features') }}
 -- depends_on: {{ ref('mart_sidewalk_delivery_features') }}
 -- depends_on: {{ ref('mart_drone_delivery_features') }}
@@ -23,7 +36,11 @@
                          'MART_DRONE_DELIVERY_FEATURES', 'DIM_FEATURE',
                          'FCT_REGULATORY_DIMENSION_SCORES', 'FCT_FEATURE_SCORES', 'FCT_COMPONENT_SCORES',
                          'FCT_READINESS_BASELINE', 'MART_ROBOTAXI_READINESS_BASELINE',
-                         'MART_SIDEWALK_DELIVERY_READINESS_BASELINE', 'MART_DRONE_DELIVERY_READINESS_BASELINE'] %}
+                         'MART_SIDEWALK_DELIVERY_READINESS_BASELINE', 'MART_DRONE_DELIVERY_READINESS_BASELINE',
+                         'PBI_DIM_MARKET', 'PBI_DIM_MODE', 'PBI_DIM_COMPONENT', 'PBI_DIM_FEATURE', 'PBI_DIM_SCENARIO',
+                         'PBI_DIM_REGULATORY_SCENARIO', 'PBI_FCT_MARKET_BASELINE', 'PBI_FCT_MARKET_COMPONENT',
+                         'PBI_FCT_MARKET_FEATURE_CONTRIBUTION', 'PBI_FCT_MARKET_ROBUSTNESS',
+                         'PBI_FCT_BUSINESS_SCENARIO', 'PBI_FCT_REGULATORY_UNCERTAINTY'] %}
 with cols as (
     select table_name, lower(column_name) as column_name
     from {{ target.database }}.information_schema.columns
@@ -56,3 +73,4 @@ select 'deployment relation in ANALYTICS', table_name, null
 from {{ target.database }}.information_schema.tables
 where table_schema = 'ANALYTICS'
   and (table_name ilike '%DEPLOY%' or table_name ilike '%OPERATOR%')
+  and table_name <> 'PBI_FCT_DEPLOYMENT_VALIDATION'

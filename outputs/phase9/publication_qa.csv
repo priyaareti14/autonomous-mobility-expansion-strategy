@@ -1,0 +1,18 @@
+check,status,detail
+Phase 9 seeds match outputs/phase8 and config (build_powerbi_seeds --check),PASS,stale: []
+PBI_FCT_MARKET_BASELINE reconciles with its committed source (105 rows),PASS,unmatched rows 0
+PBI_FCT_MARKET_COMPONENT reconciles with its committed source (490 rows),PASS,unmatched rows 0
+PBI_FCT_MARKET_FEATURE_CONTRIBUTION reconciles with its committed source (1295 rows),PASS,unmatched rows 0
+PBI_FCT_MARKET_ROBUSTNESS reconciles with its committed source (105 rows),PASS,unmatched rows 0
+PBI_FCT_BUSINESS_SCENARIO reconciles with its committed source (595 rows),PASS,unmatched rows 0
+PBI_FCT_REGULATORY_UNCERTAINTY reconciles with its committed source (315 rows),PASS,unmatched rows 0
+PBI_FCT_DEPLOYMENT_VALIDATION reconciles with its committed source (105 rows),PASS,unmatched rows 0
+PBI_DIM_SCENARIO reconciles with its committed source (17 rows),PASS,unmatched rows 0
+deployment seeds feed only PBI_FCT_DEPLOYMENT_VALIDATION,PASS,pbi_fct_deployment_validation
+no Phase 7 scoring model reads a Phase 8 seed,PASS,
+Phase 8 seeds are read only by the publication layer,PASS,
+no deployment field in any publication table except the validation table,PASS,
+"NULL baseline scores preserved (robotaxi 6, sidewalk 4, drone 10 incomplete)",PASS,
+robotaxi C5 absent from the component fact,PASS,
+named scenario weights sum to 1,PASS,
+data dictionary covers every published column,PASS,190 columns

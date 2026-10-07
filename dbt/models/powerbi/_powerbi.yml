@@ -1,0 +1,249 @@
+version: 2
+
+# Phase 9 Power BI publication layer (PBI_*). These relations REPORT the approved Phase 7 baseline
+# (bc2023b) and Phase 8 robustness/validation (7438ee7); they compute no new analytical result.
+# Relationship contract: docs/powerbi_semantic_model.md.
+
+models:
+  - name: pbi_dim_market
+    description: "Market dimension for Power BI: the 35 frozen CBSA markets with population-weighted map coordinates. Grain: market_id."
+    tests:
+      - row_count_equals: {arguments: {expected: 35}}
+    columns:
+      - name: market_id
+        description: "5-digit CBSA code (key)."
+        tests: [not_null, unique]
+      - name: market_name
+        tests: [not_null]
+      - name: latitude
+        description: "Population-weighted centre of the market's tracts (decimal degrees)."
+        tests: [not_null, {values_between: {arguments: {min_value: 24, max_value: 50}}}]
+      - name: longitude
+        tests: [not_null, {values_between: {arguments: {min_value: -125, max_value: -66}}}]
+
+  - name: pbi_dim_mode
+    description: "Mode dimension (3 rows). Scores are mode-specific and never combined."
+    tests:
+      - row_count_equals: {arguments: {expected: 3}}
+    columns:
+      - name: mode
+        tests: [not_null, unique]
+
+  - name: pbi_dim_component
+    description: "Readiness component dimension (C1-C5). Robotaxi uses C1-C4 only."
+    tests:
+      - row_count_equals: {arguments: {expected: 5}}
+    columns:
+      - name: component
+        tests: [not_null, unique]
+      - name: component_code
+        tests: [not_null, unique]
+
+  - name: pbi_dim_feature
+    description: "Scored model inputs per mode: 30 contract features + 7 regulatory dimensions. Grain: feature_key (mode|feature_id)."
+    tests:
+      - row_count_equals: {arguments: {expected: 37}}
+    columns:
+      - name: feature_key
+        tests: [not_null, unique]
+      - name: component
+        tests:
+          - relationships: {arguments: {to: ref('pbi_dim_component'), field: component}}
+
+  - name: pbi_dim_scenario
+    description: "Approved named business-priority scenarios (Phase 8 contract). Grain: scenario_id. Scenario assumptions, not preference estimates."
+    tests:
+      - row_count_equals: {arguments: {expected: 17}}
+    columns:
+      - name: scenario_id
+        tests: [not_null, unique]
+      - name: mode
+        tests:
+          - relationships: {arguments: {to: ref('pbi_dim_mode'), field: mode}}
+
+  - name: pbi_dim_regulatory_scenario
+    description: "The three Phase 8 regulatory-uncertainty bounds (pessimistic / neutral / optimistic). Never averaged."
+    tests:
+      - row_count_equals: {arguments: {expected: 3}}
+    columns:
+      - name: regulatory_scenario
+        tests: [not_null, unique]
+
+  - name: pbi_fct_market_baseline
+    description: "Frozen Phase 7 baseline per market and mode (copied from FCT_READINESS_BASELINE). NULL score/rank where regulatory evidence is incomplete."
+    tests:
+      - row_count_equals: {arguments: {expected: 105}}
+      - unique_combination_of_columns: {arguments: {combination_of_columns: [market_id, mode]}}
+    columns:
+      - name: market_id
+        tests:
+          - not_null
+          - relationships: {arguments: {to: ref('pbi_dim_market'), field: market_id}}
+      - name: mode
+        tests:
+          - not_null
+          - relationships: {arguments: {to: ref('pbi_dim_mode'), field: mode}}
+      - name: baseline_readiness_score
+        description: "0-100, within mode only. NULL = not determinable from verified evidence."
+        tests:
+          - values_between: {arguments: {min_value: 0, max_value: 100}}
+      - name: baseline_rank
+        description: "BASELINE rank among complete markets of the mode (1 = highest). Not a final recommendation."
+        tests:
+          - values_between: {arguments: {min_value: 1, max_value: 35}}
+
+  - name: pbi_fct_market_component
+    description: "Phase 7 component scores per market, mode and component. No robotaxi C5 rows."
+    tests:
+      - row_count_equals: {arguments: {expected: 490}}
+      - unique_combination_of_columns: {arguments: {combination_of_columns: [market_id, mode, component]}}
+    columns:
+      - name: market_id
+        tests:
+          - relationships: {arguments: {to: ref('pbi_dim_market'), field: market_id}}
+      - name: mode
+        tests:
+          - relationships: {arguments: {to: ref('pbi_dim_mode'), field: mode}}
+      - name: component
+        tests:
+          - relationships: {arguments: {to: ref('pbi_dim_component'), field: component}}
+      - name: component_score
+        tests:
+          - values_between: {arguments: {min_value: 0, max_value: 100}}
+
+  - name: pbi_fct_market_feature_contribution
+    description: "Phase 7 feature-level explainability: raw, transformed, score, weight and contribution per input."
+    tests:
+      - row_count_equals: {arguments: {expected: 1295}}
+      - unique_combination_of_columns: {arguments: {combination_of_columns: [market_id, feature_key]}}
+    columns:
+      - name: market_id
+        tests:
+          - relationships: {arguments: {to: ref('pbi_dim_market'), field: market_id}}
+      - name: feature_key
+        tests:
+          - relationships: {arguments: {to: ref('pbi_dim_feature'), field: feature_key}}
+      - name: mode
+        tests:
+          - relationships: {arguments: {to: ref('pbi_dim_mode'), field: mode}}
+      - name: feature_score
+        tests:
+          - values_between: {arguments: {min_value: 0, max_value: 100}}
+
+  - name: pbi_fct_market_robustness
+    description: "Phase 8 robustness per market and mode (10,000 Dirichlet draws, seed 20261007). Frequencies are shares of tested weight configurations. Approved pattern flags; no composite score."
+    tests:
+      - row_count_equals: {arguments: {expected: 105}}
+      - unique_combination_of_columns: {arguments: {combination_of_columns: [market_id, mode]}}
+    columns:
+      - name: market_id
+        tests:
+          - relationships: {arguments: {to: ref('pbi_dim_market'), field: market_id}}
+      - name: mode
+        tests:
+          - relationships: {arguments: {to: ref('pbi_dim_mode'), field: mode}}
+      - name: top_5_frequency
+        tests:
+          - values_between: {arguments: {min_value: 0, max_value: 1}}
+      - name: top_10_frequency
+        tests:
+          - values_between: {arguments: {min_value: 0, max_value: 1}}
+
+  - name: pbi_fct_business_scenario
+    description: "Phase 8 named business-scenario results per market and scenario (NEUTRAL = baseline)."
+    tests:
+      - row_count_equals: {arguments: {expected: 595}}
+      - unique_combination_of_columns: {arguments: {combination_of_columns: [market_id, scenario_id]}}
+    columns:
+      - name: market_id
+        tests:
+          - relationships: {arguments: {to: ref('pbi_dim_market'), field: market_id}}
+      - name: scenario_id
+        tests:
+          - relationships: {arguments: {to: ref('pbi_dim_scenario'), field: scenario_id}}
+      - name: mode
+        tests:
+          - relationships: {arguments: {to: ref('pbi_dim_mode'), field: mode}}
+      - name: scenario_score
+        tests:
+          - values_between: {arguments: {min_value: 0, max_value: 100}}
+      - name: scenario_rank
+        tests:
+          - values_between: {arguments: {min_value: 1, max_value: 35}}
+
+  - name: pbi_fct_regulatory_uncertainty
+    description: "Phase 8 regulatory bounds in long form (3 per market and mode); robotaxi rows carry the nested weight sensitivity. Never averaged."
+    tests:
+      - row_count_equals: {arguments: {expected: 315}}
+      - unique_combination_of_columns: {arguments: {combination_of_columns: [market_id, mode, regulatory_scenario]}}
+    columns:
+      - name: market_id
+        tests:
+          - relationships: {arguments: {to: ref('pbi_dim_market'), field: market_id}}
+      - name: mode
+        tests:
+          - relationships: {arguments: {to: ref('pbi_dim_mode'), field: mode}}
+      - name: regulatory_scenario
+        tests:
+          - relationships: {arguments: {to: ref('pbi_dim_regulatory_scenario'), field: regulatory_scenario}}
+      - name: scenario_rank
+        tests:
+          - not_null
+          - values_between: {arguments: {min_value: 1, max_value: 35}}
+      - name: regulatory_score
+        tests:
+          - values_between: {arguments: {min_value: -0.001, max_value: 100.001}}
+
+  - name: pbi_fct_deployment_validation
+    description: "EXTERNAL VALIDATION ONLY: deployment presence and cohort per market and mode (evidence as of 2026-10-05). Not an input, not ground truth, not accuracy."
+    tests:
+      - row_count_equals: {arguments: {expected: 105}}
+      - unique_combination_of_columns: {arguments: {combination_of_columns: [market_id, mode]}}
+    columns:
+      - name: market_id
+        tests:
+          - relationships: {arguments: {to: ref('pbi_dim_market'), field: market_id}}
+      - name: mode
+        tests:
+          - relationships: {arguments: {to: ref('pbi_dim_mode'), field: mode}}
+      - name: deployment_status
+        tests:
+          - accepted_values:
+              arguments:
+                values: [CURRENT_COMMERCIAL, PILOT_TESTING_OR_ANNOUNCED, ENDED_OR_PAUSED_ONLY, OTHER_RECORD_ONLY, NO_RECORDED_DEPLOYMENT]
+
+seeds:
+  - name: p8_robustness_summary
+    description: "Generated from outputs/phase8/robustness_summary.csv by scripts/build_powerbi_seeds.py (do not edit)."
+    tests:
+      - row_count_equals: {arguments: {expected: 105}}
+      - unique_combination_of_columns: {arguments: {combination_of_columns: [mode, market_id]}}
+  - name: p8_weight_sensitivity
+    description: "Generated from outputs/phase8/weight_sensitivity_summary.csv (aggregates only; no draw matrix)."
+    tests:
+      - row_count_equals: {arguments: {expected: 190}}
+      - unique_combination_of_columns: {arguments: {combination_of_columns: [mode, regulatory_scenario, market_id]}}
+  - name: p8_business_scenarios
+    description: "Generated from outputs/phase8/business_priority_scenarios.csv."
+    tests:
+      - row_count_equals: {arguments: {expected: 595}}
+  - name: p8_scenario_contract
+    description: "Generated from outputs/phase8/scenario_simulator_contract.csv (the What-If contract)."
+    tests:
+      - row_count_equals: {arguments: {expected: 17}}
+  - name: p8_regulatory_uncertainty
+    description: "Generated from outputs/phase8/regulatory_uncertainty.csv."
+    tests:
+      - row_count_equals: {arguments: {expected: 105}}
+  - name: p8_deployment_validation
+    description: "Generated from outputs/phase8/deployment_validation.csv (external validation only)."
+    tests:
+      - row_count_equals: {arguments: {expected: 105}}
+  - name: p8_deployment_mismatch
+    description: "Generated from outputs/phase8/deployment_mismatch_review.csv (external validation only)."
+    tests:
+      - row_count_equals: {arguments: {expected: 34}}
+  - name: pbi_regulatory_dimension_labels
+    description: "Display labels of the 7 active regulatory dimensions, generated from config/regulatory_feature_contract.csv."
+    tests:
+      - row_count_equals: {arguments: {expected: 7}}

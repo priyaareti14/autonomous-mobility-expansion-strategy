@@ -1,0 +1,191 @@
+table,column,data_type,business_name,description,unit,format,key_flag,visibility_recommendation
+PBI_DIM_COMPONENT,component,TEXT,Component,Component key,,,PK,SHOW
+PBI_DIM_COMPONENT,component_code,TEXT,Component Code,Short component code (C1-C5),,,,SHOW
+PBI_DIM_COMPONENT,component_name,TEXT,Component Name,Component display name,,,,SHOW
+PBI_DIM_COMPONENT,sort_order,NUMBER,Sort Order,Display sort order,,,,HIDE
+PBI_DIM_COMPONENT,component_description,TEXT,Component Description,What the component measures,,,,SHOW
+PBI_DIM_FEATURE,feature_key,TEXT,Feature Key,Feature key (mode|feature_id),,,PK,HIDE
+PBI_DIM_FEATURE,mode,TEXT,Mode,Mode key,,,FK,HIDE
+PBI_DIM_FEATURE,feature_id,TEXT,Feature Id,Contract feature id (PFxx) or regulatory feature id (RG-xx-xx),,,,HIDE
+PBI_DIM_FEATURE,feature_name,TEXT,Feature Name,Technical input name,,,,SHOW
+PBI_DIM_FEATURE,feature_label,TEXT,Feature Label,Readable input name,,,,SHOW
+PBI_DIM_FEATURE,component,TEXT,Component,Component key,,,FK,HIDE
+PBI_DIM_FEATURE,direction,TEXT,Direction,Whether higher or lower raw values are more favorable,,,,SHOW
+PBI_DIM_FEATURE,transformation,TEXT,Transformation,Approved transformation applied before scoring,,,,HIDE
+PBI_DIM_FEATURE,unit,TEXT,Unit,Unit of the raw value,,,,SHOW
+PBI_DIM_FEATURE,score_method,TEXT,Score Method,How the input is scored (percentile or verified favorable share),,,,HIDE
+PBI_DIM_FEATURE,feature_description,TEXT,Feature Description,What the input measures,,,,SHOW
+PBI_DIM_FEATURE,source_vintage,TEXT,Source Vintage,Source vintage of the input,,,,SHOW
+PBI_DIM_FEATURE,known_limitation,TEXT,Known Limitation,Documented limitation of the input,,,,SHOW
+PBI_DIM_FEATURE,regulatory_input_flag,BOOLEAN,Regulatory Input Flag,TRUE for the regulatory (C4) dimensions,,True/False,,SHOW
+PBI_DIM_MARKET,market_id,TEXT,Market Id,5-digit CBSA code (key).,,,PK,HIDE
+PBI_DIM_MARKET,market_name,TEXT,Market Name,CBSA title (OMB July 2023),,,,SHOW
+PBI_DIM_MARKET,market_short_name,TEXT,Market Short Name,Principal city (display label),,,,SHOW
+PBI_DIM_MARKET,principal_state_usps,TEXT,Principal State Usps,State of the principal city,,,,SHOW
+PBI_DIM_MARKET,states,TEXT,States,States the market spans,,,,SHOW
+PBI_DIM_MARKET,state_count,NUMBER,State Count,Number of states the market spans,,,,SHOW
+PBI_DIM_MARKET,is_multi_state,BOOLEAN,Is Multi State,TRUE if the market spans more than one state,,True/False,,SHOW
+PBI_DIM_MARKET,population_rank_2025,NUMBER,Population Rank 2025,Population rank among U.S. MSAs (PEP Vintage 2025): the fixed universe rule,rank (1 = best),0,,SHOW
+PBI_DIM_MARKET,population_2025,NUMBER,Population 2025,"Resident population, July 2025 (PEP Vintage 2025)",persons,"#,0",,SHOW
+PBI_DIM_MARKET,latitude,FLOAT,Latitude,Population-weighted centre of the market's tracts (decimal degrees).,decimal degrees,0.0000,,SHOW
+PBI_DIM_MARKET,longitude,FLOAT,Longitude,"Population-weighted centre, longitude",decimal degrees,0.0000,,SHOW
+PBI_DIM_MODE,mode,TEXT,Mode,Mode key,,,PK,SHOW
+PBI_DIM_MODE,mode_name,TEXT,Mode Name,Mode display name,,,,SHOW
+PBI_DIM_MODE,sort_order,NUMBER,Sort Order,Display sort order,,,,HIDE
+PBI_DIM_MODE,active_component_count,NUMBER,Active Component Count,"Number of active components (robotaxi 4, others 5)",,,,SHOW
+PBI_DIM_MODE,has_c5_component,BOOLEAN,Has C5 Component,FALSE for robotaxi: C5 is structurally absent,,True/False,,SHOW
+PBI_DIM_MODE,mode_note,TEXT,Mode Note,Mode note,,,,SHOW
+PBI_DIM_REGULATORY_SCENARIO,regulatory_scenario,TEXT,Regulatory Scenario,Regulatory scenario key,,,PK,SHOW
+PBI_DIM_REGULATORY_SCENARIO,regulatory_scenario_name,TEXT,Regulatory Scenario Name,Regulatory bound display name,,,,SHOW
+PBI_DIM_REGULATORY_SCENARIO,assumed_favorable_fraction,FLOAT,Assumed Favorable Fraction,"Share of the unknown population counted favorable in the bound (0, 0.5, 1)",share (0-1),0.0%,,SHOW
+PBI_DIM_REGULATORY_SCENARIO,sort_order,NUMBER,Sort Order,Display sort order,,,,HIDE
+PBI_DIM_REGULATORY_SCENARIO,regulatory_scenario_description,TEXT,Regulatory Scenario Description,What the bound assumes about unknown evidence,,,,SHOW
+PBI_DIM_SCENARIO,scenario_id,TEXT,Scenario Id,Scenario key,,,PK,SHOW
+PBI_DIM_SCENARIO,mode,TEXT,Mode,Mode key,,,FK,HIDE
+PBI_DIM_SCENARIO,scenario_name,TEXT,Scenario Name,Scenario display name,,,,SHOW
+PBI_DIM_SCENARIO,scenario_type,TEXT,Scenario Type,NEUTRAL or the priority type,,,,SHOW
+PBI_DIM_SCENARIO,priority_component_code,TEXT,Priority Component Code,Component weighted at 40% in the scenario (blank for NEUTRAL),,,,SHOW
+PBI_DIM_SCENARIO,c1_weight,FLOAT,C1 Weight,C1 Demand & Market Opportunity weight,share (0-1),0.0%,,SHOW
+PBI_DIM_SCENARIO,c2_weight,FLOAT,C2 Weight,C2 Operating Environment weight,share (0-1),0.0%,,SHOW
+PBI_DIM_SCENARIO,c3_weight,FLOAT,C3 Weight,C3 Economic Attractiveness weight,share (0-1),0.0%,,SHOW
+PBI_DIM_SCENARIO,c4_weight,FLOAT,C4 Weight,C4 Regulatory & Autonomy Readiness weight,share (0-1),0.0%,,SHOW
+PBI_DIM_SCENARIO,c5_weight,FLOAT,C5 Weight,C5 Infrastructure & Mode Fit weight (always blank for robotaxi),share (0-1),0.0%,,SHOW
+PBI_DIM_SCENARIO,is_baseline_scenario,BOOLEAN,Is Baseline Scenario,TRUE for NEUTRAL (equal weights = the Phase 7 baseline),,True/False,,SHOW
+PBI_DIM_SCENARIO,sort_order,NUMBER,Sort Order,Display sort order,,,,HIDE
+PBI_DIM_SCENARIO,description,TEXT,Description,Scenario assumption (not an estimate of business preferences),,,,SHOW
+PBI_FCT_BUSINESS_SCENARIO,market_id,TEXT,Market Id,Market key (CBSA code),,,FK,HIDE
+PBI_FCT_BUSINESS_SCENARIO,mode,TEXT,Mode,Mode key,,,FK,HIDE
+PBI_FCT_BUSINESS_SCENARIO,scenario_id,TEXT,Scenario Id,Scenario key,,,FK,HIDE
+PBI_FCT_BUSINESS_SCENARIO,scenario_score,FLOAT,Scenario Score,"Readiness score under the scenario (0-100, within mode)",points (0-100),0.0,,SHOW
+PBI_FCT_BUSINESS_SCENARIO,scenario_rank,NUMBER,Scenario Rank,Rank under the scenario (1 = highest),rank (1 = best),0,,SHOW
+PBI_FCT_BUSINESS_SCENARIO,baseline_rank,NUMBER,Baseline Rank,Phase 7 baseline rank among markets with a complete score (1 = highest); not a final recommendation,rank (1 = best),0,,SHOW
+PBI_FCT_BUSINESS_SCENARIO,rank_change_vs_baseline,NUMBER,Rank Change Vs Baseline,Scenario rank minus baseline rank (negative = moves up),rank (1 = best),0,,SHOW
+PBI_FCT_BUSINESS_SCENARIO,c1_weight,FLOAT,C1 Weight,C1 Demand & Market Opportunity weight,share (0-1),0.0%,,SHOW
+PBI_FCT_BUSINESS_SCENARIO,c2_weight,FLOAT,C2 Weight,C2 Operating Environment weight,share (0-1),0.0%,,SHOW
+PBI_FCT_BUSINESS_SCENARIO,c3_weight,FLOAT,C3 Weight,C3 Economic Attractiveness weight,share (0-1),0.0%,,SHOW
+PBI_FCT_BUSINESS_SCENARIO,c4_weight,FLOAT,C4 Weight,C4 Regulatory & Autonomy Readiness weight,share (0-1),0.0%,,SHOW
+PBI_FCT_BUSINESS_SCENARIO,c5_weight,FLOAT,C5 Weight,C5 Infrastructure & Mode Fit weight (always blank for robotaxi),share (0-1),0.0%,,SHOW
+PBI_FCT_DEPLOYMENT_VALIDATION,market_id,TEXT,Market Id,Market key (CBSA code),,,FK,HIDE
+PBI_FCT_DEPLOYMENT_VALIDATION,mode,TEXT,Mode,Mode key,,,FK,HIDE
+PBI_FCT_DEPLOYMENT_VALIDATION,deployment_present,BOOLEAN,Deployment Present,"External validation only: a current commercial / limited-commercial service is recorded in the market (some service, not full coverage)",,True/False,,SHOW
+PBI_FCT_DEPLOYMENT_VALIDATION,commercial_or_limited_commercial_flag,BOOLEAN,Commercial Or Limited Commercial Flag,Same as Deployment Present (open-ended COMMERCIAL or LIMITED_COMMERCIAL record),,True/False,,SHOW
+PBI_FCT_DEPLOYMENT_VALIDATION,deployment_present_primary_cohort,BOOLEAN,Deployment Present Primary Cohort,"Deployment present, counting only WITHIN_MARKET_PARTIAL / CITY_ONLY records",,True/False,,SHOW
+PBI_FCT_DEPLOYMENT_VALIDATION,deployment_present_verified_only,BOOLEAN,Deployment Present Verified Only,"Deployment present, counting only primary-verified records",,True/False,,SHOW
+PBI_FCT_DEPLOYMENT_VALIDATION,deployment_status,TEXT,Deployment Status,"Deployment cohort of the market (current commercial, pilot/testing/announced, ended/paused only, other, none)",,,,SHOW
+PBI_FCT_DEPLOYMENT_VALIDATION,any_deployment_record,BOOLEAN,Any Deployment Record,TRUE if any deployment record of any status exists for the market,,True/False,,SHOW
+PBI_FCT_DEPLOYMENT_VALIDATION,market_resolution_quality,TEXT,Market Resolution Quality,"Geographic resolution of the current records (partial, city-only, campus, multi-market)",,,,SHOW
+PBI_FCT_DEPLOYMENT_VALIDATION,current_operators,TEXT,Current Operators,Operators with a current commercial record (external validation only),,,,SHOW
+PBI_FCT_DEPLOYMENT_VALIDATION,pilot_present,BOOLEAN,Pilot Present,A PILOT record exists (external validation),,True/False,,SHOW
+PBI_FCT_DEPLOYMENT_VALIDATION,testing_present,BOOLEAN,Testing Present,A TESTING record exists,,True/False,,SHOW
+PBI_FCT_DEPLOYMENT_VALIDATION,announced_present,BOOLEAN,Announced Present,An ANNOUNCED record exists,,True/False,,SHOW
+PBI_FCT_DEPLOYMENT_VALIDATION,paused_present,BOOLEAN,Paused Present,A PAUSED record exists,,True/False,,SHOW
+PBI_FCT_DEPLOYMENT_VALIDATION,ended_present,BOOLEAN,Ended Present,An ENDED (historical) record exists,,True/False,,SHOW
+PBI_FCT_DEPLOYMENT_VALIDATION,unknown_present,BOOLEAN,Unknown Present,A record of unknown status exists,,True/False,,SHOW
+PBI_FCT_DEPLOYMENT_VALIDATION,mismatch_category,TEXT,Mismatch Category,"Phase 8 mismatch class (high model / no deployment, low model / deployment, ...)",,,,SHOW
+PBI_FCT_DEPLOYMENT_VALIDATION,mismatch_weakest_component,TEXT,Mismatch Weakest Component,Weakest component of a mismatched market,,,,SHOW
+PBI_FCT_DEPLOYMENT_VALIDATION,mismatch_candidate_explanations,TEXT,Mismatch Candidate Explanations,"Candidate (unverified) explanations for review, not findings",,,,HIDE
+PBI_FCT_MARKET_BASELINE,market_id,TEXT,Market Id,Market key (CBSA code),,,FK,HIDE
+PBI_FCT_MARKET_BASELINE,mode,TEXT,Mode,Mode key,,,FK,HIDE
+PBI_FCT_MARKET_BASELINE,baseline_readiness_score,FLOAT,Baseline Readiness Score,"0-100, within mode only. NULL = not determinable from verified evidence.",points (0-100),0.0,,SHOW
+PBI_FCT_MARKET_BASELINE,baseline_rank,NUMBER,Baseline Rank,BASELINE rank among complete markets of the mode (1 = highest). Not a final recommendation.,rank (1 = best),0,,SHOW
+PBI_FCT_MARKET_BASELINE,baseline_rank_tied_flag,BOOLEAN,Baseline Rank Tied Flag,TRUE if another market has the same baseline score (6 decimals),,True/False,,SHOW
+PBI_FCT_MARKET_BASELINE,score_gap_to_preceding,FLOAT,Score Gap To Preceding,Points behind the next-higher-ranked market,points (0-100),0.0,,SHOW
+PBI_FCT_MARKET_BASELINE,score_complete_flag,BOOLEAN,Score Complete Flag,"TRUE if every component, including regulation, has a verified score",,True/False,,SHOW
+PBI_FCT_MARKET_BASELINE,regulatory_complete_flag,BOOLEAN,Regulatory Complete Flag,"TRUE if every regulatory dimension rests on verified (primary, MEDIUM/HIGH) evidence",,True/False,,SHOW
+PBI_FCT_MARKET_BASELINE,non_regulatory_score,FLOAT,Non Regulatory Score,"Diagnostic: equal-weight mean of the non-regulatory components; available for every market, not a readiness score, not ranked",points (0-100),0.0,,SHOW
+PBI_FCT_MARKET_BASELINE,regulatory_score_verified,FLOAT,Regulatory Score Verified,C4 Regulatory & Autonomy Readiness score (0-100); blank where evidence is incomplete,points (0-100),0.0,,SHOW
+PBI_FCT_MARKET_BASELINE,regulatory_evidence_coverage_pct,FLOAT,Regulatory Evidence Coverage Pct,Share of market population whose regulatory status is verified (mean across the mode's regulatory dimensions),percent (0-100),0.0,,SHOW
+PBI_FCT_MARKET_BASELINE,regulatory_max_unknown_share,FLOAT,Regulatory Max Unknown Share,Largest unknown / LOW-confidence population share across the mode's regulatory dimensions,share (0-1),0.0%,,SHOW
+PBI_FCT_MARKET_BASELINE,regulatory_unverified_states,TEXT,Regulatory Unverified States,States whose evidence keeps C4 incomplete (alphabetical); blank when complete,,,,SHOW
+PBI_FCT_MARKET_BASELINE,regulatory_incomplete_reason,TEXT,Regulatory Incomplete Reason,"Regulatory dimensions that are incomplete, with the evidence records responsible",,,,SHOW
+PBI_FCT_MARKET_BASELINE,regulatory_decomposition,TEXT,Regulatory Decomposition,Plain-language population-share decomposition of every regulatory dimension,,,,SHOW
+PBI_FCT_MARKET_BASELINE,strongest_feature,TEXT,Strongest Feature,Input with the highest feature score (score in brackets),,,,SHOW
+PBI_FCT_MARKET_BASELINE,weakest_feature,TEXT,Weakest Feature,Input with the lowest feature score (score in brackets),,,,SHOW
+PBI_FCT_MARKET_BASELINE,top_positive_contributors,TEXT,Top Positive Contributors,Three inputs adding the most points to the baseline score,,,,SHOW
+PBI_FCT_MARKET_BASELINE,top_constraints,TEXT,Top Constraints,Three inputs costing the most points against a perfect score,,,,SHOW
+PBI_FCT_MARKET_BASELINE,model_version,TEXT,Model Version,Model version (baseline_v1),,,,HIDE
+PBI_FCT_MARKET_COMPONENT,market_id,TEXT,Market Id,Market key (CBSA code),,,FK,HIDE
+PBI_FCT_MARKET_COMPONENT,mode,TEXT,Mode,Mode key,,,FK,HIDE
+PBI_FCT_MARKET_COMPONENT,component,TEXT,Component,Component key,,,FK,HIDE
+PBI_FCT_MARKET_COMPONENT,component_code,TEXT,Component Code,Short component code (C1-C5),,,,SHOW
+PBI_FCT_MARKET_COMPONENT,component_score,FLOAT,Component Score,Component score (0-100): equal-weight mean of the component's input scores,points (0-100),0.0,,SHOW
+PBI_FCT_MARKET_COMPONENT,component_weight,FLOAT,Component Weight,"Baseline component weight (robotaxi 1/4, sidewalk and drone 1/5)",share (0-1),0.0%,,SHOW
+PBI_FCT_MARKET_COMPONENT,component_contribution,FLOAT,Component Contribution,Points the component adds to the baseline score (score x weight),,,,SHOW
+PBI_FCT_MARKET_COMPONENT,component_complete_flag,BOOLEAN,Component Complete Flag,TRUE if the component has a verified score,,True/False,,SHOW
+PBI_FCT_MARKET_COMPONENT,feature_count,NUMBER,Feature Count,Number of inputs in the component's base calculation,,,,SHOW
+PBI_FCT_MARKET_COMPONENT,regulatory_evidence_coverage_pct,FLOAT,Regulatory Evidence Coverage Pct,Share of market population whose regulatory status is verified (mean across the mode's regulatory dimensions),percent (0-100),0.0,,SHOW
+PBI_FCT_MARKET_COMPONENT,non_regulatory_component_weight,FLOAT,Non Regulatory Component Weight,Weight used for the diagnostic non-regulatory score,share (0-1),0.0%,,HIDE
+PBI_FCT_MARKET_FEATURE_CONTRIBUTION,market_id,TEXT,Market Id,Market key (CBSA code),,,FK,HIDE
+PBI_FCT_MARKET_FEATURE_CONTRIBUTION,mode,TEXT,Mode,Mode key,,,FK,HIDE
+PBI_FCT_MARKET_FEATURE_CONTRIBUTION,feature_key,TEXT,Feature Key,Feature key (mode|feature_id),,,FK,HIDE
+PBI_FCT_MARKET_FEATURE_CONTRIBUTION,feature_id,TEXT,Feature Id,Contract feature id (PFxx) or regulatory feature id (RG-xx-xx),,,,HIDE
+PBI_FCT_MARKET_FEATURE_CONTRIBUTION,component,TEXT,Component,Component key,,,FK,HIDE
+PBI_FCT_MARKET_FEATURE_CONTRIBUTION,direction,TEXT,Direction,Whether higher or lower raw values are more favorable,,,,SHOW
+PBI_FCT_MARKET_FEATURE_CONTRIBUTION,raw_value,FLOAT,Raw Value,Untransformed input value (unit in the feature dimension),,,,SHOW
+PBI_FCT_MARKET_FEATURE_CONTRIBUTION,transformed_value,FLOAT,Transformed Value,Model value after the approved transformation (e.g. LOG1P),,,,SHOW
+PBI_FCT_MARKET_FEATURE_CONTRIBUTION,feature_score,FLOAT,Feature Score,"Directionally aligned input score (0-100; percentile, or verified favorable population share for regulation)",points (0-100),0.0,,SHOW
+PBI_FCT_MARKET_FEATURE_CONTRIBUTION,feature_weight,FLOAT,Feature Weight,Weight within the component (equal),share (0-1),0.0%,,SHOW
+PBI_FCT_MARKET_FEATURE_CONTRIBUTION,weighted_feature_contribution,FLOAT,Weighted Feature Contribution,Points the input adds to its component score,,,,SHOW
+PBI_FCT_MARKET_FEATURE_CONTRIBUTION,contribution_to_overall,FLOAT,Contribution To Overall,Points the input adds to the baseline readiness score,,,,SHOW
+PBI_FCT_MARKET_FEATURE_CONTRIBUTION,points_below_maximum,FLOAT,Points Below Maximum,Points the input costs against a perfect score,,,,SHOW
+PBI_FCT_MARKET_FEATURE_CONTRIBUTION,in_base_flag,BOOLEAN,In Base Flag,TRUE if the input enters the market's base calculation,,True/False,,HIDE
+PBI_FCT_MARKET_ROBUSTNESS,market_id,TEXT,Market Id,Market key (CBSA code),,,FK,HIDE
+PBI_FCT_MARKET_ROBUSTNESS,mode,TEXT,Mode,Mode key,,,FK,HIDE
+PBI_FCT_MARKET_ROBUSTNESS,baseline_rank,NUMBER,Baseline Rank,Phase 7 baseline rank among markets with a complete score (1 = highest); not a final recommendation,rank (1 = best),0,,SHOW
+PBI_FCT_MARKET_ROBUSTNESS,baseline_score,FLOAT,Baseline Score,"Phase 7 baseline readiness score (0-100, within mode; blank = incomplete regulatory evidence)",points (0-100),0.0,,SHOW
+PBI_FCT_MARKET_ROBUSTNESS,score_complete_flag,BOOLEAN,Score Complete Flag,"TRUE if every component, including regulation, has a verified score",,True/False,,SHOW
+PBI_FCT_MARKET_ROBUSTNESS,n_ranked_markets,NUMBER,N Ranked Markets,Markets ranked in the weight simulation (29 / 31 / 25),rank (1 = best),0,,HIDE
+PBI_FCT_MARKET_ROBUSTNESS,n_draws,NUMBER,N Draws,"Weight draws (10,000)",,,,HIDE
+PBI_FCT_MARKET_ROBUSTNESS,mean_rank,FLOAT,Mean Rank,"Mean rank across the 10,000 tested component-weight configurations (Phase 8)",rank (1 = best),0,,SHOW
+PBI_FCT_MARKET_ROBUSTNESS,median_rank,NUMBER,Median Rank,"Median rank across the 10,000 tested component-weight configurations (Phase 8)",rank (1 = best),0,,SHOW
+PBI_FCT_MARKET_ROBUSTNESS,rank_std,FLOAT,Rank Std,"Standard deviation of rank across the 10,000 tested component-weight configurations (Phase 8)",rank (1 = best),0,,SHOW
+PBI_FCT_MARKET_ROBUSTNESS,best_rank,NUMBER,Best Rank,"Best rank across the 10,000 tested component-weight configurations (Phase 8)",rank (1 = best),0,,SHOW
+PBI_FCT_MARKET_ROBUSTNESS,worst_rank,NUMBER,Worst Rank,"Worst rank across the 10,000 tested component-weight configurations (Phase 8)",rank (1 = best),0,,SHOW
+PBI_FCT_MARKET_ROBUSTNESS,top_1_frequency,FLOAT,Top 1 Frequency,"Share of the 10,000 tested component-weight configurations (Phase 8) in which the market ranks 1st (not a probability)",share (0-1),0.0%,,SHOW
+PBI_FCT_MARKET_ROBUSTNESS,top_3_frequency,FLOAT,Top 3 Frequency,"Share of the 10,000 tested component-weight configurations (Phase 8) in which the market ranks in the top 3",share (0-1),0.0%,,SHOW
+PBI_FCT_MARKET_ROBUSTNESS,top_5_frequency,FLOAT,Top 5 Frequency,"Share of the 10,000 tested component-weight configurations (Phase 8) in which the market ranks in the top 5",share (0-1),0.0%,,SHOW
+PBI_FCT_MARKET_ROBUSTNESS,top_10_frequency,FLOAT,Top 10 Frequency,"Share of the 10,000 tested component-weight configurations (Phase 8) in which the market ranks in the top 10",share (0-1),0.0%,,SHOW
+PBI_FCT_MARKET_ROBUSTNESS,rank_iqr,NUMBER,Rank Iqr,Interquartile range of the weight-draw ranks,rank (1 = best),0,,SHOW
+PBI_FCT_MARKET_ROBUSTNESS,rank_90pct_low,NUMBER,Rank 90Pct Low,5th percentile of the weight-draw ranks (better end of the 90% interval),rank (1 = best),0,,SHOW
+PBI_FCT_MARKET_ROBUSTNESS,rank_90pct_high,NUMBER,Rank 90Pct High,95th percentile of the weight-draw ranks (worse end of the 90% interval),rank (1 = best),0,,SHOW
+PBI_FCT_MARKET_ROBUSTNESS,rank_interval_90,NUMBER,Rank Interval 90,Width of the 90% weight-draw rank interval,rank (1 = best),0,,SHOW
+PBI_FCT_MARKET_ROBUSTNESS,within_2_ranks_of_baseline_frequency,FLOAT,Within 2 Ranks Of Baseline Frequency,Share of weight draws within 2 ranks of the baseline rank,share (0-1),0.0%,,SHOW
+PBI_FCT_MARKET_ROBUSTNESS,mean_abs_rank_change_from_baseline,FLOAT,Mean Abs Rank Change From Baseline,Mean absolute rank change from baseline across the weight draws,rank (1 = best),0,,SHOW
+PBI_FCT_MARKET_ROBUSTNESS,mean_sensitivity_score,FLOAT,Mean Sensitivity Score,Mean score across the weight draws,points (0-100),0.0,,SHOW
+PBI_FCT_MARKET_ROBUSTNESS,sensitivity_score_std,FLOAT,Sensitivity Score Std,Score standard deviation across the weight draws,points (0-100),0.0,,SHOW
+PBI_FCT_MARKET_ROBUSTNESS,business_scenario_rank_range,NUMBER,Business Scenario Rank Range,Rank spread across the named business-priority scenarios,rank (1 = best),0,,SHOW
+PBI_FCT_MARKET_ROBUSTNESS,normalization_rank_range,NUMBER,Normalization Rank Range,"Rank spread across percentile, raw min-max and winsorized min-max scoring",rank (1 = best),0,,SHOW
+PBI_FCT_MARKET_ROBUSTNESS,methodology_rank_range,NUMBER,Methodology Rank Range,"Rank spread across the one-at-a-time methodology tests (feature drops, airport, density, weather, wind, regulatory coding)",rank (1 = best),0,,SHOW
+PBI_FCT_MARKET_ROBUSTNESS,regulatory_rank_range,NUMBER,Regulatory Rank Range,Rank spread across the pessimistic / neutral / optimistic regulatory bounds,rank (1 = best),0,,SHOW
+PBI_FCT_MARKET_ROBUSTNESS,regulatory_best_rank,NUMBER,Regulatory Best Rank,Best rank across the three regulatory bounds,rank (1 = best),0,,SHOW
+PBI_FCT_MARKET_ROBUSTNESS,regulatory_worst_rank,NUMBER,Regulatory Worst Rank,Worst rank across the three regulatory bounds,rank (1 = best),0,,SHOW
+PBI_FCT_MARKET_ROBUSTNESS,regulatory_score_range,FLOAT,Regulatory Score Range,Score spread across the three regulatory bounds (0 for complete markets),points (0-100),0.0,,SHOW
+PBI_FCT_MARKET_ROBUSTNESS,fixed_test_worst_rank,NUMBER,Fixed Test Worst Rank,"Worst rank across the named normalization, methodology and business tests",rank (1 = best),0,,HIDE
+PBI_FCT_MARKET_ROBUSTNESS,overall_tested_best_rank,NUMBER,Overall Tested Best Rank,Best rank in any Phase 8 test of the complete-market universe,rank (1 = best),0,,SHOW
+PBI_FCT_MARKET_ROBUSTNESS,overall_tested_worst_rank,NUMBER,Overall Tested Worst Rank,Worst rank in any Phase 8 test of the complete-market universe,rank (1 = best),0,,SHOW
+PBI_FCT_MARKET_ROBUSTNESS,consistent_top_performer,BOOLEAN,Consistent Top Performer,Approved Phase 8 flag: top-5 in >= 80% of weight draws and top 5 in every named test,,True/False,,SHOW
+PBI_FCT_MARKET_ROBUSTNESS,weight_sensitive,BOOLEAN,Weight Sensitive,Approved Phase 8 flag: 90% weight-draw rank interval >= 10 ranks,,True/False,,SHOW
+PBI_FCT_MARKET_ROBUSTNESS,normalization_sensitive,BOOLEAN,Normalization Sensitive,Approved Phase 8 flag: rank range across normalizations >= 5,,True/False,,SHOW
+PBI_FCT_MARKET_ROBUSTNESS,methodology_sensitive,BOOLEAN,Methodology Sensitive,Approved Phase 8 flag: rank range across methodology tests >= 5,,True/False,,SHOW
+PBI_FCT_MARKET_ROBUSTNESS,regulation_sensitive,BOOLEAN,Regulation Sensitive,Approved Phase 8 flag: own score moves across the regulatory bounds and rank range >= 5,,True/False,,SHOW
+PBI_FCT_MARKET_ROBUSTNESS,pattern_flags,TEXT,Pattern Flags,"All approved Phase 8 flags for the market, semicolon-separated",,,,SHOW
+PBI_FCT_REGULATORY_UNCERTAINTY,market_id,TEXT,Market Id,Market key (CBSA code),,,FK,HIDE
+PBI_FCT_REGULATORY_UNCERTAINTY,mode,TEXT,Mode,Mode key,,,FK,HIDE
+PBI_FCT_REGULATORY_UNCERTAINTY,regulatory_scenario,TEXT,Regulatory Scenario,Regulatory scenario key,,,FK,HIDE
+PBI_FCT_REGULATORY_UNCERTAINTY,assumed_favorable_fraction,FLOAT,Assumed Favorable Fraction,"Share of the unknown population counted favorable in the bound (0, 0.5, 1)",share (0-1),0.0%,,SHOW
+PBI_FCT_REGULATORY_UNCERTAINTY,regulatory_complete_flag,BOOLEAN,Regulatory Complete Flag,"TRUE if every regulatory dimension rests on verified (primary, MEDIUM/HIGH) evidence",,True/False,,SHOW
+PBI_FCT_REGULATORY_UNCERTAINTY,scenario_score,FLOAT,Scenario Score,"Readiness score under the scenario (0-100, within mode)",points (0-100),0.0,,SHOW
+PBI_FCT_REGULATORY_UNCERTAINTY,scenario_rank,NUMBER,Scenario Rank,Rank under the scenario (1 = highest),rank (1 = best),0,,SHOW
+PBI_FCT_REGULATORY_UNCERTAINTY,regulatory_score,FLOAT,Regulatory Score,C4 under the regulatory bound (backed out from the published score),points (0-100),0.0,,SHOW
+PBI_FCT_REGULATORY_UNCERTAINTY,regulatory_evidence_coverage_pct,FLOAT,Regulatory Evidence Coverage Pct,Share of market population whose regulatory status is verified (mean across the mode's regulatory dimensions),percent (0-100),0.0,,SHOW
+PBI_FCT_REGULATORY_UNCERTAINTY,regulatory_max_unknown_share,FLOAT,Regulatory Max Unknown Share,Largest unknown / LOW-confidence population share across the mode's regulatory dimensions,share (0-1),0.0%,,SHOW
+PBI_FCT_REGULATORY_UNCERTAINTY,baseline_score,FLOAT,Baseline Score,"Phase 7 baseline readiness score (0-100, within mode; blank = incomplete regulatory evidence)",points (0-100),0.0,,SHOW
+PBI_FCT_REGULATORY_UNCERTAINTY,baseline_rank,NUMBER,Baseline Rank,Phase 7 baseline rank among markets with a complete score (1 = highest); not a final recommendation,rank (1 = best),0,,SHOW
+PBI_FCT_REGULATORY_UNCERTAINTY,regulatory_score_range,FLOAT,Regulatory Score Range,Score spread across the three regulatory bounds (0 for complete markets),points (0-100),0.0,,SHOW
+PBI_FCT_REGULATORY_UNCERTAINTY,regulatory_rank_range,NUMBER,Regulatory Rank Range,Rank spread across the pessimistic / neutral / optimistic regulatory bounds,rank (1 = best),0,,SHOW
+PBI_FCT_REGULATORY_UNCERTAINTY,nested_top_5_frequency,FLOAT,Nested Top 5 Frequency,"Robotaxi only: top-5 share of the 10,000 weight draws under this regulatory bound",share (0-1),0.0%,,SHOW
+PBI_FCT_REGULATORY_UNCERTAINTY,nested_top_10_frequency,FLOAT,Nested Top 10 Frequency,"Robotaxi only: top-10 share of the 10,000 weight draws under this regulatory bound",share (0-1),0.0%,,SHOW
+PBI_FCT_REGULATORY_UNCERTAINTY,nested_mean_rank,FLOAT,Nested Mean Rank,Robotaxi only: mean weight-draw rank under this regulatory bound,rank (1 = best),0,,SHOW
+PBI_FCT_REGULATORY_UNCERTAINTY,nested_median_rank,NUMBER,Nested Median Rank,Robotaxi only: median weight-draw rank under this regulatory bound,rank (1 = best),0,,SHOW
+PBI_FCT_REGULATORY_UNCERTAINTY,nested_best_rank,NUMBER,Nested Best Rank,Robotaxi only: best weight-draw rank under this regulatory bound,rank (1 = best),0,,SHOW
+PBI_FCT_REGULATORY_UNCERTAINTY,nested_worst_rank,NUMBER,Nested Worst Rank,Robotaxi only: worst weight-draw rank under this regulatory bound,rank (1 = best),0,,SHOW

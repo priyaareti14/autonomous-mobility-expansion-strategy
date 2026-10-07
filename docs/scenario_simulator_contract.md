@@ -58,7 +58,7 @@ All files are small, deterministic CSVs with one documented grain. No 10,000-dra
 
 ## 3. Snowflake handoff
 
-**Phase 8 wrote nothing to Snowflake.** Write-back of these compact summaries is the Phase 9 scope ("analytical output write-back + reconciliation"). When it happens, it should land through the controlled dbt seed architecture as small reproducible tables, never as ad hoc tables or Monte Carlo rows:
+**Done in Phase 9:** these summaries now land as generated dbt seeds and `ANALYTICS.PBI_*` tables ([powerbi_semantic_model.md](powerbi_semantic_model.md)). **Phase 8 itself wrote nothing to Snowflake.** Write-back of these compact summaries was the Phase 9 scope ("analytical output write-back + reconciliation"). When it happens, it should land through the controlled dbt seed architecture as small reproducible tables, never as ad hoc tables or Monte Carlo rows:
 - market × mode robustness;
 - market × mode × named scenario;
 - market × mode regulatory uncertainty;

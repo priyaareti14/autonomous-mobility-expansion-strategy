@@ -46,7 +46,7 @@ Public data sources (Census, NOAA, BTS/FAA, EPA, official regulatory sources)
 
 This is the *planned* design. Components are listed here only as they get built and validated.
 
-**Built so far (Phases 1–8):**
+**Built so far (Phases 1–9):**
 - **Ingestion:** reproducible Python ingestion of 27 public datasets into Snowflake RAW (25 in Phase 3, plus two Phase 6 extensions: the Census Geocoder airport counties and the NOAA HOMR station-history report), with a META audit trail of checksums, idempotent reruns and source-to-RAW reconciliation.
 - **dbt (Core 1.12):**
   - 27 staging views
@@ -56,7 +56,12 @@ This is the *planned* design. Components are listed here only as they get built 
   - Phase 6: 12 feature-engineering intermediate models, 3 mode feature marts and `DIM_FEATURE`
   - 519 tests, all passing (336 at the end of Phase 4)
 
-**Phase 8 (in review):** sensitivity, robustness and external validation of the frozen baseline (`scripts/run_phase8_sensitivity.py`, `scripts/run_phase8_deployment_validation.py`; outputs in `outputs/phase8/`). Nothing in the baseline changed. The tests:
+**Phase 9 (in review):** a Power BI publication layer and handoff package.
+- **Star schema.** 13 compact `ANALYTICS.PBI_*` tables (6 dimensions, 7 facts) report the frozen Phase 7 baseline and the Phase 8 results through generated dbt seeds, reconciled with the committed outputs. Nothing is recalculated.
+- **Handoff.** The semantic model, DAX measures (including a labelled user-defined What-If simulator), a six-page dashboard specification, a KPI dictionary, a data dictionary, a theme, a refresh workflow and a step-by-step build guide (`powerbi/`, `docs/powerbi_*.md`).
+- **The dashboard itself** is built by hand in Power BI Desktop (Import, role AM_ANALYST).
+
+**Phase 8:** sensitivity, robustness and external validation of the frozen baseline (`scripts/run_phase8_sensitivity.py`, `scripts/run_phase8_deployment_validation.py`; outputs in `outputs/phase8/`). Nothing in the baseline changed. The tests:
 - **Weights:** 10,000 seeded Dirichlet component-weight draws per mode, plus named business-priority scenarios.
 - **Normalization:** raw and winsorized min-max alternatives.
 - **Regulation:** robotaxi pessimistic, neutral and optimistic bounds for the unresolved regulatory records, with nested weight sensitivity.
@@ -90,8 +95,8 @@ Markets whose regulatory evidence is incomplete or LOW confidence get no score o
 | 6 | Production feature layer (pre-regulatory mode feature sets) | **Complete** |
 | 6.5 | Regulatory & deployment evidence curation | **Complete** |
 | 7 | Mode-specific readiness models (baseline) | **Complete** |
-| 8 | Sensitivity, robustness and external validation | **Complete (in review)** |
-| 9 | Analytical output write-back + reconciliation | Not started |
+| 8 | Sensitivity, robustness and external validation | **Complete** |
+| 9 | Decision-system publication + Power BI semantic layer | **Complete (in review)** |
 | 10 | Power BI semantic model, dashboard, scenario simulator | Not started |
 | 11 | Full QA | Not started |
 | 12 | CI, documentation, portfolio case study | Not started |
@@ -121,4 +126,10 @@ Baseline scores and ranks exist (Phase 7), with robustness ranges (Phase 8). No 
 - [docs/robustness_and_sensitivity.md](docs/robustness_and_sensitivity.md): Phase 8 weight, normalization, regulatory and methodology sensitivity; robust vs assumption-dependent findings
 - [docs/deployment_validation.md](docs/deployment_validation.md): Phase 8 external reasonableness check against deployment evidence (not accuracy)
 - [docs/scenario_simulator_contract.md](docs/scenario_simulator_contract.md): the What-If scenario contract and compact datasets for the future Power BI model
+- [docs/powerbi_semantic_model.md](docs/powerbi_semantic_model.md): Phase 9 star schema, keys, relationships, Import vs DirectQuery
+- [docs/powerbi_dashboard_spec.md](docs/powerbi_dashboard_spec.md): the six dashboard pages
+- [docs/kpi_dictionary.md](docs/kpi_dictionary.md): business definition, formula, grain and limitations of every KPI
+- [docs/powerbi_refresh_workflow.md](docs/powerbi_refresh_workflow.md): release and refresh steps
+- [docs/executive_story.md](docs/executive_story.md): the concise portfolio story
+- [powerbi/BUILD_GUIDE.md](powerbi/BUILD_GUIDE.md), [powerbi/measures.md](powerbi/measures.md), [powerbi/data_dictionary.csv](powerbi/data_dictionary.csv), [powerbi/theme.json](powerbi/theme.json): the Power BI handoff package
 - [evidence/research_protocol.md](evidence/research_protocol.md): the evidence coding contract
