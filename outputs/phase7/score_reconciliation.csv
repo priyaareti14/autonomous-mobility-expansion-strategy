@@ -1,0 +1,41 @@
+check,status,n_compared,max_abs_diff,tolerance,detail
+frozen input unchanged since 55b1cb4: dbt/seeds/feature_contract.csv,PASS,,,,sha256 c3127d690f41deec
+frozen input unchanged since 55b1cb4: config/regulatory_feature_contract.csv,PASS,,,,sha256 eacd8fa68685889d
+frozen input unchanged since 55b1cb4: outputs/phase65/phase7_regulatory_eligibility.csv,PASS,,,,sha256 e2981852b4ff30a3
+regulatory seeds match evidence/ and config/ (build_regulatory_seed --check),PASS,,,,stale: []
+MART_ROBOTAXI_FEATURES has exactly 35 markets,PASS,,,,
+MART_SIDEWALK_DELIVERY_FEATURES has exactly 35 markets,PASS,,,,
+MART_DRONE_DELIVERY_FEATURES has exactly 35 markets,PASS,,,,
+every active feature present in FCT_FEATURE_SCORES,PASS,,,,1050 rows
+"feature scores (percentile, direction)",PASS,1.05e+03,0,1e-06,null mismatches 0
+raw values,PASS,1.05e+03,0,1e-06,null mismatches 0
+transformed values (= Phase 6 mode marts),PASS,1.05e+03,0,1e-06,null mismatches 0
+every regulatory market x dimension present,PASS,,,,245 rows
+verified favorable share,PASS,245,0,1e-06,null mismatches 0
+verified unfavorable share,PASS,245,0,1e-06,null mismatches 0
+unknown / LOW-confidence share,PASS,245,0,1e-06,null mismatches 0
+not-applicable share,PASS,245,0,1e-06,null mismatches 0
+regulatory dimension scores,PASS,245,0,1e-06,null mismatches 0
+dimension completeness flags,PASS,,,,
+state evidence classes (dbt seed path = evidence file path),PASS,,,,357 rows
+every active component present,PASS,,,,490 rows
+component scores,PASS,490,0,1e-06,null mismatches 0
+component contributions,PASS,490,0,1e-06,null mismatches 0
+baseline readiness scores,PASS,105,0,1e-06,null mismatches 0
+non-regulatory diagnostic scores,PASS,105,0,1e-06,null mismatches 0
+baseline ranks,PASS,105,0,1e-06,null mismatches 0
+component_score = sum(weighted_feature_contribution),PASS,470,0,1e-06,null mismatches 0
+feature weights sum to 1 within every scored component,PASS,,,,470 components
+component weights sum to 1 within every market x mode,PASS,,,,105
+overall = sum(component_contribution),PASS,85,0,1e-06,null mismatches 0
+overall = sum(feature contribution_to_overall),PASS,85,0,1e-06,null mismatches 0
+MART_ROBOTAXI_READINESS_BASELINE = FCT_READINESS_BASELINE,PASS,35,0,1e-06,null mismatches 0
+MART_SIDEWALK_DELIVERY_READINESS_BASELINE = FCT_READINESS_BASELINE,PASS,35,0,1e-06,null mismatches 0
+MART_DRONE_DELIVERY_READINESS_BASELINE = FCT_READINESS_BASELINE,PASS,35,0,1e-06,null mismatches 0
+robotaxi eligibility = Phase 6.5b phase7_regulatory_eligibility.csv (93 records),PASS,,,,93/93 agree
+the 10 sensitivity-only robotaxi records are never verified,PASS,,,,
+"Illinois driverless = NOT_AUTHORIZED, verified, not favorable (EXPLICIT)",PASS,,,,
+market status composition = Phase 6.5 market_regulatory_summary.csv,PASS,,,,"245 market x dimension rows, 0 mismatches"
+feature scores within 0-100 and not null,PASS,,,,30 mode x feature
+direction applied for every feature (rank correlation +1 / -1),PASS,,,,
+no deployment field in any score relation,PASS,,,,

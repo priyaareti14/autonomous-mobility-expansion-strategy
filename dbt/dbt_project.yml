@@ -1,12 +1,12 @@
-# Autonomous Mobility Expansion Strategy: dbt transformation layer (Phase 4) and
-# production feature layer (Phase 6)
+# Autonomous Mobility Expansion Strategy: dbt transformation layer (Phase 4), production feature
+# layer (Phase 6) and baseline readiness scoring (Phase 7)
 #
-# RAW (Phase 3 ingestion) -> STAGING -> INTERMEDIATE -> CORE -> ANALYTICS
+# RAW (Phase 3 ingestion) -> STAGING -> INTERMEDIATE -> CORE -> ANALYTICS features -> ANALYTICS scores
 # Every layer targets an EXISTING schema (see macros/generate_schema_name.sql).
 # The dbt role AM_TRANSFORMER deliberately has no CREATE SCHEMA privilege.
 
 name: autonomous_mobility
-version: "0.6.0"
+version: "0.7.0"
 
 # Approved Phase 5 mapping rules (docs/mapping_methodology.md, docs/production_feature_layer.md).
 # Rule constants live here, once, so models and tests cannot drift apart.
@@ -19,6 +19,10 @@ vars:
   w5_snow_flags: ["S", "P"]          # snow normals are never gap-filled: S or P (>= 10 years) qualify
   # A4 airport diagnostic (not a production feature)
   a4_radius_km: 80
+  # Phase 7 baseline readiness model (docs/readiness_model.md). Recorded in every score relation.
+  model_version: "baseline_v1"
+  model_input_commit: "55b1cb4"      # Phase 6.5b commit: frozen feature + regulatory contracts and evidence
+  score_tolerance: 0.000001          # reconciliation tolerance on the 0-100 scale
 config-version: 2
 profile: autonomous_mobility
 
@@ -51,6 +55,9 @@ models:
     marts:
       +schema: ANALYTICS
       +materialized: table       # decision-ready, one row per market
+    scoring:
+      +schema: ANALYTICS
+      +materialized: table       # Phase 7 baseline readiness scores (feature, component, market grain)
 
 seeds:
   autonomous_mobility:
@@ -68,3 +75,14 @@ seeds:
     feature_contract:
       +column_types:
         active_pre_regulation_flag: boolean
+    # Phase 7 regulatory inputs, generated from evidence/ and config/ by scripts/build_regulatory_seed.py
+    regulatory_state_evidence:
+      +column_types:
+        state_fips: varchar(2)
+        numeric_value: float
+        effective_date: varchar
+        evidence_as_of: varchar
+        access_date: varchar
+    regulatory_feature_contract:
+      +column_types:
+        active_candidate_flag: varchar

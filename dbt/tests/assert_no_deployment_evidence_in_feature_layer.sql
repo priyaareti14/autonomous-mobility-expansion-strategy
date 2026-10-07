@@ -4,15 +4,26 @@
 --   1. no column of the mode marts or DIM_FEATURE names an operator or a deployment concept;
 --   2. no DIM_FEATURE row (name, description, source, lineage) cites a deployment source or operator;
 --   3. no ANALYTICS relation is a deployment table.
+-- Phase 7: check 1 also covers every baseline scoring relation (scores, ranks, decompositions).
 -- depends_on: {{ ref('mart_robotaxi_features') }}
 -- depends_on: {{ ref('mart_sidewalk_delivery_features') }}
 -- depends_on: {{ ref('mart_drone_delivery_features') }}
+-- depends_on: {{ ref('fct_regulatory_dimension_scores') }}
+-- depends_on: {{ ref('fct_feature_scores') }}
+-- depends_on: {{ ref('fct_component_scores') }}
+-- depends_on: {{ ref('fct_readiness_baseline') }}
+-- depends_on: {{ ref('mart_robotaxi_readiness_baseline') }}
+-- depends_on: {{ ref('mart_sidewalk_delivery_readiness_baseline') }}
+-- depends_on: {{ ref('mart_drone_delivery_readiness_baseline') }}
 {% set terms = ['waymo', 'zoox', 'tesla', 'cruise', 'motional', 'may_mobility', 'avride', 'nuro', 'starship',
                 'serve_robotics', 'coco', 'kiwibot', 'cartken', 'wing', 'zipline', 'prime_air', 'droneup',
                 'flytrex', 'deploy', 'operator_present', 'commercial_service', 'av_presence', 'service_area',
                 'launch'] %}
 {% set feature_tables = ['MART_ROBOTAXI_FEATURES', 'MART_SIDEWALK_DELIVERY_FEATURES',
-                         'MART_DRONE_DELIVERY_FEATURES', 'DIM_FEATURE'] %}
+                         'MART_DRONE_DELIVERY_FEATURES', 'DIM_FEATURE',
+                         'FCT_REGULATORY_DIMENSION_SCORES', 'FCT_FEATURE_SCORES', 'FCT_COMPONENT_SCORES',
+                         'FCT_READINESS_BASELINE', 'MART_ROBOTAXI_READINESS_BASELINE',
+                         'MART_SIDEWALK_DELIVERY_READINESS_BASELINE', 'MART_DRONE_DELIVERY_READINESS_BASELINE'] %}
 with cols as (
     select table_name, lower(column_name) as column_name
     from {{ target.database }}.information_schema.columns

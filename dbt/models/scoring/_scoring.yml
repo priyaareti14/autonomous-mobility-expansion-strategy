@@ -1,0 +1,158 @@
+version: 2
+
+# Phase 7 baseline readiness model (baseline_v1). Method: docs/readiness_model.md.
+# Scores are MODE-SPECIFIC and 0-100. A baseline rank is not a recommendation: Phase 8 tests robustness.
+
+models:
+  - name: fct_regulatory_dimension_scores
+    description: >
+      C4 Regulatory & Autonomy Readiness by dimension. Grain: market x mode x ACTIVE_CANDIDATE legal dimension
+      (245 rows). Population shares reconcile to 1 (favorable + unfavorable + unknown/LOW + not applicable).
+      dimension_score exists only where the dimension is complete: 100 x verified favorable share (categorical),
+      or the average-rank percentile of the most restrictive verified weight limit (SW_MAX_WEIGHT).
+    tests:
+      - row_count_equals: {arguments: {expected: 245}}
+      - unique_combination_of_columns:
+          arguments:
+            combination_of_columns: [market_id, mode, legal_dimension]
+    columns:
+      - name: market_id
+        tests:
+          - not_null
+          - relationships: {arguments: {to: ref('dim_market'), field: market_id}}
+      - name: verified_favorable_share
+        tests: [not_null, {values_between: {arguments: {min_value: 0, max_value: 1}}}]
+      - name: unknown_or_low_confidence_share
+        description: "Share of market population whose evidence is missing or not base-eligible. Never scored as 0 or unfavorable."
+        tests: [not_null, {values_between: {arguments: {min_value: 0, max_value: 1}}}]
+      - name: evidence_coverage_pct
+        tests: [not_null, {values_between: {arguments: {min_value: 0, max_value: 100}}}]
+      - name: dimension_score
+        description: "0-100; NULL when the dimension is incomplete or (weight limit) not applicable."
+        tests:
+          - values_between: {arguments: {min_value: 0, max_value: 100}}
+      - name: decomposition_text
+        description: "Human-readable decomposition of the dimension (Step 27)."
+        tests: [not_null]
+
+  - name: fct_feature_scores
+    description: >
+      Directionally aligned feature scores. Grain: market x mode x model input (35 x 37 = 1,295): the 30 ACTIVE
+      contract features (scored by average-rank percentile across the 35 markets, reversed for
+      LOWER_IS_MORE_FAVORABLE) and the 7 regulatory dimensions (C4). Raw, transformed and score values are kept
+      side by side. Equal weights within each component over the inputs in the base calculation.
+    tests:
+      - row_count_equals: {arguments: {expected: 1295}}
+      - unique_combination_of_columns:
+          arguments:
+            combination_of_columns: [market_id, mode, feature_id]
+    columns:
+      - name: market_id
+        tests:
+          - not_null
+          - relationships: {arguments: {to: ref('dim_market'), field: market_id}}
+      - name: mode
+        tests:
+          - not_null
+          - accepted_values: {arguments: {values: [ROBOTAXI, SIDEWALK_DELIVERY, DRONE_DELIVERY]}}
+      - name: component
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [C1_DEMAND_AND_MARKET_OPPORTUNITY, C2_OPERATING_ENVIRONMENT, C3_ECONOMIC_ATTRACTIVENESS,
+                         C4_REGULATORY_AND_AUTONOMY_READINESS, C5_INFRASTRUCTURE_AND_MODE_FIT]
+      - name: direction
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [HIGHER_IS_MORE_FAVORABLE, LOWER_IS_MORE_FAVORABLE, HIGHER_LIMIT_MORE_FAVORABLE,
+                         HIGHER_VERIFIED_FAVORABLE_SHARE_MORE_FAVORABLE]
+      - name: feature_score
+        tests:
+          - values_between: {arguments: {min_value: 0, max_value: 100}}
+      - name: feature_weight
+        tests:
+          - values_between: {arguments: {min_value: 0, max_value: 1}}
+      - name: component_weight
+        tests: [not_null]
+
+  - name: fct_component_scores
+    description: >
+      Component scores. Grain: market x mode x ACTIVE component (robotaxi 4, sidewalk 5, drone 5: 490 rows).
+      component_score = sum of weighted feature contributions (arithmetic mean under baseline weights).
+      C4 is NULL / INCOMPLETE where any regulatory dimension is incomplete.
+    tests:
+      - row_count_equals: {arguments: {expected: 490}}
+      - unique_combination_of_columns:
+          arguments:
+            combination_of_columns: [market_id, mode, component]
+    columns:
+      - name: component_score
+        tests:
+          - values_between: {arguments: {min_value: 0, max_value: 100}}
+      - name: evidence_coverage_pct
+        description: "C4 only: mean evidence coverage of the market's regulatory dimensions."
+        tests:
+          - values_between: {arguments: {min_value: 0, max_value: 100}}
+
+  - name: fct_readiness_baseline
+    description: >
+      Baseline readiness score, BASELINE rank and score decomposition. Grain: market x mode (105). The score and
+      rank are NULL where C4 is incomplete; non_regulatory_score is a diagnostic for every market. Never combine
+      or compare scores across modes.
+    tests:
+      - row_count_equals: {arguments: {expected: 105}}
+      - unique_combination_of_columns:
+          arguments:
+            combination_of_columns: [market_id, mode]
+    columns:
+      - name: baseline_readiness_score
+        tests:
+          - values_between: {arguments: {min_value: 0, max_value: 100}}
+      - name: non_regulatory_score
+        tests: [not_null, {values_between: {arguments: {min_value: 0, max_value: 100}}}]
+      - name: baseline_rank
+        description: "BASELINE rank within the mode among complete markets (1 = highest); not a final rank."
+        tests:
+          - values_between: {arguments: {min_value: 1, max_value: 35}}
+
+  - name: mart_robotaxi_readiness_baseline
+    description: >
+      Robotaxi baseline readiness, one row per market (35). C1-C4 at 25% each; C5 is structurally absent (A-039).
+      baseline_readiness_score and baseline_rank are NULL where C4 is incomplete.
+    tests:
+      - row_count_equals: {arguments: {expected: 35}}
+    columns:
+      - name: market_id
+        tests: [not_null, unique]
+      - name: baseline_readiness_score
+        tests:
+          - values_between: {arguments: {min_value: 0, max_value: 100}}
+
+  - name: mart_sidewalk_delivery_readiness_baseline
+    description: >
+      Sidewalk delivery robot baseline readiness, one row per market (35). C1-C5 at 20% each.
+      baseline_readiness_score and baseline_rank are NULL where C4 is incomplete.
+    tests:
+      - row_count_equals: {arguments: {expected: 35}}
+    columns:
+      - name: market_id
+        tests: [not_null, unique]
+      - name: baseline_readiness_score
+        tests:
+          - values_between: {arguments: {min_value: 0, max_value: 100}}
+
+  - name: mart_drone_delivery_readiness_baseline
+    description: >
+      Drone delivery baseline readiness, one row per market (35). C1-C5 at 20% each; federal drone dimensions are
+      CONTEXT_ONLY. baseline_readiness_score and baseline_rank are NULL where C4 is incomplete.
+    tests:
+      - row_count_equals: {arguments: {expected: 35}}
+    columns:
+      - name: market_id
+        tests: [not_null, unique]
+      - name: baseline_readiness_score
+        tests:
+          - values_between: {arguments: {min_value: 0, max_value: 100}}

@@ -1,0 +1,157 @@
+{
+  "model_version": "baseline_v1",
+  "git_input_commit": "55b1cb4",
+  "regulatory_evidence_as_of": "2026-10-05",
+  "deployment_evidence_as_of": "2026-10-05",
+  "normalization_method": "Cross-sectional average-rank percentile across the 35 markets, 0-100: score = 100 x (average_rank - 1) / (n - 1) on the transformed value; LOWER_IS_MORE_FAVORABLE uses 100 - score",
+  "tie_method": "Average rank (tied markets share the mean of the positions they occupy); baseline ranks use standard competition ranking on scores rounded to 6 decimals",
+  "feature_weight_method": "Equal within component: 1 / number of the component's inputs in the base calculation",
+  "component_weight_method": "Equal across the mode's active components: robotaxi 1/4 (C1-C4), sidewalk and drone 1/5 (C1-C5)",
+  "regulatory_scoring": "Categorical dimensions: 100 x verified favorable population share (PEP 2025, BRG_MARKET_STATE). SW_MAX_WEIGHT: average-rank percentile of the most restrictive verified limit among the market's PDD-authorizing states (NO_LIMIT_STATED ranked highest); not applicable where no state authorizes PDDs. C4 = equal-weight mean of the applicable dimensions",
+  "regulatory_eligibility_rule": "A state record enters the base model only if VERIFIED_PRIMARY with MEDIUM or HIGH confidence (Phase 6.5b rule, applied to every mode)",
+  "missing_regulation_rule": "Any unknown or LOW-confidence population share in any C4 dimension makes C4 INCOMPLETE: C4, the baseline score and the baseline rank are NULL (no imputation, no 0, no 50). The non-regulatory score is published as a diagnostic",
+  "scope_adjustments": [
+    {
+      "evidence_id": "SW-NV-01",
+      "base_model_treatment": "NOT_FAVORABLE_SCOPE_LIMITED",
+      "assumption_id": "A-046"
+    }
+  ],
+  "active_components": {
+    "ROBOTAXI": [
+      "C1_DEMAND_AND_MARKET_OPPORTUNITY",
+      "C2_OPERATING_ENVIRONMENT",
+      "C3_ECONOMIC_ATTRACTIVENESS",
+      "C4_REGULATORY_AND_AUTONOMY_READINESS"
+    ],
+    "SIDEWALK_DELIVERY": [
+      "C1_DEMAND_AND_MARKET_OPPORTUNITY",
+      "C2_OPERATING_ENVIRONMENT",
+      "C3_ECONOMIC_ATTRACTIVENESS",
+      "C4_REGULATORY_AND_AUTONOMY_READINESS",
+      "C5_INFRASTRUCTURE_AND_MODE_FIT"
+    ],
+    "DRONE_DELIVERY": [
+      "C1_DEMAND_AND_MARKET_OPPORTUNITY",
+      "C2_OPERATING_ENVIRONMENT",
+      "C3_ECONOMIC_ATTRACTIVENESS",
+      "C4_REGULATORY_AND_AUTONOMY_READINESS",
+      "C5_INFRASTRUCTURE_AND_MODE_FIT"
+    ]
+  },
+  "active_features": {
+    "ROBOTAXI": [
+      "PF01",
+      "PF02",
+      "PF03",
+      "PF04",
+      "PF05",
+      "PF06",
+      "PF09",
+      "PF11",
+      "PF12",
+      "PF13"
+    ],
+    "SIDEWALK_DELIVERY": [
+      "PF01",
+      "PF02",
+      "PF05",
+      "PF07",
+      "PF08",
+      "PF10",
+      "PF11",
+      "PF12",
+      "PF13",
+      "PF15"
+    ],
+    "DRONE_DELIVERY": [
+      "PF01",
+      "PF05",
+      "PF07",
+      "PF08",
+      "PF10",
+      "PF11",
+      "PF12",
+      "PF13",
+      "PF14",
+      "PF16"
+    ]
+  },
+  "regulatory_dimensions": {
+    "ROBOTAXI": [
+      "RT_COMMERCIAL_PASSENGER_SERVICE",
+      "RT_DRIVERLESS_OPERATION",
+      "RT_LOCAL_AUTHORITY"
+    ],
+    "SIDEWALK_DELIVERY": [
+      "SW_LOCAL_AUTHORITY",
+      "SW_MAX_WEIGHT",
+      "SW_PDD_LEGAL_STATUS"
+    ],
+    "DRONE_DELIVERY": [
+      "DR_STATE_PREEMPTION_OF_LOCAL"
+    ]
+  },
+  "markets_with_full_baseline_score": {
+    "ROBOTAXI": 29,
+    "SIDEWALK_DELIVERY": 31,
+    "DRONE_DELIVERY": 25
+  },
+  "checksums_sha256_lf": {
+    "feature_contract": {
+      "path": "dbt/seeds/feature_contract.csv",
+      "sha256_lf": "c3127d690f41deecb57757e06bc4b54e97cb1ba859572bb9deb7f56a064c72c8",
+      "matches_commit": true
+    },
+    "regulatory_contract": {
+      "path": "config/regulatory_feature_contract.csv",
+      "sha256_lf": "eacd8fa68685889db6ca495a57dce3761800197cca3752256912dcefba7ec662",
+      "matches_commit": true
+    },
+    "regulatory_eligibility_phase65b": {
+      "path": "outputs/phase65/phase7_regulatory_eligibility.csv",
+      "sha256_lf": "e2981852b4ff30a3c3a532f0465d56ab629dd7fa691267b2be9b0ff2c6044b99",
+      "matches_commit": true
+    },
+    "seed_regulatory_state_evidence": {
+      "path": "dbt/seeds/regulatory_state_evidence.csv",
+      "sha256_lf": "e25e025f595432c32e96cbf5bdd24cd73013d670ef98fcd98674f47bd1b90a67"
+    },
+    "seed_regulatory_feature_contract": {
+      "path": "dbt/seeds/regulatory_feature_contract.csv",
+      "sha256_lf": "8ec175506f15f4e843515906742679a910791344ea9fc62e031c62e25ad08581"
+    },
+    "seed_regulatory_scope_adjustments": {
+      "path": "dbt/seeds/regulatory_scope_adjustments.csv",
+      "sha256_lf": "862369bc5e2b988c79d5aa4de99d2875e8b5c8d056c964c09f7503cb4810a879"
+    }
+  },
+  "dbt_objects": [
+    "INTERMEDIATE.REGULATORY_STATE_EVIDENCE (seed)",
+    "INTERMEDIATE.REGULATORY_FEATURE_CONTRACT (seed)",
+    "INTERMEDIATE.REGULATORY_SCOPE_ADJUSTMENTS (seed)",
+    "INTERMEDIATE.INT_REGULATORY__MARKET_STATE_EVIDENCE",
+    "ANALYTICS.FCT_REGULATORY_DIMENSION_SCORES",
+    "ANALYTICS.FCT_FEATURE_SCORES",
+    "ANALYTICS.FCT_COMPONENT_SCORES",
+    "ANALYTICS.FCT_READINESS_BASELINE",
+    "ANALYTICS.MART_ROBOTAXI_READINESS_BASELINE",
+    "ANALYTICS.MART_SIDEWALK_DELIVERY_READINESS_BASELINE",
+    "ANALYTICS.MART_DRONE_DELIVERY_READINESS_BASELINE"
+  ],
+  "cross_mode_rule": "Readiness scores are mode-specific; no combined or cross-mode score exists",
+  "deployment_evidence_used": false,
+  "sensitivity_simulation_performed": false,
+  "figures": [
+    "01_baseline_score_distribution.png",
+    "02_component_contributions.png",
+    "03_feature_scores_robotaxi.png",
+    "03_feature_scores_sidewalk.png",
+    "03_feature_scores_drone.png",
+    "04_regulatory_evidence_coverage.png",
+    "05_component_correlation.png",
+    "06_rank_spacing.png"
+  ],
+  "qa_checks_passed": 40,
+  "qa_checks_failed": 0
+}

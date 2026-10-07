@@ -1,0 +1,2 @@
+evidence_id,mode,legal_dimension,state_usps,base_model_treatment,assumption_id,reason
+SW-NV-01,SIDEWALK_DELIVERY,SW_PDD_LEGAL_STATUS,NV,NOT_FAVORABLE_SCOPE_LIMITED,A-046,"NRS 484B.787-.788 authorizes PDDs only at state higher-education campuses and adjacent sidewalks; A-046 requires Phase 7 to treat Nevada as having no general authorization (or apply a scope adjustment). The evidence code (STATUTE_AUTHORIZES) is unchanged; only its base-model favorability is withheld. Phase 8 tests the unadjusted code."
