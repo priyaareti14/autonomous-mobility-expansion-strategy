@@ -1,6 +1,6 @@
 # Scenario Simulator Contract (Power BI handoff, Phase 8)
 
-**Status:** Phase 8 deliverable (in review). This is a **contract only**: no Power BI artifact exists yet.
+**Status:** Phase 8 deliverable. This is a **contract only**, written before the report existed. The final PBIX implements the named business-priority and regulatory scenarios only; the custom What-If weight table and user-entered weight vectors described here were not implemented.
 
 ## 1. The What-If scenario table
 

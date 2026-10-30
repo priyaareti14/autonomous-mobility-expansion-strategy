@@ -2,6 +2,8 @@
 
 Build the dashboard by hand from the validated Snowflake publication layer. Do the steps in order and tick each one off. The design is specified in [docs/powerbi_dashboard_spec.md](../docs/powerbi_dashboard_spec.md), the model in [docs/powerbi_semantic_model.md](../docs/powerbi_semantic_model.md), the DAX in [measures.md](measures.md), and the theme in [theme.json](theme.json).
 
+> **Implementation note (final PBIX).** The final report differs from this guide. Tables keep their Snowflake names (`PBI_*`, upper-case columns), measures live in `_Measures`, and the What-If weight parameters, drillthrough and tooltip pages and custom theme were not implemented. The Scenario Simulator uses the predefined scenarios only.
+
 ## 0. Before you start
 
 - [ ] **Warehouse is current.** The refresh workflow has passed ([docs/powerbi_refresh_workflow.md](../docs/powerbi_refresh_workflow.md)): `dbt build` all PASS, and `python scripts/run_phase9_publication_qa.py` reports 0 failures.

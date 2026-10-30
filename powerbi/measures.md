@@ -2,6 +2,8 @@
 
 Create these in a dedicated **Measures** table (Enter data → one dummy column → hide it), in Power BI Desktop. Table names are the renamed Power BI names in [docs/powerbi_semantic_model.md](../docs/powerbi_semantic_model.md) §2.
 
+> **Implementation note (final PBIX).** This is the designed measure set. The final report uses the Snowflake table names and a `_Measures` table, and does not implement the What-If weight measures in §5.2 (or their QA in §7).
+
 **Conventions:**
 - **Market-level measures** return a value only when exactly one market and one mode are in context, and blank otherwise. Summing or averaging scores across markets or modes would be meaningless, and combining modes is forbidden.
 - **Ranks** are the published Phase 7/8 ranks; only the user-defined What-If rank (§5) is computed in DAX.

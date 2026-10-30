@@ -2,6 +2,8 @@
 
 **Status:** Phase 9 deliverable (in review). This is a specification only; the report is built by hand ([powerbi/BUILD_GUIDE.md](../powerbi/BUILD_GUIDE.md)).
 
+> **Implementation note (final PBIX).** `powerbi/Autonomous_Mobility_Expansion_Strategy.pbix` implements a subset of this specification. The Scenario Simulator offers only the predefined business-priority and regulatory scenarios (no What-If weight sliders). There are no drillthrough or tooltip pages, the custom theme is not applied, and the Methodology page is static. Treat the PBIX and its screenshots as the record of what was built.
+
 **Question the report answers:**
 
 > *"Which markets look attractive for each autonomous mode, and how robust is that conclusion?"*
