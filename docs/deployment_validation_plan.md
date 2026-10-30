@@ -58,7 +58,7 @@ The modelled universe also excludes markets where operators are present: San Jos
 ## 5. What the curated evidence contains (as of 2026-10-05)
 
 **Size and coverage:**
-- **180 records, 23 operators** (`evidence/deployment_evidence.csv`).
+- **180 records, 22 distinct operators** (`evidence/deployment_evidence.csv`). Avride appears under both robotaxi and sidewalk below.
 - **Robotaxi:** Waymo, Zoox, Tesla, May Mobility, Avride, Motional, Nuro; Cruise and Argo AI (ended).
 - **Sidewalk:** Serve Robotics, Coco Robotics, Avride, Starship Technologies, Kiwibot, Cartken; Amazon Scout (ended).
 - **Drone:** Wing, Zipline, Amazon Prime Air, Flytrex, Manna, Matternet; DroneUp (ended).

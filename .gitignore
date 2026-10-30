@@ -9,6 +9,15 @@
 *.key
 *.pfx
 rsa_key*
+id_rsa*
+id_ed25519*
+*.ppk
+*.jks
+*.keystore
+*.p12
+.snowflake/
+secrets/
+credentials*
 profiles.yml
 .dbt/
 
@@ -38,9 +47,9 @@ dbt_packages/
 # Data: raw downloads and large dumps stay out of version control.
 # Provenance is documented in docs/data_sources.md instead.
 # ---------------------------------------------------------------
-data/raw/
-data/interim/
-data/downloads/
+data/*
+!data/README.md
+*.tmp
 # Phase 6.5 agent drafts; the merged evidence/*.csv files are canonical
 evidence/_staging/
 *.zip
@@ -56,8 +65,12 @@ evidence/_staging/
 *.gpkg
 
 # ---------------------------------------------------------------
-# Power BI temporary / backup files
+# Power BI: ONLY the final dashboard is versioned. Every other .pbix/.pbit (backups, drafts, copies)
+# stays local.
 # ---------------------------------------------------------------
+*.pbix
+*.pbit
+!powerbi/Autonomous_Mobility_Expansion_Strategy.pbix
 *.pbix.bak
 *.pbit.bak
 ~$*
